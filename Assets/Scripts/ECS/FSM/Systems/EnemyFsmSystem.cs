@@ -20,12 +20,13 @@ public class EnemyFsmSystem : SystemBase
             None = new ComponentType[] { ComponentType.ReadOnly<EnemyFiniteStateMachine>() },
             All = new ComponentType[] { ComponentType.ReadOnly<Cat>() }
         });
+        
     }
     protected override void OnUpdate()
     {
         var commandBuffer = ecb.CreateCommandBuffer();
 
-        var count = enemyWithoutFsmQuery.CalculateChunkCount();
+        //var count = enemyWithoutFsmQuery.CalculateChunkCount();
 
 
         var ecbConcurrent = commandBuffer.AsParallelWriter();
@@ -36,8 +37,13 @@ public class EnemyFsmSystem : SystemBase
             switch(stateChanged.from)
             {
                 case FsmState.Idle:
-                    break;
                     ecbConcurrent.RemoveComponent<IdleState>(entityInQueryIndex, entity);
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
+                    {
+                        PlayerDistance = 0,
+                        MaxPlayerDistance = 5
+                    });
+                    break;
                 case FsmState.Attack:
                     ecbConcurrent.RemoveComponent<AttackState>(entityInQueryIndex, entity);
                     break;
@@ -49,7 +55,36 @@ public class EnemyFsmSystem : SystemBase
                     break;
             }
 
+            fsm.currentState = stateChanged.to;
+
+            switch (stateChanged.to)
+            {
+                
+                case FsmState.Idle:
+                    ecbConcurrent.AddComponent<IdleState>(entityInQueryIndex, entity);
+                    
+                    break;
+                case FsmState.Attack:
+                    ecbConcurrent.AddComponent<AttackState>(entityInQueryIndex, entity);
+
+                    break;
+                case FsmState.Pathfind:
+                    ecbConcurrent.AddComponent<PathfindState>(entityInQueryIndex, entity);
+
+                    break;
+                case FsmState.Death:
+                    ecbConcurrent.AddComponent<DeathState>(entityInQueryIndex, entity);
+
+                    break;
+                
+            }
+
+            ecbConcurrent.RemoveComponent<FsmStateChanged>(entityInQueryIndex, entity);
+
 
         }).ScheduleParallel();
+
+        ecb.AddJobHandleForProducer(Dependency);
+
     }
 }

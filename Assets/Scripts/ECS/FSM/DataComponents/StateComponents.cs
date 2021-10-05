@@ -13,16 +13,20 @@ enum FsmState
 }
 public struct IdleState : IComponentData
 {
-    
+    public float PlayerDistance;
+    public float MaxPlayerDistance;
 }
 
 public struct AttackState : IComponentData
 {
+    public float PlayerDistance;
 
 }
 
 public struct PathfindState : IComponentData
 {
+    public float PlayerDistance;
+    public float2 NextNode;
 
 }
 public struct DeathState : IComponentData

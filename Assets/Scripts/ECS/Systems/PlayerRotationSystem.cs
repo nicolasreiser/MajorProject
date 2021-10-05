@@ -15,6 +15,8 @@ public class PlayerRotationSystem : SystemBase
         Translation playerPosition = new Translation();
         bool playerIsMoving = false;
         
+        // rotate body towards move direction
+
         Entities.
             WithAll<PlayerTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
@@ -38,6 +40,7 @@ public class PlayerRotationSystem : SystemBase
         Entity closestEnemy = Entity.Null;
         float3 closestTargetPosition = float3.zero;
 
+        // get the closest enemy 
         Entities.
         WithAll<EnemyTag>().
         ForEach((ref Entity targetEntity, ref Translation enemyPosition) =>
@@ -56,6 +59,7 @@ public class PlayerRotationSystem : SystemBase
             }
         }).Run();
 
+        // rotate towards closest enemy if not moving
         Entities.
             WithAll<PlayerTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
