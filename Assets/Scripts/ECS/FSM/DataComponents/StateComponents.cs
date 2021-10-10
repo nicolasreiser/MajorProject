@@ -11,24 +11,27 @@ enum FsmState
     Pathfind,
     Death,
 }
-public struct IdleState : IComponentData
-{
-    public float PlayerDistance;
-    public float MaxPlayerDistance;
-}
+
+
+[GenerateAuthoringComponent]
 
 public struct AttackState : IComponentData
 {
     public float PlayerDistance;
 
 }
+[GenerateAuthoringComponent]
 
 public struct PathfindState : IComponentData
 {
     public float PlayerDistance;
+    public float PlayerOurOfRangeDistance;
+    public float EnemyAttackRange;
     public float2 NextNode;
 
 }
+[GenerateAuthoringComponent]
+
 public struct DeathState : IComponentData
 {
 
@@ -37,11 +40,6 @@ struct FsmStateChanged : IComponentData
 {
     public FsmState from;
     public FsmState to;
-}
-
-struct EnemyFiniteStateMachine : IComponentData
-{
-    public FsmState currentState;
 }
 
 struct Cat : IComponentData

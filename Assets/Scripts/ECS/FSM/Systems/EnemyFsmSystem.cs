@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Mathematics;
 
 public class EnemyFsmSystem : SystemBase
 {
@@ -38,17 +39,15 @@ public class EnemyFsmSystem : SystemBase
             {
                 case FsmState.Idle:
                     ecbConcurrent.RemoveComponent<IdleState>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
-                    {
-                        PlayerDistance = 0,
-                        MaxPlayerDistance = 5
-                    });
+                    
                     break;
                 case FsmState.Attack:
                     ecbConcurrent.RemoveComponent<AttackState>(entityInQueryIndex, entity);
                     break;
                 case FsmState.Pathfind:
                     ecbConcurrent.RemoveComponent<PathfindState>(entityInQueryIndex, entity);
+                    ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
+
 
                     break;
                 case FsmState.Death:
@@ -62,15 +61,35 @@ public class EnemyFsmSystem : SystemBase
                 
                 case FsmState.Idle:
                     ecbConcurrent.AddComponent<IdleState>(entityInQueryIndex, entity);
-                    
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
+                    {
+                        PlayerDistance = 0,
+                        MaxPlayerDistance = 10
+                    });
+                    Debug.Log("Changed to Idle State");
+
                     break;
                 case FsmState.Attack:
                     ecbConcurrent.AddComponent<AttackState>(entityInQueryIndex, entity);
+                    Debug.Log("Changed to Attack State");
 
                     break;
                 case FsmState.Pathfind:
                     ecbConcurrent.AddComponent<PathfindState>(entityInQueryIndex, entity);
-
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindState
+                    {
+                        PlayerOurOfRangeDistance = 15,
+                        EnemyAttackRange = 5
+                    });
+                    ecbConcurrent.AddComponent<PathfindingParams>(entityInQueryIndex, entity);
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindingParams
+                    {
+                        // To change
+                        startPosition = new int2(0, 0),
+                        endPosition = new int2(4, 4)
+                    });
+                    ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
+                    Debug.Log("Changed to Pathfind State");
                     break;
                 case FsmState.Death:
                     ecbConcurrent.AddComponent<DeathState>(entityInQueryIndex, entity);

@@ -34,13 +34,16 @@ public class IdleStateSystem : SystemBase
 
         float3 playerposition = float3.zero;
 
-        if(player > 0)
+
+        if (player > 0)
         {
             Entities
                 .WithStoreEntityQueryInField(ref playerQuery)
+                .WithNone<EnemyTag>()
                 .ForEach((Entity entity, ref Translation transform) =>
                 {
                     playerposition = transform.Value;
+
                 }).Run();
         }
 
@@ -72,6 +75,7 @@ public class IdleStateSystem : SystemBase
             {
                if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.MaxPlayerDistance)
                {
+                    Debug.Log("Changing State");
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                     commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                     {
