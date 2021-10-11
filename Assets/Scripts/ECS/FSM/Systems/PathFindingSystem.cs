@@ -89,15 +89,15 @@ public class PathFindingSystem : SystemBase
                 }
 
                 //player in attack range
-                if(pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
-                {
-                    commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
-                    commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
-                    {
-                        from = FsmState.Pathfind,
-                        to = FsmState.Attack
-                    });
-                }
+                //if(pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
+                //{
+                //    commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
+                //    commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
+                //    {
+                //        from = FsmState.Pathfind,
+                //        to = FsmState.Attack
+                //    });
+                //}
 
             }).ScheduleParallel();
 

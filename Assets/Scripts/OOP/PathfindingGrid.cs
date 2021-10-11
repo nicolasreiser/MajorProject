@@ -22,7 +22,7 @@ public class PathfindingGrid
         {
             for (int j = 0; j < gridArray.GetLength(1); j++)
             {
-                Vector3 spawnposition = origin + new Vector3(i,0, j) * cellSize;
+                Vector3 spawnposition = origin + new Vector3(i + cellSize/2,0, j + cellSize/2) * cellSize;
 
                 Object.Instantiate(displayPrefab, spawnposition,Quaternion.identity);
             }

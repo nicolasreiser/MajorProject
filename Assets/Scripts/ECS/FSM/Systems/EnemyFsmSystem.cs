@@ -86,7 +86,7 @@ public class EnemyFsmSystem : SystemBase
                     {
                         // To change
                         startPosition = new int2(0, 0),
-                        endPosition = new int2(4, 4)
+                        endPosition = new int2(5, 5)
                     });
                     ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
                     Debug.Log("Changed to Pathfind State");

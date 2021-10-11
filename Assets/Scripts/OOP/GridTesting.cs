@@ -4,11 +4,18 @@ using UnityEngine;
 
 public class GridTesting : MonoBehaviour
 {
+    public static GridTesting Instance;
+
+    public int Width;
+    public int Height;
+    public float CellSize;
+    public Vector3 Origin;
     public GameObject prefab;
     // Start is called before the first frame update
     void Start()
     {
-        PathfindingGrid grid = new PathfindingGrid(5, 5, 1,Vector3.zero,prefab);
+        Origin = this.transform.position;
+        PathfindingGrid grid = new PathfindingGrid(Width, Height, CellSize,Origin,prefab);
     }
 
     // Update is called once per frame
@@ -16,4 +23,14 @@ public class GridTesting : MonoBehaviour
     {
         
     }
+
+    private void OnDrawGizmos()
+    {
+        Vector3 cubesize = new Vector3(Width * CellSize, 1, Height * CellSize);
+        Vector3 center = this.transform.position +new Vector3( cubesize.x/2,0,cubesize.z/2);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireCube(center, cubesize);
+        
+    }
+
 }

@@ -23,7 +23,9 @@ public class Pathfinding : ComponentSystem
             {
                 startPosition = pathfindingParams.startPosition,
                 endPosition = pathfindingParams.endPosition,
-                pathPositionBuffer = pathPositionBuffer
+                pathPositionBuffer = pathPositionBuffer,
+                entity = entity,
+                pathFollowComponentDataFromEntity = GetComponentDataFromEntity<PathFollow>()
             };
             findPathJob.Run();
 
@@ -39,10 +41,12 @@ public class Pathfinding : ComponentSystem
         public int2 startPosition;
         public int2 endPosition;
 
+        public Entity entity;
+        public ComponentDataFromEntity<PathFollow> pathFollowComponentDataFromEntity;
         public DynamicBuffer<PathPosition> pathPositionBuffer;
         public void Execute()
         {
-            int2 gridSize = new int2(100, 100);
+            int2 gridSize = new int2(30, 30);
 
             NativeArray<PathNode> pathNodeArray = new NativeArray<PathNode>(gridSize.x * gridSize.y, Allocator.Temp);
 
@@ -163,12 +167,14 @@ public class Pathfinding : ComponentSystem
             {
                 // Didn't find a path!
                 //Debug.Log("Didn't find a path!");
+                pathFollowComponentDataFromEntity[entity] = new PathFollow { pathIndex = -1 };
             }
             else
             {
                 // Found a path
                 CalculatePath(pathNodeArray, endNode, pathPositionBuffer);
-                
+                pathFollowComponentDataFromEntity[entity] = new PathFollow { pathIndex = pathPositionBuffer.Length -1 };
+
             }
 
             pathNodeArray.Dispose();
