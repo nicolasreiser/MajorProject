@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridTesting : MonoBehaviour
+public  class GridSetup : MonoBehaviour
 {
-    public static GridTesting Instance;
+    public static GridSetup Instance;
 
     public int Width;
     public int Height;
     public float CellSize;
     public Vector3 Origin;
     public GameObject prefab;
+
+    private void Awake()
+    {
+        Instance = this;
+    }
     // Start is called before the first frame update
     void Start()
     {
