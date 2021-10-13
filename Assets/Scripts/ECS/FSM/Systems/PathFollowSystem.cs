@@ -25,15 +25,17 @@ public class PathFollowSystem : ComponentSystem
 
                 //simple movement
 
-                float3 targetPosition = new float3(origin.x+  pathPosition.x * cellSize,
-                    translation.Value.y,
-                    origin.y +  pathPosition.y * cellSize );
 
-                float3 moveDir = math.normalizesafe(targetPosition - translation.Value);
+                float3 targetPosition = new float3(origin.x +  pathPosition.x * cellSize + cellSize/2,
+                    translation.Value.y,
+                    origin.y +  pathPosition.y * cellSize + cellSize / 2);
+                int2 targetNode = new int2(pathPosition.x, pathPosition.y);
+
+                float3 moveDir = math.normalizesafe(targetPosition - translation.Value );
                 float movespeed = 3f;
 
                 translation.Value += moveDir * movespeed * Time.DeltaTime;
-
+                //Debug.Log("Target Position : " + targetPosition + "Path position : "+ pathPosition + " targetNode : " + targetNode);
                 
                 if(math.distance(translation.Value, targetPosition) < 0.1f)
                 {

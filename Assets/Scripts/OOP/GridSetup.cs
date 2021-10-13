@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Mathematics;
 
-public  class GridSetup : MonoBehaviour
+public class GridSetup : MonoBehaviour
 {
     public static GridSetup Instance;
 
@@ -12,6 +13,8 @@ public  class GridSetup : MonoBehaviour
     public Vector3 Origin;
     public GameObject prefab;
 
+    public Grid<GridNode> pathfindingGrid;
+
     private void Awake()
     {
         Instance = this;
@@ -20,7 +23,8 @@ public  class GridSetup : MonoBehaviour
     void Start()
     {
         Origin = this.transform.position;
-        PathfindingGrid grid = new PathfindingGrid(Width, Height, CellSize,Origin,prefab);
+        pathfindingGrid = new Grid<GridNode>(Width, Height, CellSize,Origin, (Grid<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
+        pathfindingGrid.AddVisual(prefab);
     }
 
     // Update is called once per frame
@@ -38,4 +42,12 @@ public  class GridSetup : MonoBehaviour
         
     }
 
+    public int2 GetGridPosition(float3 worldPosition)
+    {
+        int x;
+        int y;
+        pathfindingGrid.GetXY(worldPosition, out x,out y);
+        int2 gridPosition = new int2(x, y);
+        return gridPosition;
+    }
 }

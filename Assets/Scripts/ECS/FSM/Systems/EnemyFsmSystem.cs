@@ -47,7 +47,8 @@ public class EnemyFsmSystem : SystemBase
                 case FsmState.Pathfind:
                     ecbConcurrent.RemoveComponent<PathfindState>(entityInQueryIndex, entity);
                     ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
-
+                    ecbConcurrent.RemoveComponent<PathFollow>(entityInQueryIndex, entity);
+                    ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
 
                     break;
                 case FsmState.Death:
@@ -75,19 +76,24 @@ public class EnemyFsmSystem : SystemBase
 
                     break;
                 case FsmState.Pathfind:
+                    ecbConcurrent.AddComponent<PathFollow>(entityInQueryIndex, entity);
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathFollow
+                    {
+                        pathIndex = -1
+                    });
                     ecbConcurrent.AddComponent<PathfindState>(entityInQueryIndex, entity);
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindState
                     {
                         PlayerOurOfRangeDistance = 15,
                         EnemyAttackRange = 5
                     });
-                    ecbConcurrent.AddComponent<PathfindingParams>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindingParams
-                    {
-                        // To change
-                        startPosition = new int2(0, 0),
-                        endPosition = new int2(5, 5)
-                    });
+                    //ecbConcurrent.AddComponent<PathfindingParams>(entityInQueryIndex, entity);
+                    //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindingParams
+                    //{
+                    //    // To change
+                    //    startPosition = new int2(10, 10),
+                    //    endPosition = new int2(15, 15)
+                    //});
                     ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
                     Debug.Log("Changed to Pathfind State");
                     break;
