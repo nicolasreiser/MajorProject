@@ -28,6 +28,7 @@ public struct PathfindState : IComponentData
     public float PlayerOurOfRangeDistance;
     public float EnemyAttackRange;
     public int2 targetPosition;
+    public float PathfindCooldown;
 
 }
 [GenerateAuthoringComponent]

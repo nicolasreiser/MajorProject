@@ -35,8 +35,7 @@ public class PathFollowSystem : ComponentSystem
                 float movespeed = 3f;
 
                 translation.Value += moveDir * movespeed * Time.DeltaTime;
-                //Debug.Log("Target Position : " + targetPosition + "Path position : "+ pathPosition + " targetNode : " + targetNode);
-                
+
                 if(math.distance(translation.Value, targetPosition) < 0.1f)
                 {
                     Debug.Log("Going to next point");

@@ -8,7 +8,7 @@ public class EnemyFsmSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
 
-    private EntityQuery enemyWithoutFsmQuery;
+    //private EntityQuery enemyWithoutFsmQuery;
 
     protected override void OnCreate()
     {
@@ -16,12 +16,11 @@ public class EnemyFsmSystem : SystemBase
 
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
-        enemyWithoutFsmQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            None = new ComponentType[] { ComponentType.ReadOnly<EnemyFiniteStateMachine>() },
-            All = new ComponentType[] { ComponentType.ReadOnly<Cat>() }
-        });
-        
+        //enemyWithoutFsmQuery = GetEntityQuery(new EntityQueryDesc
+        //{
+        //    None = new ComponentType[] { ComponentType.ReadOnly<EnemyFiniteStateMachine>() },
+        //    All = new ComponentType[] { ComponentType.ReadOnly<Cat>() }
+        //});
     }
     protected override void OnUpdate()
     {
@@ -29,13 +28,36 @@ public class EnemyFsmSystem : SystemBase
 
         //var count = enemyWithoutFsmQuery.CalculateChunkCount();
 
-
         var ecbConcurrent = commandBuffer.AsParallelWriter();
+        EnemyDataContainer tempEnemyDataContainer = new EnemyDataContainer();
 
-        Entities.ForEach((Entity entity, int entityInQueryIndex, ref EnemyFiniteStateMachine fsm, in FsmStateChanged stateChanged) => 
-        { 
 
-            switch(stateChanged.from)
+        Entities.WithoutBurst().ForEach((EnemyDataContainer enemyDataContainer) =>
+        {
+            tempEnemyDataContainer = enemyDataContainer;
+        }
+        ).Run();
+
+        Entities.ForEach((Entity entity, int entityInQueryIndex, ref EnemyFiniteStateMachine fsm, in FsmStateChanged stateChanged, in EnemyTypeData enemyTypeData) => 
+        {
+            int enemyAttackRange = 0;
+
+            switch (enemyTypeData.enemyType)
+            {
+                case EnemyType.Melee:
+                    enemyAttackRange = tempEnemyDataContainer.meleeRange;
+                    break;
+                case EnemyType.Ranged:
+                    enemyAttackRange = tempEnemyDataContainer.RangedRange;
+
+                    break;
+                case EnemyType.Bomb:
+                    enemyAttackRange = tempEnemyDataContainer.BombRange;
+
+                    break;
+            }
+
+            switch (stateChanged.from)
             {
                 case FsmState.Idle:
                     ecbConcurrent.RemoveComponent<IdleState>(entityInQueryIndex, entity);
@@ -85,7 +107,9 @@ public class EnemyFsmSystem : SystemBase
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindState
                     {
                         PlayerOurOfRangeDistance = 15,
-                        EnemyAttackRange = 5
+                        EnemyAttackRange = enemyAttackRange,
+                        PathfindCooldown = 0
+                        
                     });
                     //ecbConcurrent.AddComponent<PathfindingParams>(entityInQueryIndex, entity);
                     //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindingParams

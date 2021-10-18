@@ -19,7 +19,6 @@ public class PathfindingParamsSetupSystem : SystemBase
     private EntityQuery EnemyQuery;
 
     private int2 playerGridPosition;
-    private bool calculateNewPath = true;
     GridSetup grid;
 
     protected override void OnCreate()
@@ -36,6 +35,7 @@ public class PathfindingParamsSetupSystem : SystemBase
     protected override void OnUpdate()
     {
         grid = GridSetup.Instance;
+        float deltaTime = Time.DeltaTime;
         // player position
         Entities.WithoutBurst().WithAll<PlayerTag>()
             .ForEach((Translation translate) =>
@@ -46,7 +46,7 @@ public class PathfindingParamsSetupSystem : SystemBase
                 if (!newplayerGridPosition.Equals(playerGridPosition))
                 {
                     playerGridPosition = newplayerGridPosition;
-                    //calculateNewPath = true;
+                    
                 }
                 
             }).Run();
@@ -60,11 +60,12 @@ public class PathfindingParamsSetupSystem : SystemBase
             Entities.WithoutBurst().WithStoreEntityQueryInField(ref EnemyQuery)
                 .ForEach((Entity entity,
                 int entityInQueryIndex,
-                Translation translate,
-                ref PathfindState pathfindState) =>
+                 Translation translate,
+                 ref PathfindState pathfindState) =>
                 {
-                     if(!pathfindState.targetPosition.Equals(playerGridPosition))
+                     if(!pathfindState.targetPosition.Equals(playerGridPosition) && pathfindState.PathfindCooldown <= 0)
                     {
+                        pathfindState.PathfindCooldown = 1f;
                         pathfindState.targetPosition = playerGridPosition;
                         Debug.Log("updates targetpos" + pathfindState.targetPosition);
                         int2 enemyGridPosition = grid.GetGridPosition(translate.Value);
@@ -76,6 +77,8 @@ public class PathfindingParamsSetupSystem : SystemBase
                             endPosition = playerGridPosition
                         });
                     }
+                    pathfindState.PathfindCooldown -= deltaTime;
+
 
                 }).Run();
 
