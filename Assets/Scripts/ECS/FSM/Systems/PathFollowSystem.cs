@@ -9,14 +9,13 @@ public class PathFollowSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        GameObject obj = GameObject.Find("GridTest");
-        Debug.Log("GridTestobj : " + obj);
+        
         GridSetup gridTesting = GridSetup.Instance;
-        Debug.Log("GridTesting : " + gridTesting);
+
         float2 origin = new float2(gridTesting.Origin.x,gridTesting.Origin.z);
         float cellSize = gridTesting.CellSize;
 
-        Entities.ForEach((DynamicBuffer<PathPosition> pathPositionBuffer, ref Translation translation, ref PathFollow pathFollow) => 
+        Entities.ForEach((DynamicBuffer<PathPosition> pathPositionBuffer, ref Translation translation, ref PathFollow pathFollow, ref MoveData moveData) => 
         {
             if(pathFollow.pathIndex >= 0)
             {
@@ -36,9 +35,10 @@ public class PathFollowSystem : ComponentSystem
 
                 translation.Value += moveDir * movespeed * Time.DeltaTime;
 
+                moveData.direction = moveDir;
+
                 if(math.distance(translation.Value, targetPosition) < 0.1f)
                 {
-                    Debug.Log("Going to next point");
                     // go to next waypoint
                     pathFollow.pathIndex--;
                 }

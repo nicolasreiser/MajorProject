@@ -18,6 +18,11 @@ enum FsmState
 public struct AttackState : IComponentData
 {
     public float PlayerDistance;
+    public float PlayerMaxAttackRange;
+    public float EnemyAttackRange;
+    public int2 targetPosition;
+
+    public float ShootCooldown;
 
 }
 [GenerateAuthoringComponent]

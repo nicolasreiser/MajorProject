@@ -56,7 +56,6 @@ public class PathfindingParamsSetupSystem : SystemBase
         var commandBuffer = ecb.CreateCommandBuffer();
         var ecbConcurrent = commandBuffer;
         
-            Debug.Log("PLayer Grid Position : " + playerGridPosition);
             Entities.WithoutBurst().WithStoreEntityQueryInField(ref EnemyQuery)
                 .ForEach((Entity entity,
                 int entityInQueryIndex,
@@ -67,7 +66,6 @@ public class PathfindingParamsSetupSystem : SystemBase
                     {
                         pathfindState.PathfindCooldown = 1f;
                         pathfindState.targetPosition = playerGridPosition;
-                        Debug.Log("updates targetpos" + pathfindState.targetPosition);
                         int2 enemyGridPosition = grid.GetGridPosition(translate.Value);
 
                         ecbConcurrent.AddComponent<PathfindingParams>(entity);

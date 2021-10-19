@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   Range: 2
+  MaxRange: 2
   dammage: 15
+  WeaponCooldown: 1

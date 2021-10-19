@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
-
+using Unity.Physics;
 public class Grid<TGridObject> 
 {
     private int width;
@@ -25,6 +25,8 @@ public class Grid<TGridObject>
             for (int y = 0; y < gridArray.GetLength(1); y++)
             {
                 gridArray[x, y] = createGridObject(this, x, y);
+
+                
             }
         }
     }

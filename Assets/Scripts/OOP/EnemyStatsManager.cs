@@ -10,6 +10,9 @@ public class EnemyStatsManager : MonoBehaviour
     public EnemyStatsScriptableObject MeleeEnemy;
     public EnemyStatsScriptableObject RangedEnemy;
     public EnemyStatsScriptableObject BombEnemy;
+
+    public GameObject PlayerProjectile;
+    public GameObject EnemyProjectile;
     EntityManager entityManager;
 
     // Start is called before the first frame update
@@ -26,15 +29,21 @@ public class EnemyStatsManager : MonoBehaviour
         });
         entityManager.SetComponentData(entity, new EnemyDataContainer
         {
-            meleeDamage = MeleeEnemy.dammage,
-            meleeHealth = MeleeEnemy.health,
-            meleeRange = MeleeEnemy.Range,
+            MeleeDamage = MeleeEnemy.dammage,
+            MeleeHealth = MeleeEnemy.health,
+            MeleeRange = MeleeEnemy.Range,
+            MeleeMaxRange = MeleeEnemy.MaxRange,
+            MeleeCooldown = MeleeEnemy.WeaponCooldown,
             RangedDamage = RangedEnemy.dammage,
             RangedHealth = RangedEnemy.health,
             RangedRange = RangedEnemy.Range,
+            RangedMaxRange = RangedEnemy.MaxRange,
+            RangedCooldown = RangedEnemy.WeaponCooldown,
             BombDamage = BombEnemy.dammage,
             BombHealth = BombEnemy.health,
-            BombRange = BombEnemy.Range
+            BombRange = BombEnemy.Range,
+            BombMaxRange = BombEnemy.MaxRange,
+            BombCooldown = BombEnemy.WeaponCooldown
             
         });
     }

@@ -4,6 +4,10 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Unity.Physics;
+using Unity.Physics.Systems;
+using Unity.Collections;
+using Unity.Jobs;
 
 public class PathFindingSystem : SystemBase
 {
@@ -11,6 +15,9 @@ public class PathFindingSystem : SystemBase
     private EndSimulationEntityCommandBufferSystem ecb;
 
     private EntityQuery playerQuery;
+    private EntityQuery enemyQuery;
+    PhysicsWorld physicsWorld;
+    EntityManager entityManager;
 
     protected override void OnCreate()
     {
@@ -18,10 +25,15 @@ public class PathFindingSystem : SystemBase
 
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
+        physicsWorld = World.DefaultGameObjectInjectionWorld.GetExistingSystem<BuildPhysicsWorld>().PhysicsWorld;
+
+        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
         playerQuery = GetEntityQuery(new EntityQueryDesc
         {
             All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
         });
+        
     }
 
     protected override void OnUpdate()
@@ -47,6 +59,13 @@ public class PathFindingSystem : SystemBase
                 }).Run();
         }
 
+        //set enemy query
+
+        enemyQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<EnemyTag>(), ComponentType.ReadOnly<PathfindState>() }
+        });
+
         // calculate distance
 
         Entities.
@@ -66,42 +85,89 @@ public class PathFindingSystem : SystemBase
 
         //check to exit current state
 
-        Entities.
-            ForEach((Entity entity,
+        // Raycast for player
+
+        int dataCount = enemyQuery.CalculateEntityCount();
+
+
+        NativeArray<UnityEngine.RaycastHit> results = new NativeArray<UnityEngine.RaycastHit>(dataCount, Allocator.TempJob);
+        NativeArray<RaycastCommand> raycastCommand = new NativeArray<RaycastCommand>(dataCount, Allocator.TempJob);
+        NativeArray<bool> hit = new NativeArray<bool>(dataCount, Allocator.TempJob);
+
+        JobHandle jobHandle = Entities.WithStoreEntityQueryInField(ref enemyQuery).ForEach((Entity entity, int entityInQueryIndex, in Translation translation, in PathfindState pathfindState) =>
+        {
+            Vector3 origin = translation.Value;
+            Vector3 direction = playerposition - translation.Value;
+            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction);
+
+        }).ScheduleParallel(Dependency);
+
+        JobHandle handle = RaycastCommand.ScheduleBatch(raycastCommand, results, dataCount, jobHandle);
+
+        handle.Complete();
+
+        for(int i = 0; i < dataCount; i++)
+        {
+            if(results[i].collider == null)
+            {
+                hit[i] = false;
+            }
+            else
+            {
+                hit[i] = true;
+            }
+        }
+
+        JobHandle enemyvision = Entities.ForEach((Entity entity,
             int entityInQueryIndex,
             ref EnemyTag enemy,
             ref Translation transform,
             ref PathfindState pathfind) =>
-            {
-                //TODO If in attack range change state
-                //TODO If player too far change state
+        {
+            //TODO If in attack range change state
+            //TODO If player too far change state
 
-                //player too far
-                if (pathfind.PlayerDistance != 0 && pathfind.PlayerDistance > pathfind.PlayerOurOfRangeDistance)
+            //player too far
+            if (pathfind.PlayerDistance != 0 && pathfind.PlayerDistance > pathfind.PlayerOurOfRangeDistance)
+            {
+                commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
+                commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                 {
-                    Debug.Log("Changing State");
+                    from = FsmState.Pathfind,
+                    to = FsmState.Idle
+                });
+            }
+
+            if (hit[entityInQueryIndex])
+            {
+                // continue pathing
+                //Debug.Log("I dont see the player");
+            }
+            else
+            {
+                //Debug.Log("I see the player");
+
+                if (pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
+                {
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                     commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                     {
                         from = FsmState.Pathfind,
-                        to = FsmState.Idle
+                        to = FsmState.Attack
                     });
                 }
+            }
 
-                //player in attack range
-                //if(pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
-                //{
-                //    commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
-                //    commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
-                //    {
-                //        from = FsmState.Pathfind,
-                //        to = FsmState.Attack
-                //    });
-                //}
 
-            }).ScheduleParallel();
+
+        }).ScheduleParallel(handle);
+        enemyvision.Complete();
 
         ecb.AddJobHandleForProducer(Dependency);
+
+        results.Dispose();
+        raycastCommand.Dispose();
+        hit.Dispose();
     }
 
 

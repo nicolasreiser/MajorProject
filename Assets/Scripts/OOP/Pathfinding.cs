@@ -27,7 +27,6 @@ public class Pathfinding : ComponentSystem
             ref PathfindingParams pathfindingParams,
             DynamicBuffer<PathPosition> pathPositionBuffer) =>
         {
-            Debug.Log("SETTING UP PATH");
             NativeArray<PathNode> tmpPathNodeArray = new NativeArray<PathNode>(pathNodeArray, Allocator.TempJob);
 
             FindPathJob findPathJob = new FindPathJob

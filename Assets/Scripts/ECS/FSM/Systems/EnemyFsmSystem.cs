@@ -41,21 +41,30 @@ public class EnemyFsmSystem : SystemBase
         Entities.ForEach((Entity entity, int entityInQueryIndex, ref EnemyFiniteStateMachine fsm, in FsmStateChanged stateChanged, in EnemyTypeData enemyTypeData) => 
         {
             int enemyAttackRange = 0;
+            int enemyMaxAttackRange = 0;
+            float enemyWeaponCooldown = 0;
 
             switch (enemyTypeData.enemyType)
             {
                 case EnemyType.Melee:
-                    enemyAttackRange = tempEnemyDataContainer.meleeRange;
+                    enemyAttackRange = tempEnemyDataContainer.MeleeRange;
+                    enemyMaxAttackRange = tempEnemyDataContainer.MeleeMaxRange;
+                    enemyWeaponCooldown = tempEnemyDataContainer.MeleeCooldown;
                     break;
                 case EnemyType.Ranged:
                     enemyAttackRange = tempEnemyDataContainer.RangedRange;
+                    enemyMaxAttackRange = tempEnemyDataContainer.RangedMaxRange;
+                    enemyWeaponCooldown = tempEnemyDataContainer.RangedCooldown;
+                    
 
                     break;
                 case EnemyType.Bomb:
                     enemyAttackRange = tempEnemyDataContainer.BombRange;
-
+                    enemyMaxAttackRange = tempEnemyDataContainer.BombMaxRange;
+                    enemyWeaponCooldown = tempEnemyDataContainer.BombCooldown;
                     break;
             }
+
 
             switch (stateChanged.from)
             {
@@ -94,6 +103,12 @@ public class EnemyFsmSystem : SystemBase
                     break;
                 case FsmState.Attack:
                     ecbConcurrent.AddComponent<AttackState>(entityInQueryIndex, entity);
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new AttackState
+                    {
+                        EnemyAttackRange = enemyAttackRange,
+                        PlayerMaxAttackRange = enemyMaxAttackRange,
+                        ShootCooldown = enemyWeaponCooldown
+                    });
                     Debug.Log("Changed to Attack State");
 
                     break;
@@ -111,13 +126,6 @@ public class EnemyFsmSystem : SystemBase
                         PathfindCooldown = 0
                         
                     });
-                    //ecbConcurrent.AddComponent<PathfindingParams>(entityInQueryIndex, entity);
-                    //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindingParams
-                    //{
-                    //    // To change
-                    //    startPosition = new int2(10, 10),
-                    //    endPosition = new int2(15, 15)
-                    //});
                     ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
                     Debug.Log("Changed to Pathfind State");
                     break;

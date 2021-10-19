@@ -8,6 +8,8 @@ public class EnemyStatsScriptableObject : ScriptableObject
     EnemyType enemyType;
     public int health;
     public int Range;
+    public int MaxRange;
     public int dammage;
+    public float WeaponCooldown;
 
 }
