@@ -40,7 +40,7 @@ public class AttackStateSystem : SystemBase
         {
             Entities
                 .WithStoreEntityQueryInField(ref playerQuery)
-                .WithNone<EnemyTag>()
+                .WithAll<PlayerTag>()
                 .ForEach((Entity entity, ref Translation transform) =>
                 {
                     playerposition = transform.Value;
@@ -76,24 +76,26 @@ public class AttackStateSystem : SystemBase
 
         // Raycast to player
 
-
         int dataCount = enemyQuery.CalculateEntityCount();
-
+        LayerMask layerMask =~ LayerMask.GetMask("Projectile");
 
         NativeArray<UnityEngine.RaycastHit> results = new NativeArray<UnityEngine.RaycastHit>(dataCount, Allocator.TempJob);
         NativeArray<RaycastCommand> raycastCommand = new NativeArray<RaycastCommand>(dataCount, Allocator.TempJob);
         NativeArray<bool> hit = new NativeArray<bool>(dataCount, Allocator.TempJob);
 
-        JobHandle jobHandle = Entities.WithStoreEntityQueryInField(ref enemyQuery).ForEach((Entity entity, int entityInQueryIndex, in Translation translation, in AttackState attackState) =>
+        JobHandle jobHandle = Entities.WithStoreEntityQueryInField(ref enemyQuery)
+            .ForEach((Entity entity, int entityInQueryIndex, in Translation translation, in AttackState attackState) =>
         {
             Vector3 origin = translation.Value;
             Vector3 direction = playerposition - translation.Value;
-            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction);
+
+            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction,layerMask);
+            
 
         }).ScheduleParallel(Dependency);
 
         JobHandle handle = RaycastCommand.ScheduleBatch(raycastCommand, results, dataCount, jobHandle);
-
+        
         handle.Complete();
 
         for (int i = 0; i < dataCount; i++)
@@ -116,8 +118,9 @@ public class AttackStateSystem : SystemBase
         {
 
             //player too far
-            if ( attackState.PlayerDistance > attackState.PlayerMaxAttackRange)
+            if (attackState.PlayerDistance != 0 && attackState.PlayerDistance > attackState.PlayerMaxAttackRange)
             {
+                Debug.Log("Player out of range, Attack -> Pathfind");
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                 {
@@ -130,22 +133,15 @@ public class AttackStateSystem : SystemBase
             if (hit[entityInQueryIndex])
             {
                 // change to Pathfinding
-                Debug.Log("I dont see the player");
+                Debug.Log("I dont see the player, Attack -> Pathfind");
 
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                 {
-                    from = FsmState.Pathfind,
-                    to = FsmState.Attack
+                    from = FsmState.Attack,
+                    to = FsmState.Pathfind
                 });
             }
-            else
-            {
-                Debug.Log("I see the player");
-
-            }
-
-
 
         }).ScheduleParallel(handle);
         enemyvision.Complete();

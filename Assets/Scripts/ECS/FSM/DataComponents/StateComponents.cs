@@ -22,7 +22,8 @@ public struct AttackState : IComponentData
     public float EnemyAttackRange;
     public int2 targetPosition;
 
-    public float ShootCooldown;
+    public float BaseShootCooldown;
+    public float CurrentShootCooldown;
 
 }
 [GenerateAuthoringComponent]

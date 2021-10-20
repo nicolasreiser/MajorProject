@@ -79,7 +79,8 @@ public class EnemyFsmSystem : SystemBase
                     ecbConcurrent.RemoveComponent<PathfindState>(entityInQueryIndex, entity);
                     ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
                     ecbConcurrent.RemoveComponent<PathFollow>(entityInQueryIndex, entity);
-                    ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
+                    ecbConcurrent.RemoveComponent<PathPosition>(entityInQueryIndex, entity);
+
 
                     break;
                 case FsmState.Death:
@@ -107,12 +108,15 @@ public class EnemyFsmSystem : SystemBase
                     {
                         EnemyAttackRange = enemyAttackRange,
                         PlayerMaxAttackRange = enemyMaxAttackRange,
-                        ShootCooldown = enemyWeaponCooldown
+                        BaseShootCooldown = enemyWeaponCooldown,
+                        CurrentShootCooldown = enemyWeaponCooldown
                     });
+
                     Debug.Log("Changed to Attack State");
 
                     break;
                 case FsmState.Pathfind:
+                    ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
                     ecbConcurrent.AddComponent<PathFollow>(entityInQueryIndex, entity);
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathFollow
                     {
@@ -126,7 +130,6 @@ public class EnemyFsmSystem : SystemBase
                         PathfindCooldown = 0
                         
                     });
-                    ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
                     Debug.Log("Changed to Pathfind State");
                     break;
                 case FsmState.Death:

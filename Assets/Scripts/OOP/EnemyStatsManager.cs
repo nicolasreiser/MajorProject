@@ -11,8 +11,6 @@ public class EnemyStatsManager : MonoBehaviour
     public EnemyStatsScriptableObject RangedEnemy;
     public EnemyStatsScriptableObject BombEnemy;
 
-    public GameObject PlayerProjectile;
-    public GameObject EnemyProjectile;
     EntityManager entityManager;
 
     // Start is called before the first frame update

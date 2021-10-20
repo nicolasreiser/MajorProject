@@ -49,7 +49,7 @@ public class PathFindingSystem : SystemBase
         if (player > 0)
         {
             
-            Entities.WithNone<EnemyTag>()
+            Entities.WithAll<PlayerTag>()
                 .WithStoreEntityQueryInField(ref playerQuery)
                 .ForEach((Entity entity, ref Translation transform) =>
                 {
@@ -88,6 +88,7 @@ public class PathFindingSystem : SystemBase
         // Raycast for player
 
         int dataCount = enemyQuery.CalculateEntityCount();
+        LayerMask layerMask = ~LayerMask.GetMask("Projectile");
 
 
         NativeArray<UnityEngine.RaycastHit> results = new NativeArray<UnityEngine.RaycastHit>(dataCount, Allocator.TempJob);
@@ -98,7 +99,7 @@ public class PathFindingSystem : SystemBase
         {
             Vector3 origin = translation.Value;
             Vector3 direction = playerposition - translation.Value;
-            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction);
+            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction,layerMask);
 
         }).ScheduleParallel(Dependency);
 
@@ -141,11 +142,11 @@ public class PathFindingSystem : SystemBase
             if (hit[entityInQueryIndex])
             {
                 // continue pathing
-                //Debug.Log("I dont see the player");
+                Debug.Log("I dont see the player, Pathfind");
             }
             else
             {
-                //Debug.Log("I see the player");
+                Debug.Log("I see the player, Pathfind -> Attack");
 
                 if (pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
                 {

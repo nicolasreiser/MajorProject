@@ -11,7 +11,6 @@ public class RotationSystem : SystemBase
     {
         float deltaTime = Time.DeltaTime;
 
-        Entity unit = Entity.Null;
         Translation playerPosition = new Translation();
         bool playerIsMoving = false;
 
@@ -19,7 +18,6 @@ public class RotationSystem : SystemBase
             WithAny<PlayerTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
-                unit = entity;
                 playerPosition = position;
                 if (!moveData.direction.Equals(float3.zero))
                 {
@@ -30,11 +28,13 @@ public class RotationSystem : SystemBase
                     playerIsMoving = false;
                 }
             }).Run();
-                // rotate body towards move direction
+               
+        // rotate body towards move direction
 
 
-                Entities.
-            WithAny<PlayerTag, EnemyTag>().
+        Entities.
+            WithAny<PlayerTag,EnemyTag>().
+            WithNone<AttackState>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 if (!moveData.direction.Equals(float3.zero))
@@ -53,7 +53,9 @@ public class RotationSystem : SystemBase
         Entity closestEnemy = Entity.Null;
         float3 closestTargetPosition = float3.zero;
 
+
         // get the closest enemy 
+
         Entities.
         WithAll<EnemyTag>().
         ForEach((ref Entity targetEntity, ref Translation enemyPosition) =>
@@ -106,13 +108,17 @@ public class RotationSystem : SystemBase
 
                     quaternion targetRotation = quaternion.LookRotationSafe(dirToTarget, math.up());
 
-                    // remove unwanted rotations
-                    targetRotation.value.z = 0;
-                    targetRotation.value.x = 0;
-
                     rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
 
-                    
+                    // remove unwanted rotations
+                    targetRotation.value.z = 0;
+                    targetRotation.value.y = 0;
+                    targetRotation.value.x = 0;
+
+
+                Debug.DrawLine(position.Value, playerPosition.Value);
+
+
             }).Run();
     }
 }
