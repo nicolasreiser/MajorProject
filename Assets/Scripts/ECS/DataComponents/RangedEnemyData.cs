@@ -6,5 +6,5 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct RangedEnemyData : IComponentData
 {
-   
+    public int health;
 }

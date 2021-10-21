@@ -14,10 +14,10 @@ public class MoveForwardSystem : SystemBase
         Entities.WithAll<MoveForwardData>()
             .ForEach((ref PhysicsVelocity physics ,ref Translation trans, ref Rotation rot, ref MoveForwardData moveForward) =>
             {
-                //trans.Value += moveForward.velocity * deltaTime * math.forward(rot.Value);
+                trans.Value += moveForward.velocity * deltaTime * math.forward(rot.Value);
 
-                physics.Angular = float3.zero;
-                physics.Linear += deltaTime * moveForward.velocity * math.forward(rot.Value);
+                //physics.Angular = float3.zero;
+                //physics.Linear += deltaTime * moveForward.velocity * math.forward(rot.Value);
 
             }).ScheduleParallel();
     }
