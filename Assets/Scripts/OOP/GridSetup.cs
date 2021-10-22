@@ -24,7 +24,7 @@ public class GridSetup : MonoBehaviour
     {
         Origin = this.transform.position;
         pathfindingGrid = new Grid<GridNode>(Width, Height, CellSize,Origin, (Grid<GridNode> grid, int x, int y) => new GridNode(grid, x, y));
-        pathfindingGrid.AddVisual(prefab);
+        //pathfindingGrid.AddVisual(prefab);
         SetObstacles();
     }
 

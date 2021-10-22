@@ -43,6 +43,7 @@ public class EnemyFsmSystem : SystemBase
             int enemyAttackRange = 0;
             int enemyMaxAttackRange = 0;
             float enemyWeaponCooldown = 0;
+            int enemyDamageToDeal = 0;
 
             switch (enemyTypeData.enemyType)
             {
@@ -50,11 +51,13 @@ public class EnemyFsmSystem : SystemBase
                     enemyAttackRange = tempEnemyDataContainer.MeleeRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.MeleeMaxRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.MeleeCooldown;
+                    enemyDamageToDeal = tempEnemyDataContainer.MeleeDamage;
                     break;
                 case EnemyType.Ranged:
                     enemyAttackRange = tempEnemyDataContainer.RangedRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.RangedMaxRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.RangedCooldown;
+                    enemyDamageToDeal = tempEnemyDataContainer.RangedDamage;
                     
 
                     break;
@@ -62,6 +65,7 @@ public class EnemyFsmSystem : SystemBase
                     enemyAttackRange = tempEnemyDataContainer.BombRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.BombMaxRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.BombCooldown;
+                    enemyDamageToDeal = tempEnemyDataContainer.BombDamage;
                     break;
             }
 
@@ -96,10 +100,11 @@ public class EnemyFsmSystem : SystemBase
                     ecbConcurrent.AddComponent<IdleState>(entityInQueryIndex, entity);
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
                     {
+                        // to change
                         PlayerDistance = 0,
                         MaxPlayerDistance = 10
                     });
-                    Debug.Log("Changed to Idle State");
+                    //Debug.Log("Changed to Idle State");
 
                     break;
                 case FsmState.Attack:
@@ -109,10 +114,11 @@ public class EnemyFsmSystem : SystemBase
                         EnemyAttackRange = enemyAttackRange,
                         PlayerMaxAttackRange = enemyMaxAttackRange,
                         BaseShootCooldown = enemyWeaponCooldown,
-                        CurrentShootCooldown = enemyWeaponCooldown
-                    });
+                        CurrentShootCooldown = enemyWeaponCooldown,
+                        DamageToDeal = enemyDamageToDeal
+                    }); ;
 
-                    Debug.Log("Changed to Attack State");
+                    //Debug.Log("Changed to Attack State");
 
                     break;
                 case FsmState.Pathfind:
@@ -130,10 +136,16 @@ public class EnemyFsmSystem : SystemBase
                         PathfindCooldown = 0
                         
                     });
-                    Debug.Log("Changed to Pathfind State");
+                    //Debug.Log("Changed to Pathfind State");
                     break;
                 case FsmState.Death:
                     ecbConcurrent.AddComponent<DeathState>(entityInQueryIndex, entity);
+                    ecbConcurrent.AddComponent<LifetimeData>(entityInQueryIndex, entity);
+                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new LifetimeData
+                    {
+                        Lifetime = 1,
+                        ShouldDie = false
+                    }); ;
 
                     break;
                 

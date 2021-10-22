@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93664a92a6393464896335a5f09df313, type: 3}
   m_Name: Bomb Enemy
   m_EditorClassIdentifier: 
-  health: 40
-  Range: 0
-  MaxRange: 0
-  dammage: 20
+  health: 20
+  Range: 2
+  MaxRange: 10
+  dammage: 10
   WeaponCooldown: 1

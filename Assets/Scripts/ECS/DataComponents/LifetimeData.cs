@@ -5,5 +5,6 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct LifetimeData : IComponentData
 {
-    public float lifetimeData;
+    public float Lifetime;
+    public bool ShouldDie;
 }

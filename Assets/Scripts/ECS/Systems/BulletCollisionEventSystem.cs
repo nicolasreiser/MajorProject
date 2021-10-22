@@ -16,18 +16,12 @@ public class BulletCollisionEventSystem : JobComponentSystem
     BuildPhysicsWorld m_BuildPhysicsWorldSystem;
     StepPhysicsWorld m_StepPhysicsWorldSystem;
 
-    public EntityQuery PlayerGroup;
+    
 
     protected override void OnCreate()
     {
         m_BuildPhysicsWorldSystem = World.GetOrCreateSystem<BuildPhysicsWorld>();
         m_StepPhysicsWorldSystem = World.GetOrCreateSystem<StepPhysicsWorld>();
-
-        PlayerGroup = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] {typeof(PlayerData), }
-        });
-        
     }
 
     [BurstCompile]

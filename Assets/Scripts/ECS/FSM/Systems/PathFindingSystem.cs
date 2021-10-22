@@ -146,7 +146,7 @@ public class PathFindingSystem : SystemBase
             }
             else
             {
-                Debug.Log("I see the player, Pathfind -> Attack");
+               
 
                 if (pathfind.PlayerDistance != 0 && pathfind.EnemyAttackRange > pathfind.PlayerDistance)
                 {

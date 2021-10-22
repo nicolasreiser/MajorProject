@@ -9,6 +9,7 @@ public struct PlayerData : IComponentData
     public int Health;
     public int gold;
 
+    public int WeaponBaseDamage;
     public float WeaponCooldown;
     public float WeaponBaseCooldown;
     public int DoubleShot;
@@ -20,4 +21,5 @@ public struct PlayerData : IComponentData
     public int BulletDamagePercentage;
 
     public float StandStillTimer;
+    public float PlayerRange;
 }

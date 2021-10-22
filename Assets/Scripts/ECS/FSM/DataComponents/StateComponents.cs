@@ -20,6 +20,7 @@ public struct AttackState : IComponentData
     public float PlayerDistance;
     public float PlayerMaxAttackRange;
     public float EnemyAttackRange;
+    public int DamageToDeal;
     public int2 targetPosition;
 
     public float BaseShootCooldown;

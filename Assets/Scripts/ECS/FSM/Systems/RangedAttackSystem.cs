@@ -50,6 +50,10 @@ public class RangedAttackSystem : SystemBase
                     {
                         Value = rotation.Value
                     });
+                    EntityManager.SetComponentData(instance, new BulletData
+                    {
+                        Damage = attackState.DamageToDeal
+                    });
 
                     Debug.Log("Shooting entity");
                 }

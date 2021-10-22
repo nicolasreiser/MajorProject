@@ -74,6 +74,7 @@ public class AttackStateSystem : SystemBase
 
         //check to exit current state
 
+
         // Raycast to player
 
         int dataCount = enemyQuery.CalculateEntityCount();
@@ -114,13 +115,24 @@ public class AttackStateSystem : SystemBase
             int entityInQueryIndex,
             ref EnemyTag enemy,
             ref Translation transform,
-            ref AttackState attackState) =>
+            ref AttackState attackState,
+            ref EnemyData enemyData) =>
         {
+            // check if enemy is alive
 
+            if (enemyData.Health <= 0)
+            {
+                commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
+                commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
+                {
+                    from = FsmState.Attack,
+                    to = FsmState.Death
+                });
+                return;
+            }
             //player too far
             if (attackState.PlayerDistance != 0 && attackState.PlayerDistance > attackState.PlayerMaxAttackRange)
             {
-                Debug.Log("Player out of range, Attack -> Pathfind");
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                 {
@@ -133,7 +145,6 @@ public class AttackStateSystem : SystemBase
             if (hit[entityInQueryIndex])
             {
                 // change to Pathfinding
-                Debug.Log("I dont see the player, Attack -> Pathfind");
 
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
