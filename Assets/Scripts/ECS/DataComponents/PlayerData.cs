@@ -22,4 +22,5 @@ public struct PlayerData : IComponentData
 
     public float StandStillTimer;
     public float PlayerRange;
+    public bool isInvulnerable;
 }
