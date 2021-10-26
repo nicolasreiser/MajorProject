@@ -7,4 +7,7 @@ using Unity.Entities;
 public struct EnemyData : IComponentData
 {
     public int Health;
+    public bool ScatterShot;
+    public int ScatterShotDamage;
+
 }

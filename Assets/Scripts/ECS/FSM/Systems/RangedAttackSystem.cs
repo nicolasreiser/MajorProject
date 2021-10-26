@@ -25,6 +25,7 @@ public class RangedAttackSystem : SystemBase
         Entities.ForEach((PrefabEntityStorage prefabs) =>
         {
             projectile = prefabs.EnemyProjectile;
+
         }).Run();
 
 

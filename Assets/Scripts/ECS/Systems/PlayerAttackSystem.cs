@@ -11,7 +11,10 @@ using Unity.Jobs;
 public class PlayerAttackSystem : SystemBase
 {
         EntityQuery playerQuery;
-    
+
+    // shoot mechanic variables
+
+    private int doubleShotRemaining = 0;
     protected override void OnUpdate()
     {
         Entity projectile = Entity.Null;
@@ -131,26 +134,50 @@ public class PlayerAttackSystem : SystemBase
                     physics.Linear.z = 0;
                     playerData.StandStillTimer += deltaTime;
 
-                    if (playerData.WeaponCooldown <= 0 && playerData.StandStillTimer >= 0.18f)
+                    if ((playerData.WeaponCooldown <= 0 || (playerData.DoubleShotCooldown <= 0 && doubleShotRemaining >= 0)) && playerData.StandStillTimer >= 0.18f)
                     {
-                        playerData.WeaponCooldown = playerData.WeaponBaseCooldown;
+                        // Shoot Logic
 
-                        Entity instance = EntityManager.Instantiate(projectile);
+                        // doubleShot logic
+                        if(doubleShotRemaining < 0)
+                        {
+                            doubleShotRemaining = playerData.DoubleShot;
+                            playerData.WeaponCooldown = playerData.WeaponBaseCooldown;
+                        }
 
-                        float3 offset = new float3(0, 0, 1);
+                        // parallel shot logic
+                        int bulletsToShoot = playerData.ParallelShot+ 1;
+                        float bulletDistance = .3f;
 
-                        EntityManager.SetComponentData(instance, new Translation
+                        for (int i = 1; i <= bulletsToShoot; i++)
                         {
-                            Value = new float3(translation.Value) + math.mul(rotation.Value, offset)
-                        });
-                        EntityManager.SetComponentData(instance, new Rotation
-                        {
-                            Value = rotation.Value
-                        });
-                        EntityManager.SetComponentData(instance, new BulletData
-                        {
-                            Damage = playerData.WeaponBaseDamage
-                        });
+                            float xOffset = 0;
+                            if(bulletsToShoot != 1)
+                            {
+                                xOffset = -(bulletDistance * bulletsToShoot) / 2 + i * bulletDistance;
+
+                            }
+                        
+                            Entity instance = EntityManager.Instantiate(projectile);
+
+                            float3 offset = new float3(xOffset, 0, 1);
+
+                            EntityManager.SetComponentData(instance, new Translation
+                            {
+                                Value = new float3(translation.Value) + math.mul(rotation.Value, offset)
+                            });
+                            EntityManager.SetComponentData(instance, new Rotation
+                            {
+                                Value = rotation.Value
+                            });
+                            EntityManager.SetComponentData(instance, new BulletData
+                            {
+                                Damage = (playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 100
+                            });
+
+                        }
+                        doubleShotRemaining -= 1;
+                        playerData.DoubleShotCooldown = (playerData.WeaponBaseCooldown / 2) / (playerData.DoubleShot + 1);
                     }
 
                 }
@@ -162,6 +189,7 @@ public class PlayerAttackSystem : SystemBase
 
             }
             playerData.WeaponCooldown -= deltaTime;
+            playerData.DoubleShotCooldown -= deltaTime;
 
         }).Run();
 

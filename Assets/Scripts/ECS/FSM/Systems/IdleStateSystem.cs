@@ -39,7 +39,7 @@ public class IdleStateSystem : SystemBase
         {
             Entities
                 .WithStoreEntityQueryInField(ref playerQuery)
-                .WithNone<EnemyTag>()
+                .WithAll<PlayerTag>()
                 .ForEach((Entity entity, ref Translation transform) =>
                 {
                     playerposition = transform.Value;
