@@ -10,6 +10,7 @@ public struct BulletData : IComponentData
     public int Damage;
     public bool ScatterShot;
     public int ScatterShotDamage;
+    public float ScatterShotCooldown;
     public bool ShouldDestroy;
 }
 

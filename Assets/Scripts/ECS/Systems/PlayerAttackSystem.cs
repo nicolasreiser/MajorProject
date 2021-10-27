@@ -170,9 +170,26 @@ public class PlayerAttackSystem : SystemBase
                             {
                                 Value = rotation.Value
                             });
+
+                            bool ScatterShot = false;
+                            float ScatterShotCooldown = 0;
+                            int ScatterShotDamage = 0;
+
+                            if(playerData.ScatterShot > 0)
+                            {
+                                ScatterShot = true;
+                                ScatterShotCooldown = .3f;
+                                ScatterShotDamage = ((playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 400) * playerData.ScatterShot;
+                            }
                             EntityManager.SetComponentData(instance, new BulletData
                             {
-                                Damage = (playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 100
+                                Damage = (playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 100,
+
+                                ScatterShot = ScatterShot,
+                                ScatterShotDamage = ScatterShotDamage,
+                                ScatterShotCooldown = ScatterShotCooldown
+
+
                             });
 
                         }
