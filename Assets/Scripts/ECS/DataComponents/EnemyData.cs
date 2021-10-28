@@ -6,7 +6,8 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct EnemyData : IComponentData
 {
-    public int Health;
+    public int BaseHealth;
+    public int CurrentHealth;
     public bool ScatterShot;
     public int ScatterShotDamage;
     public float ScatterShotCooldown;

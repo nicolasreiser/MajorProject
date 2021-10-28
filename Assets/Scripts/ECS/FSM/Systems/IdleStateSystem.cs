@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
+using Unity.Physics;
 
 public class IdleStateSystem : SystemBase
 {
@@ -71,9 +72,13 @@ public class IdleStateSystem : SystemBase
             int entityInQueryIndex,
             ref EnemyTag enemy,
             ref Translation transform,
-            ref IdleState idleState) =>
+            ref IdleState idleState,
+            ref PhysicsVelocity physics) =>
             {
-               if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.MaxPlayerDistance)
+                physics.Linear.x = 0;
+                physics.Linear.z = 0;
+
+                if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.MaxPlayerDistance)
                {
                     Debug.Log("Changing State");
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);

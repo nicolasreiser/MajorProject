@@ -6,6 +6,11 @@ using Unity.Physics;
 
 public class PlayerMovementSystem : SystemBase
 {
+
+    protected override void OnCreate()
+    {
+        base.OnCreate();
+    }
     protected override void OnUpdate()
     {
         float deltaTime = Time.DeltaTime;

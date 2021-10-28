@@ -79,9 +79,9 @@ public class BulletCollisionEventSystem : JobComponentSystem
                                 enemy.ScatterShotCooldown = bullet.ScatterShotCooldown;
                             }
 
-                            enemy.Health -= bullet.Damage;
-                            if (enemy.Health < 0)
-                                enemy.Health = 0;
+                            enemy.CurrentHealth -= bullet.Damage;
+                            if (enemy.CurrentHealth < 0)
+                                enemy.CurrentHealth = 0;
 
                             EnemyGroup[entityB] = enemy;
                         }
@@ -123,9 +123,9 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var enemy = EnemyGroup[entityA];
                             var bullet = BulletGroup[entityB];
 
-                            enemy.Health -= bullet.Damage;
-                            if (enemy.Health < 0)
-                                enemy.Health = 0;
+                            enemy.CurrentHealth -= bullet.Damage;
+                            if (enemy.CurrentHealth < 0)
+                                enemy.CurrentHealth = 0;
 
                             if (bullet.ScatterShot)
                             {

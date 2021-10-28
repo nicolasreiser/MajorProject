@@ -47,10 +47,10 @@ public class ScatterShotSystem : SystemBase
                         if (distance <= 3)
                         {
                             EnemyData eD = EntityManager.GetComponentData<EnemyData>(e);
-                            eD.Health -= enemyData.ScatterShotDamage;
-                            if (eD.Health < 0)
+                            eD.CurrentHealth -= enemyData.ScatterShotDamage;
+                            if (eD.CurrentHealth < 0)
                             {
-                                eD.Health = 0;
+                                eD.CurrentHealth = 0;
                             }
                             EntityManager.SetComponentData(e, eD);
                         }

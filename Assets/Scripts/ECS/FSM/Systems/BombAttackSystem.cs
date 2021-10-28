@@ -65,13 +65,13 @@ public class BombAttackSystem : SystemBase
 
                     attackState.CurrentShootCooldown -= deltaTime;
 
-                    if(enemyData.Health != 0 && attackState.CurrentShootCooldown <= 0)
+                    if(enemyData.CurrentHealth != 0 && attackState.CurrentShootCooldown <= 0)
                     {
                         if(distance <= attackState.EnemyAttackRange)
                         {
                             isPlayerHit = true;
                             damageToDeal = attackState.DamageToDeal;
-                            enemyData.Health = 0;
+                            enemyData.CurrentHealth = 0;
                         }
                     }
                 }).Run();

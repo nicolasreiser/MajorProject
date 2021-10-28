@@ -120,7 +120,7 @@ public class AttackStateSystem : SystemBase
         {
             // check if enemy is alive
 
-            if (enemyData.Health <= 0)
+            if (enemyData.CurrentHealth <= 0)
             {
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged

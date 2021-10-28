@@ -4,19 +4,22 @@ using UnityEngine;
 
 public class PlayseInputSystem : SystemBase
 {
+    FloatingJoystick joystick;
+
+    protected override void OnCreate()
+    {
+        base.OnCreate();
+        joystick = UnityEngine.Object.FindObjectOfType<FloatingJoystick>();
+
+    }
     protected override void OnUpdate()
     {
+        var jw = joystick.Vertical;
+        var jh = joystick.Horizontal;
         Entities.ForEach((ref MoveData moveData, in InputData inputData) =>
         {
-            bool isRightKeyPressed = Input.GetKey(inputData.rightKey);
-            bool isLeftKeyPressed = Input.GetKey(inputData.leftKey);
-            bool isUpKeyPressed = Input.GetKey(inputData.upKey);
-            bool isDownKeyPressed = Input.GetKey(inputData.downKey);
-
-            moveData.direction.x = Convert.ToInt32(isRightKeyPressed);
-            moveData.direction.x -= Convert.ToInt32(isLeftKeyPressed);
-            moveData.direction.z = Convert.ToInt32(isUpKeyPressed);
-            moveData.direction.z -= Convert.ToInt32(isDownKeyPressed);
+            moveData.direction.x = jh;
+            moveData.direction.z = jw;
 
         }).Run();
     }
