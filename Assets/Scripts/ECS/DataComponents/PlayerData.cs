@@ -6,7 +6,8 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct PlayerData : IComponentData
 {
-    public int Health;
+    public int BaseHealth;
+    public int CurrentHealth;
     public int gold;
 
     public float StaticWeaponCooldown;
@@ -27,7 +28,8 @@ public struct PlayerData : IComponentData
 
     public float StandStillTimer;
     public float PlayerRange;
-    public bool isInvulnerable;
+    public bool IsInvulnerable;
+    public bool OnHealthChange;
 
     public void EditDoubleSHot(int value)
     {

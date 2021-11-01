@@ -6,7 +6,7 @@ using UnityEngine.UI;
 using Unity.Mathematics;
 
 [GenerateAuthoringComponent]
-public class HealthBarData : IComponentData
+public class HealthBarData : ISystemStateComponentData
 {
     public Slider slider;
     public Canvas canvas;

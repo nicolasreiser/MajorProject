@@ -71,10 +71,22 @@ public class IdleStateSystem : SystemBase
             ForEach((Entity entity,
             int entityInQueryIndex,
             ref EnemyTag enemy,
+            ref EnemyData enemyData,
             ref Translation transform,
             ref IdleState idleState,
             ref PhysicsVelocity physics) =>
             {
+
+                if (enemyData.CurrentHealth <= 0)
+                {
+                    commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
+                    commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
+                    {
+                        from = FsmState.Idle,
+                        to = FsmState.Death
+                    });
+                    return;
+                }
                 physics.Linear.x = 0;
                 physics.Linear.z = 0;
 

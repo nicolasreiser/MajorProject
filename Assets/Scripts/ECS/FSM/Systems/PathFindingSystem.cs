@@ -122,12 +122,24 @@ public class PathFindingSystem : SystemBase
         JobHandle enemyvision = Entities.ForEach((Entity entity,
             int entityInQueryIndex,
             ref EnemyTag enemy,
+            ref EnemyData enemyData,
             ref Translation transform,
             ref PathfindState pathfind) =>
         {
             //TODO If in attack range change state
             //TODO If player too far change state
 
+            // enemy alive 
+            if (enemyData.CurrentHealth <= 0)
+            {
+                commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
+                commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
+                {
+                    from = FsmState.Pathfind,
+                    to = FsmState.Death
+                });
+                return;
+            }
             //player too far
             if (pathfind.PlayerDistance != 0 && pathfind.PlayerDistance > pathfind.PlayerOurOfRangeDistance)
             {

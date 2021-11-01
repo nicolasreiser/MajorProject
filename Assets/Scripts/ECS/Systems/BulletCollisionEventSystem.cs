@@ -93,9 +93,10 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var player = PlayerGroup[entityB];
                             var bullet = BulletGroup[entityA];
 
-                            player.Health -= bullet.Damage;
-                            if (player.Health < 0)
-                                player.Health = 0;
+                            player.CurrentHealth -= bullet.Damage;
+                            player.OnHealthChange = true;
+                            if (player.CurrentHealth < 0)
+                                player.CurrentHealth = 0;
 
                             PlayerGroup[entityB] = player;
 
@@ -145,9 +146,11 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var player = PlayerGroup[entityA];
                             var bullet = BulletGroup[entityB];
 
-                            player.Health -= bullet.Damage;
-                            if (player.Health < 0)
-                                player.Health = 0;
+                            player.CurrentHealth -= bullet.Damage;
+                            player.OnHealthChange = true;
+
+                            if (player.CurrentHealth < 0)
+                                player.CurrentHealth = 0;
 
                             PlayerGroup[entityA] = player;
 

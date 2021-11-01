@@ -53,8 +53,9 @@ public class RangedAttackSystem : SystemBase
                     });
                     EntityManager.SetComponentData(instance, new BulletData
                     {
+                        Origin = BulletOrigin.Enemy,
                         Damage = attackState.DamageToDeal
-                    });
+                    }) ;
 
                     Debug.Log("Shooting entity");
                 }

@@ -80,7 +80,9 @@ public class MeleeAttackSystem : SystemBase
                 {
                     if (isPlayerHit)
                     {
-                        playerData.Health -= damageToDeal;
+                        playerData.CurrentHealth -= damageToDeal;
+                        playerData.OnHealthChange = true;
+
                         Debug.Log("Damage dealt");
                         isPlayerHit = false;
                     }
