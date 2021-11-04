@@ -18,12 +18,23 @@ public class HealthBarCleanupSystem : SystemBase
     {
         var commandBuffer = ecb.CreateCommandBuffer();
 
-        Entities.WithoutBurst()
-            .WithNone<EnemyData>().
-            ForEach((Entity entity, HealthBarData healthBarData) =>
+        Entities.WithoutBurst().
+            //WithNone<EnemyData>().
+            ForEach((Entity entity, HealthBarData healthBarData, in LifetimeData lifetimeData) =>
             {
+
                 GameObject obj = healthBarData.slider.gameObject;
                 objectPooler.ReturnObjectToPool(obj);
+                commandBuffer.DestroyEntity(entity);
+
+            }).Run();
+
+        Entities.
+            WithoutBurst().
+            WithNone<EnemyData>().
+            ForEach((Entity entity, HealthBarData healthBarData) =>
+            {
+                commandBuffer.RemoveComponent<HealthBarData>(entity);
                 commandBuffer.DestroyEntity(entity);
 
             }).Run();

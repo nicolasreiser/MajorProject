@@ -143,7 +143,7 @@ public class EnemyFsmSystem : SystemBase
                     ecbConcurrent.AddComponent<LifetimeData>(entityInQueryIndex, entity);
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new LifetimeData
                     {
-                        Lifetime = 1,
+                        Lifetime = 0.1f,
                         ShouldDie = false
                     }); ;
 

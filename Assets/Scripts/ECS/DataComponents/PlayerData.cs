@@ -6,9 +6,13 @@ using Unity.Entities;
 [GenerateAuthoringComponent]
 public struct PlayerData : IComponentData
 {
+    public int Level;
     public int BaseHealth;
     public int CurrentHealth;
     public int gold;
+    public int Experience;
+    public int MaxExperience;
+    public int OverflowExperience;
 
     public float StaticWeaponCooldown;
     public int WeaponBaseDamage;
@@ -30,6 +34,8 @@ public struct PlayerData : IComponentData
     public float PlayerRange;
     public bool IsInvulnerable;
     public bool OnHealthChange;
+    public bool OnExperienceChange;
+    public bool Initialised;
 
     public void EditDoubleSHot(int value)
     {

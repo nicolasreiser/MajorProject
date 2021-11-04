@@ -8,6 +8,8 @@ public struct EnemyData : IComponentData
 {
     public int BaseHealth;
     public int CurrentHealth;
+    public int Experience;
+    public bool hasGivenExperience;
     public bool ScatterShot;
     public int ScatterShotDamage;
     public float ScatterShotCooldown;

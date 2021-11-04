@@ -32,6 +32,10 @@ public class CameraMovement : MonoBehaviour
 
         EntityQuery player = entityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerTag>(), ComponentType.ReadOnly<Translation>());
 
+        if(player.IsEmpty)
+        {
+            return new Vector3(1.47131002f, 19.5873547f, -8.8517065f);
+        }
         Translation t = entityManager.GetComponentData<Translation>(player.GetSingletonEntity());
 
         return new Vector3(t.Value.x, t.Value.y, t.Value.z);

@@ -7,19 +7,55 @@ public class CanvasUpgrades : MonoBehaviour
     EntityManager entityManager;
 
     EntityQuery entity;
+    EntityQuery playerStatsQuery;
     // Start is called before the first frame update
     void Start()
     {
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         entity = entityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerTag>());
+        playerStatsQuery = entityManager.CreateEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<PlayerDataContainer>() }
+        });
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Heal()
     {
-        
+        var player = entity.GetSingletonEntity();
+        PlayerData playerData = entityManager.GetComponentData<PlayerData>(player);
+        playerData.CurrentHealth = playerData.BaseHealth;
+
+        entityManager.SetComponentData(player, playerData);
+
+    }
+    public void LevelUp()
+    {
+        var player = entity.GetSingletonEntity();
+        PlayerData playerData = entityManager.GetComponentData<PlayerData>(player);
+        var Stats = entityManager.GetBuffer<PlayerDataContainer>(player);
+
+
+        playerData.Experience = playerData.OverflowExperience;
+        playerData.OverflowExperience = 0;
+        playerData.Level++;
+        playerData.BaseHealth = Stats[playerData.Level - 1].Health;
+        playerData.MaxExperience = Stats[playerData.Level - 1].Experience;
+        playerData.OnExperienceChange = true;
+
+        entityManager.SetComponentData(player, playerData);
+
     }
 
+    public void AddExp(int value)
+    {
+        var player = entity.GetSingletonEntity();
+        PlayerData playerData = entityManager.GetComponentData<PlayerData>(player);
+       
+        playerData.Experience += value;
+        playerData.OnExperienceChange = true;
+
+        entityManager.SetComponentData(player, playerData);
+    }
 
     public void DoubleBullet()
     {
