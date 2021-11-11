@@ -43,7 +43,7 @@ public class RotationSystem : SystemBase
 
                     //targetRotation.value.z = 0;
                     //targetRotation.value.x = 0;
-
+                    
                     rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
                 }
 

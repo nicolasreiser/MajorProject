@@ -160,7 +160,7 @@ public class PlayerAttackSystem : SystemBase
                         
                             Entity instance = EntityManager.Instantiate(projectile);
 
-                            float3 offset = new float3(xOffset, 0, 1);
+                            float3 offset = new float3(xOffset, 1.9f, 1);
 
                             EntityManager.SetComponentData(instance, new Translation
                             {
