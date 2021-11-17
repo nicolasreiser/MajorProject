@@ -45,6 +45,7 @@ public class RotationSystem : SystemBase
                     //targetRotation.value.x = 0;
                     
                     rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
+                Debug.Log("Rotation of : " + targetRotation + "on entity : " + moveData.direction);
                 }
 
             }).Run();

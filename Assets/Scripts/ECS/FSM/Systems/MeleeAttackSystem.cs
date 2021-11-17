@@ -35,13 +35,12 @@ public class MeleeAttackSystem : SystemBase
         {
             Entities
                 .WithStoreEntityQueryInField(ref playerQuery)
-                .WithNone<EnemyTag>()
+                .WithAll<PlayerTag>()
                 .ForEach((Entity entity,
                 ref Translation transform) =>
                 {
                     playerposition = transform.Value;
                 }).Run();
-
 
             //calculate player distance
 
@@ -63,6 +62,7 @@ public class MeleeAttackSystem : SystemBase
                    {
                        if (distance <= attackState.EnemyAttackRange)
                        {
+
                            isPlayerHit = true;
                            damageToDeal = attackState.DamageToDeal;
                        }

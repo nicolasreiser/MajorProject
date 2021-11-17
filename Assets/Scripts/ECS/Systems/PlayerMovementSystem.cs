@@ -9,21 +9,33 @@ public class PlayerMovementSystem : SystemBase
     private bool StartedMoving = false;
     private bool hasCastMove = false;
     private bool hasCastIdle = false;
+    EndSimulationEntityCommandBufferSystem esecb;
     protected override void OnCreate()
     {
         base.OnCreate();
+         esecb = World.GetOrCreateSystem<EndSimulationEntityCommandBufferSystem>();
     }
     protected override void OnUpdate()
     {
         float deltaTime = Time.DeltaTime;
 
+        var ecb = esecb.CreateCommandBuffer();
         Entities.
             WithoutBurst().
             WithAll<PlayerTag>().
-            ForEach((ref PhysicsVelocity physics, ref PhysicsMass mass, ref Translation pos, ref Rotation rotation, in MoveData moveData) =>
+            ForEach((ref PhysicsVelocity physics, ref PhysicsMass mass, ref Translation pos, ref Rotation rotation, ref AnimationHolderComponent anim ,in MoveData moveData) =>
             {
                 if (moveData.direction.x == 0 && moveData.direction.z == 0)
                 {
+                    var animation = anim.entity;
+
+                    AnimationStateComponent animState = new AnimationStateComponent();
+
+                    animState.AnimationState = AnimState.Shoot;
+                    animState.TurnSpeed = anim.TurnSpeed;
+
+                    ecb.SetComponent(animation, animState);
+
                     StartedMoving = false;
 
                     physics.Linear.x = 0;
@@ -31,6 +43,15 @@ public class PlayerMovementSystem : SystemBase
                 }
                 else
                 {
+                    var animation = anim.entity;
+
+                    AnimationStateComponent animState = new AnimationStateComponent();
+
+                    animState.AnimationState = AnimState.Run;
+                    animState.TurnSpeed = anim.TurnSpeed;
+
+                    ecb.SetComponent(animation, animState);
+
                     StartedMoving = true;
 
                     float2 curInput = new float2(moveData.direction.x, moveData.direction.z);
@@ -66,32 +87,6 @@ public class PlayerMovementSystem : SystemBase
 
             }).Run();
 
-        // animation part
-
-        Entities
-            .WithoutBurst()
-            .WithAll<PlayerTag>()
-            .ForEach((
-                ref SimpleAnimation simpleAnimation,
-                ref DynamicBuffer<SimpleAnimationClipData> simpleAnimationClipDatas,
-                in MoveData moveData) =>
-            {
-                if(!StartedMoving && !hasCastMove)
-                {
-                    simpleAnimation.TransitionTo(1, .2f, ref simpleAnimationClipDatas, false);
-                    simpleAnimation.SetSpeed(1f, 1, ref simpleAnimationClipDatas);
-                    hasCastMove = true;
-                    hasCastIdle = false;
-                }
-                else if(!hasCastIdle)
-                {
-                    simpleAnimation.TransitionTo(0, .2f, ref simpleAnimationClipDatas, false);
-                    simpleAnimation.SetSpeed(1f, 0, ref simpleAnimationClipDatas);
-                    hasCastMove = false;
-                    hasCastIdle = true;
-                }
-
-
-            }).Run();
+        
     }
 }
