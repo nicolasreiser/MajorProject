@@ -37,7 +37,7 @@ public class ScatterShotSystem : SystemBase
             {
                 if(enemyData.ScatterShot && enemyData.ScatterShotCooldown <= 0)
                 {
-                    Debug.Log("AOE Dmg");
+                    //Debug.Log("AOE Dmg");
                     foreach(Entity e in enemies)
                     {
                         Translation t = EntityManager.GetComponentData<Translation>(e);

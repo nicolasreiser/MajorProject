@@ -92,7 +92,7 @@ public class IdleStateSystem : SystemBase
 
                 if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.MaxPlayerDistance)
                {
-                    Debug.Log("Changing State");
+                    //Debug.Log("Changing State");
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                     commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged
                     {

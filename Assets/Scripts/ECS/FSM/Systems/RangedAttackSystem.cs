@@ -57,7 +57,7 @@ public class RangedAttackSystem : SystemBase
                         Damage = attackState.DamageToDeal
                     }) ;
 
-                    Debug.Log("Shooting entity");
+                    //Debug.Log("Shooting entity");
                 }
                 attackState.CurrentShootCooldown -= deltaTime;
             }).Run();

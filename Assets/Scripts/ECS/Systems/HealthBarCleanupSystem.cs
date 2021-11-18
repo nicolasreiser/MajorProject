@@ -25,7 +25,7 @@ public class HealthBarCleanupSystem : SystemBase
 
                 GameObject obj = healthBarData.slider.gameObject;
                 objectPooler.ReturnObjectToPool(obj);
-                commandBuffer.DestroyEntity(entity);
+                //commandBuffer.DestroyEntity(entity);
 
             }).Run();
 

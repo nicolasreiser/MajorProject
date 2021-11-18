@@ -56,7 +56,7 @@ public class DeathStateSystem : SystemBase
                 }
 
 
-                Debug.Log("Enemy died");
+                //Debug.Log("Enemy died");
                 //lifetimeData.ShouldDie = true;
             }).Run();
     }

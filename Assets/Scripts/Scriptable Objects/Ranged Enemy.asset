@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ranged Enemy
   m_EditorClassIdentifier: 
   health: 100
-  Range: 7
-  MaxRange: 8
+  Range: 9
+  MaxRange: 13
   dammage: 10
   WeaponCooldown: 2

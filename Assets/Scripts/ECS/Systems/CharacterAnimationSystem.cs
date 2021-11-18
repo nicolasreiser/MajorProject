@@ -28,7 +28,6 @@ public class CharacterAnimationSystem : SystemBase
 
                    rotation.Value = math.slerp(rotation.Value, targetRotation, anim.TurnSpeed * deltaTime);
 
-                   Debug.Log("Rotation of : " + targetRotation + "on entity : " + entity.Index);
                    simpleAnimation.TransitionTo(1, .2f, ref simpleAnimationClipDatas, false);
                    simpleAnimation.SetSpeed(1f, 1, ref simpleAnimationClipDatas);
                }
