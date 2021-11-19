@@ -31,9 +31,8 @@ public class PathFollowSystem : ComponentSystem
                 int2 targetNode = new int2(pathPosition.x, pathPosition.y);
 
                 float3 moveDir = math.normalizesafe(targetPosition - translation.Value );
-                float movespeed = 3f;
-
-                translation.Value += moveDir * movespeed * Time.DeltaTime;
+                
+                translation.Value += moveDir * moveData.speed * Time.DeltaTime;
 
                 moveData.direction = moveDir;
 

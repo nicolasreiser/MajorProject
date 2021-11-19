@@ -109,7 +109,10 @@ public class RotationSystem : SystemBase
 
                     quaternion targetRotation = quaternion.LookRotationSafe(dirToTarget, math.up());
 
-                    rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
+                targetRotation.value.z = 0;
+                targetRotation.value.x = 0;
+
+                rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
 
                     // remove unwanted rotations
                     targetRotation.value.z = 0;

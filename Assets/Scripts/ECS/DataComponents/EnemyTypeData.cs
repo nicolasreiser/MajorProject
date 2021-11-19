@@ -9,7 +9,7 @@ struct EnemyTypeData : IComponentData
     public EnemyType enemyType;
 }
 
-enum EnemyType
+public enum EnemyType
 {
     Melee,
     Ranged,

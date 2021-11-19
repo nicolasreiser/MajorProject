@@ -9,11 +9,14 @@ using UnityEngine.UI;
 public class EnemyHealthbarSystem : SystemBase
 {
     private ObjectPooler objectPooler;
+    private Canvas uiCanvas;
+    private Camera uiCamera;
 
     private EndSimulationEntityCommandBufferSystem ecb;
     protected override void OnCreate()
     {
         objectPooler = GameObject.FindObjectOfType<ObjectPooler>();
+
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
     }
@@ -22,20 +25,44 @@ public class EnemyHealthbarSystem : SystemBase
     {
         var commandBuffer = ecb.CreateCommandBuffer();
 
-        Entities.WithoutBurst().
-            ForEach((Entity entity,int entityInQueryIndex , HealthBarData healthBarData, in EnemyData enemyData) =>
+        if(uiCanvas == null)
+        {
+            GetData();
+        }
+
+
+        Entities.WithoutBurst()
+            .WithAll<EnemyData>()
+            .WithNone<HealthBarData>()
+            .ForEach((Entity entity) =>
+            {
+                HealthBarData hbd = new HealthBarData();
+                hbd.camera = uiCamera;
+                hbd.canvas = uiCanvas;
+                hbd.Offset = new float3(0, 1, 1);
+
+                commandBuffer.AddComponent(entity, hbd);
+
+            }).Run();
+
+
+        Entities.WithoutBurst()
+            .WithAll<HealthBarData>()
+            .ForEach((Entity entity , HealthBarData healthBarData, in EnemyData enemyData) =>
             {
                 if(enemyData.CurrentHealth != enemyData.BaseHealth && healthBarData.slider == null)
                 {
                     GameObject h = objectPooler.getPooledObject();
                     healthBarData.slider = h.GetComponent<Slider>();
+                    healthBarData.camera = uiCamera;
+                    healthBarData.canvas = uiCanvas;
                 }
             }).Run();
 
 
         Entities.
             WithoutBurst().
-            WithAll<EnemyTag>().
+            WithAll<EnemyTag, HealthBarData>().
             ForEach((Entity entity, HealthBarData healthbarData, in EnemyData enemydata, in Translation transform) =>
             {
                 if (enemydata.CurrentHealth != enemydata.BaseHealth)
@@ -47,6 +74,19 @@ public class EnemyHealthbarSystem : SystemBase
                     healthbarData.slider.value = enemydata.CurrentHealth;
                 }
 
+            }).Run();
+    }
+
+    private void GetData()
+    {
+        Debug.Log("entering");
+
+        Entities.WithoutBurst().
+            ForEach((Entity entity, MonobehaviourStorageComponent storage ) =>
+            {
+                uiCanvas = storage.UICanvas;
+                Debug.Log("Canvas in storage : " + storage.UICanvas);
+                uiCamera = storage.UICamera;
             }).Run();
     }
 }

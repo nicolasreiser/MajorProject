@@ -89,7 +89,57 @@ public class MeleeAttackSystem : SystemBase
 
                 }).Run();
 
+            // Spin animation
 
+            Entities
+                .WithoutBurst()
+              .WithAll<EnemyTag, AttackState, BladeComponent>()
+              .ForEach((Entity entity,
+              ref BladeComponent blade ) =>
+              {
+
+                  // scale up blade
+                  NonUniformScale s = EntityManager.GetComponentData<NonUniformScale>(blade.Blade);
+
+                  if(s.Value.x < 200)
+                  {
+                      Debug.Log("Scaling  up blade");
+                      s.Value += deltaTime * blade.ScaleSpeed * 50;
+                      EntityManager.SetComponentData<NonUniformScale>(blade.Blade, s);
+                  }
+
+                  // rotate blade
+
+                  Rotation r = EntityManager.GetComponentData<Rotation>(blade.Blade);
+
+                  r.Value = math.mul(r.Value, quaternion.RotateZ(math.radians(blade.SpinSpeed * deltaTime * 50)));
+
+                  EntityManager.SetComponentData<Rotation>(blade.Blade, r);
+
+              }).Run();
+
+            //Retract animation
+            Entities
+                .WithoutBurst()
+              .WithAll<EnemyTag, BladeComponent>()
+              .WithNone<AttackState>()
+              .ForEach((Entity entity,
+              ref BladeComponent blade) =>
+              {
+
+                  NonUniformScale s = EntityManager.GetComponentData<NonUniformScale>(blade.Blade);
+                  // scale up blade
+
+
+                  if (s.Value.x > 100)
+                  {
+                      Debug.Log("Scaling down blade");
+                      s.Value -= deltaTime * blade.ScaleSpeed * 50;
+                      EntityManager.SetComponentData<NonUniformScale>(blade.Blade, s);
+                  }
+
+
+              }).Run();
 
         }
 

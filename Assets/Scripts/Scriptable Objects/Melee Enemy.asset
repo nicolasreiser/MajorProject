@@ -15,5 +15,5 @@ MonoBehaviour:
   health: 100
   Range: 2
   MaxRange: 3
-  dammage: 15
-  WeaponCooldown: 1
+  dammage: 1
+  WeaponCooldown: 0.1

@@ -6,7 +6,32 @@ ModelImporter:
   - first:
       74: -1796418360479412538
     second: blade|Attack
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Blade
+    second: {fileID: 2100002, guid: ff6dc36862fe41641bb21568d92147c9, type: 3}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glow
+    second: {fileID: 2100000, guid: 73b9d52315fdee44c953db973e7d4221, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Glow.001
+    second: {fileID: 2100000, guid: 73b9d52315fdee44c953db973e7d4221, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MainMaterial
+    second: {fileID: 2100000, guid: 5a862d0544faf9c41b838d308a49c351, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Secondary material
+    second: {fileID: 2100000, guid: 5a862d0544faf9c41b838d308a49c351, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

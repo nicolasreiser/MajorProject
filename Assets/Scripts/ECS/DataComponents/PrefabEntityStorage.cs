@@ -8,4 +8,10 @@ public struct PrefabEntityStorage : IComponentData
 {
     public Entity EnemyProjectile;
     public Entity PlayerProjectile;
+
+    public Entity MeleeEnemy;
+    public Entity RangedEnemy;
+    public Entity BombEnemy;
+
+    public Entity Player;
 }
