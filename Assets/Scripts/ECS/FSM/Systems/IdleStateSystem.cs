@@ -77,6 +77,7 @@ public class IdleStateSystem : SystemBase
             ref PhysicsVelocity physics) =>
             {
 
+                // is player dead 
                 if (enemyData.CurrentHealth <= 0)
                 {
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
@@ -90,7 +91,9 @@ public class IdleStateSystem : SystemBase
                 physics.Linear.x = 0;
                 physics.Linear.z = 0;
 
-                if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.MaxPlayerDistance)
+
+
+                if (idleState.PlayerDistance != 0 && idleState.PlayerDistance < idleState.EnemyDetectionRange)
                {
                     //Debug.Log("Changing State");
                     commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);

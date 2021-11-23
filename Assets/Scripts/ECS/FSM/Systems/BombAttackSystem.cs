@@ -67,7 +67,7 @@ public class BombAttackSystem : SystemBase
 
                     if(enemyData.CurrentHealth != 0 && attackState.CurrentShootCooldown <= 0)
                     {
-                        if(distance <= attackState.EnemyAttackRange)
+                        if(distance <= attackState.EnemyMaxAttackRange)
                         {
                             isPlayerHit = true;
                             damageToDeal = attackState.DamageToDeal;

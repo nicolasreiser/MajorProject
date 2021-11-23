@@ -18,8 +18,9 @@ enum FsmState
 public struct AttackState : IComponentData
 {
     public float PlayerDistance;
-    public float PlayerMaxAttackRange;
     public float EnemyAttackRange;
+    public float EnemyMaxAttackRange;
+    public int EnemyDetectionRange;
     public int DamageToDeal;
     public int2 targetPosition;
 
@@ -44,14 +45,10 @@ public struct DeathState : IComponentData
 {
 
 }
+[GenerateAuthoringComponent]
 struct FsmStateChanged : IComponentData
 {
     public FsmState from;
     public FsmState to;
 }
 
-struct Cat : IComponentData
-{
-    public float health;
-    
-}

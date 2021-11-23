@@ -7,5 +7,6 @@ using Unity.Entities;
 public struct IdleState : IComponentData
 {
     public float PlayerDistance;
-    public float MaxPlayerDistance;
+    public int EnemyDetectionRange;
+
 }

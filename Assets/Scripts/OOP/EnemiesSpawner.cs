@@ -15,6 +15,8 @@ public class EnemiesSpawner : MonoBehaviour
     private float currentDelayBetweenSpawns;
 
     private EntityManager entityManager;
+    private EnemyDataContainer enemyDataContainer;
+
     private Camera uiCamera;
     private Canvas uiCanvas;
 
@@ -54,10 +56,16 @@ public class EnemiesSpawner : MonoBehaviour
     {
         EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
         entityStorage = entityQuery.GetSingletonEntity();
+
+        entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
+
+        enemyDataContainer = entityManager.GetComponentData<EnemyDataContainer>(entityQuery.GetSingletonEntity()); ;
+        
     }
     private void SpawnEntity(EnemyType enemyType)
     {
         PrefabEntityStorage pes = entityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
+        
 
         Entity e = Entity.Null;
         switch (enemyType)
@@ -76,8 +84,39 @@ public class EnemiesSpawner : MonoBehaviour
         Translation t = entityManager.GetComponentData<Translation>(e);
 
         t.Value = GetRandomPosition();
-        entityManager.SetComponentData<Translation>(e, t);
-        
+        entityManager.SetComponentData(e, t);
+
+        IdleState i = new IdleState();
+        switch (enemyType)
+        {
+            case EnemyType.Melee:
+                i.EnemyDetectionRange = enemyDataContainer.MeleeDetectionRange;
+                break;
+            case EnemyType.Ranged:
+                i.EnemyDetectionRange = enemyDataContainer.RangedDetectionRange;
+                break;
+            case EnemyType.Bomb:
+                i.EnemyDetectionRange = enemyDataContainer.BombDetectionRange;
+                break;
+        }
+
+        entityManager.SetComponentData(e,i);
+        Debug.Log("Set idle state range to : " + enemyDataContainer.BombDamage);
+    }
+
+    public bool CheckForLevelCleared()
+    {
+        EntityQuery q = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyTag>());
+
+
+        if(EnemiesAmmount == 0 && q.IsEmpty)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private Vector3 GetRandomPosition()
@@ -88,9 +127,10 @@ public class EnemiesSpawner : MonoBehaviour
         return pos;
     }
 
+
     private EnemyType GetRandomEnemyType()
     {
-        EnemyType e = EnemyTypes[Random.Range(0, EnemyTypes.Length)];
+        EnemyType e = EnemyTypes[Random.Range(0, EnemyTypes.Length+1)];
         return e;
     }
     private void OnDrawGizmos()

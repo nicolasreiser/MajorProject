@@ -79,13 +79,11 @@ public class EnemyHealthbarSystem : SystemBase
 
     private void GetData()
     {
-        Debug.Log("entering");
 
         Entities.WithoutBurst().
             ForEach((Entity entity, MonobehaviourStorageComponent storage ) =>
             {
                 uiCanvas = storage.UICanvas;
-                Debug.Log("Canvas in storage : " + storage.UICanvas);
                 uiCamera = storage.UICamera;
             }).Run();
     }

@@ -8,7 +8,6 @@ public class EnemyFsmSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
 
-    //private EntityQuery enemyWithoutFsmQuery;
 
     protected override void OnCreate()
     {
@@ -16,23 +15,16 @@ public class EnemyFsmSystem : SystemBase
 
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
-        //enemyWithoutFsmQuery = GetEntityQuery(new EntityQueryDesc
-        //{
-        //    None = new ComponentType[] { ComponentType.ReadOnly<EnemyFiniteStateMachine>() },
-        //    All = new ComponentType[] { ComponentType.ReadOnly<Cat>() }
-        //});
     }
     protected override void OnUpdate()
     {
         var commandBuffer = ecb.CreateCommandBuffer();
 
-        //var count = enemyWithoutFsmQuery.CalculateChunkCount();
-
         var ecbConcurrent = commandBuffer.AsParallelWriter();
         EnemyDataContainer tempEnemyDataContainer = new EnemyDataContainer();
 
 
-        Entities.WithoutBurst().ForEach((EnemyDataContainer enemyDataContainer) =>
+        Entities.WithoutBurst().ForEach((in EnemyDataContainer enemyDataContainer) =>
         {
             tempEnemyDataContainer = enemyDataContainer;
         }
@@ -42,6 +34,7 @@ public class EnemyFsmSystem : SystemBase
         {
             int enemyAttackRange = 0;
             int enemyMaxAttackRange = 0;
+            int enemyDetectionRange = 0;
             float enemyWeaponCooldown = 0;
             int enemyDamageToDeal = 0;
 
@@ -50,12 +43,14 @@ public class EnemyFsmSystem : SystemBase
                 case EnemyType.Melee:
                     enemyAttackRange = tempEnemyDataContainer.MeleeRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.MeleeMaxRange;
+                    enemyDetectionRange = tempEnemyDataContainer.MeleeDetectionRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.MeleeCooldown;
                     enemyDamageToDeal = tempEnemyDataContainer.MeleeDamage;
                     break;
                 case EnemyType.Ranged:
                     enemyAttackRange = tempEnemyDataContainer.RangedRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.RangedMaxRange;
+                    enemyDetectionRange = tempEnemyDataContainer.RangedDetectionRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.RangedCooldown;
                     enemyDamageToDeal = tempEnemyDataContainer.RangedDamage;
                     
@@ -64,6 +59,7 @@ public class EnemyFsmSystem : SystemBase
                 case EnemyType.Bomb:
                     enemyAttackRange = tempEnemyDataContainer.BombRange;
                     enemyMaxAttackRange = tempEnemyDataContainer.BombMaxRange;
+                    enemyDetectionRange = tempEnemyDataContainer.BombDetectionRange;
                     enemyWeaponCooldown = tempEnemyDataContainer.BombCooldown;
                     enemyDamageToDeal = tempEnemyDataContainer.BombDamage;
                     break;
@@ -102,7 +98,7 @@ public class EnemyFsmSystem : SystemBase
                     {
                         // to change
                         PlayerDistance = 0,
-                        MaxPlayerDistance = 10
+                        EnemyDetectionRange = enemyDetectionRange
                     });
                     //Debug.Log("Changed to Idle State");
 
@@ -112,7 +108,7 @@ public class EnemyFsmSystem : SystemBase
                     ecbConcurrent.SetComponent(entityInQueryIndex, entity, new AttackState
                     {
                         EnemyAttackRange = enemyAttackRange,
-                        PlayerMaxAttackRange = enemyMaxAttackRange,
+                        EnemyMaxAttackRange = enemyMaxAttackRange,
                         BaseShootCooldown = enemyWeaponCooldown,
                         CurrentShootCooldown = enemyWeaponCooldown,
                         DamageToDeal = enemyDamageToDeal

@@ -60,7 +60,7 @@ public class MeleeAttackSystem : SystemBase
 
                    if (attackState.CurrentShootCooldown <= 0)
                    {
-                       if (distance <= attackState.EnemyAttackRange)
+                       if (distance <= attackState.EnemyMaxAttackRange)
                        {
 
                            isPlayerHit = true;
@@ -83,7 +83,7 @@ public class MeleeAttackSystem : SystemBase
                         playerData.CurrentHealth -= damageToDeal;
                         playerData.OnHealthChange = true;
 
-                        Debug.Log("Damage dealt");
+                        //Debug.Log("Damage dealt");
                         isPlayerHit = false;
                     }
 
@@ -103,7 +103,7 @@ public class MeleeAttackSystem : SystemBase
 
                   if(s.Value.x < 200)
                   {
-                      Debug.Log("Scaling  up blade");
+                      //Debug.Log("Scaling  up blade");
                       s.Value += deltaTime * blade.ScaleSpeed * 50;
                       EntityManager.SetComponentData<NonUniformScale>(blade.Blade, s);
                   }
@@ -133,7 +133,7 @@ public class MeleeAttackSystem : SystemBase
 
                   if (s.Value.x > 100)
                   {
-                      Debug.Log("Scaling down blade");
+                      //Debug.Log("Scaling down blade");
                       s.Value -= deltaTime * blade.ScaleSpeed * 50;
                       EntityManager.SetComponentData<NonUniformScale>(blade.Blade, s);
                   }

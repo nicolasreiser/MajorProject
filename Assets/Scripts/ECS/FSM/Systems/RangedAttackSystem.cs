@@ -22,7 +22,7 @@ public class RangedAttackSystem : SystemBase
         float deltaTime = Time.DeltaTime;
 
 
-        Entities.ForEach((PrefabEntityStorage prefabs) =>
+        Entities.ForEach((in PrefabEntityStorage prefabs) =>
         {
             projectile = prefabs.EnemyProjectile;
 
@@ -32,7 +32,7 @@ public class RangedAttackSystem : SystemBase
         Entities
             .WithStructuralChanges()
             .WithAll<EnemyTag, AttackState, RangedUnitTag>()
-            .ForEach((Entity entity, Translation translation,Rotation rotation , ref AttackState attackState, ref PhysicsVelocity physics) =>
+            .ForEach((Entity entity, ref Translation translation,ref Rotation rotation , ref AttackState attackState, ref PhysicsVelocity physics) =>
             {
                 physics.Linear = float3.zero;
                 if(attackState.CurrentShootCooldown <= 0)

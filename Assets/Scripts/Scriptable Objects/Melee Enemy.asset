@@ -15,5 +15,6 @@ MonoBehaviour:
   health: 100
   Range: 2
   MaxRange: 3
+  DetectionRange: 15
   dammage: 1
   WeaponCooldown: 0.1

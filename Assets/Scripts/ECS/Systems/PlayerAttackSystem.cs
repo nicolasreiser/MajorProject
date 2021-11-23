@@ -22,7 +22,7 @@ public class PlayerAttackSystem : SystemBase
 
         Translation playerPosition = new Translation();
 
-        Entities.ForEach((PrefabEntityStorage prefabs) =>
+        Entities.ForEach((in PrefabEntityStorage prefabs) =>
         {
             projectile = prefabs.PlayerProjectile;
         }).Run();
@@ -52,7 +52,7 @@ public class PlayerAttackSystem : SystemBase
 
         Entities.
         WithAll<EnemyTag>().
-        ForEach(( Entity targetEntity, ref Translation enemyPosition) =>
+        ForEach(( Entity targetEntity, in Translation enemyPosition) =>
         {
             if (closestEnemy == Entity.Null)
             {;

@@ -131,7 +131,7 @@ public class AttackStateSystem : SystemBase
                 return;
             }
             //player too far
-            if (attackState.PlayerDistance != 0 && attackState.PlayerDistance > attackState.PlayerMaxAttackRange)
+            if (attackState.PlayerDistance != 0 && attackState.PlayerDistance > attackState.EnemyMaxAttackRange)
             {
                 commandBuffer.AddComponent<FsmStateChanged>(entityInQueryIndex, entity);
                 commandBuffer.SetComponent(entityInQueryIndex, entity, new FsmStateChanged

@@ -10,7 +10,7 @@ public class DestructorSystem : SystemBase
         Entities.
             WithoutBurst().
             WithStructuralChanges().
-            ForEach((Entity entity, BulletData bulletData) =>
+            ForEach((Entity entity, in BulletData bulletData) =>
             {
                 if(bulletData.ShouldDestroy)
                 {

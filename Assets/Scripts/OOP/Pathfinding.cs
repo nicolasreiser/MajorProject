@@ -15,6 +15,8 @@ public class Pathfinding : ComponentSystem
 
     protected override void OnUpdate()
     {
+        if (!GridSetup.Instance)
+            return;
         int gridWidth = GridSetup.Instance.pathfindingGrid.GetWidth();
         int gridHeight = GridSetup.Instance.pathfindingGrid.GetHeight();
         int2 gridSize = new int2(gridWidth, gridHeight);

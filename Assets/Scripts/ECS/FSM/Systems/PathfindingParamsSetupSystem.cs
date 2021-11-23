@@ -35,10 +35,17 @@ public class PathfindingParamsSetupSystem : SystemBase
     protected override void OnUpdate()
     {
         grid = GridSetup.Instance;
+
+        if(grid == null)
+        {
+            Debug.LogError("The Grid has not been setup in the PathfindingParamSetup");
+
+            return;
+        }
         float deltaTime = Time.DeltaTime;
         // player position
         Entities.WithoutBurst().WithAll<PlayerTag>()
-            .ForEach((Translation translate) =>
+            .ForEach((in Translation translate) =>
             {
 
                 int2 newplayerGridPosition = grid.GetGridPosition(translate.Value);
@@ -59,7 +66,7 @@ public class PathfindingParamsSetupSystem : SystemBase
             Entities.WithoutBurst().WithStoreEntityQueryInField(ref EnemyQuery)
                 .ForEach((Entity entity,
                 int entityInQueryIndex,
-                 Translation translate,
+                 ref Translation translate,
                  ref PathfindState pathfindState) =>
                 {
                      if(!pathfindState.targetPosition.Equals(playerGridPosition) && pathfindState.PathfindCooldown <= 0)
