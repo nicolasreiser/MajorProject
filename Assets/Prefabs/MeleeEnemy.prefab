@@ -325,7 +325,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDistance: 0
-  MaxPlayerDistance: 8
+  EnemyDetectionRange: 0
 --- !u!114 &2797350219805891950
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -396,8 +396,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 611157f1e546bd441a26c4b8f93bb88b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BaseHealth: 100
-  CurrentHealth: 100
+  BaseHealth: 40
+  CurrentHealth: 40
   Experience: 20
   hasGivenExperience: 0
   ScatterShot: 0

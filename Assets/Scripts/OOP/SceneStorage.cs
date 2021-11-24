@@ -45,7 +45,7 @@ public class SceneStorage : MonoBehaviour
         }
         else
         {
-            Debug.LogError("This Scene Doesn't exist!");
+            Debug.LogWarning("This Scene Doesn't exist!");
         }
     }
     private void SetupDictionary()

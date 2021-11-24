@@ -38,7 +38,7 @@ public class PathfindingParamsSetupSystem : SystemBase
 
         if(grid == null)
         {
-            Debug.LogError("The Grid has not been setup in the PathfindingParamSetup");
+            Debug.LogWarning("The Grid has not been setup in the PathfindingParamSetup");
 
             return;
         }

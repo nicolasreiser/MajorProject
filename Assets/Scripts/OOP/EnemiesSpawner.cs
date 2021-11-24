@@ -16,11 +16,11 @@ public class EnemiesSpawner : MonoBehaviour
 
     private EntityManager entityManager;
     private EnemyDataContainer enemyDataContainer;
-
+    private SpawnerTriggerComponent spawnerTrigger;
     private Camera uiCamera;
     private Canvas uiCanvas;
 
-
+    private bool IsActive = false;
 
     private Entity entityStorage;
     // Start is called before the first frame update
@@ -35,8 +35,12 @@ public class EnemiesSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        InitialDelay -= Time.deltaTime;
+        GetTrigger();
+        if (!IsActive)
+            return;
 
+        InitialDelay -= Time.deltaTime;
+        
         if(InitialDelay <= 0)
         {
             if(currentDelayBetweenSpawns <= 0 && EnemiesAmmount > 0)
@@ -59,8 +63,18 @@ public class EnemiesSpawner : MonoBehaviour
 
         entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
 
-        enemyDataContainer = entityManager.GetComponentData<EnemyDataContainer>(entityQuery.GetSingletonEntity()); ;
+        enemyDataContainer = entityManager.GetComponentData<EnemyDataContainer>(entityQuery.GetSingletonEntity());
         
+    }
+    private void GetTrigger()
+    {
+        EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<SpawnerTriggerComponent>());
+        if(!entityQuery.IsEmpty)
+        {
+            spawnerTrigger = entityManager.GetComponentData<SpawnerTriggerComponent>( entityQuery.GetSingletonEntity());
+            IsActive = spawnerTrigger.isActive;
+        }
+
     }
     private void SpawnEntity(EnemyType enemyType)
     {
@@ -101,9 +115,14 @@ public class EnemiesSpawner : MonoBehaviour
         }
 
         entityManager.SetComponentData(e,i);
-        Debug.Log("Set idle state range to : " + enemyDataContainer.BombDamage);
+        
     }
 
+    public void ActivateSpawner()
+    {
+        Debug.Log("Activating spawner");
+        IsActive = true;
+    }
     public bool CheckForLevelCleared()
     {
         EntityQuery q = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyTag>());
@@ -130,7 +149,7 @@ public class EnemiesSpawner : MonoBehaviour
 
     private EnemyType GetRandomEnemyType()
     {
-        EnemyType e = EnemyTypes[Random.Range(0, EnemyTypes.Length+1)];
+        EnemyType e = EnemyTypes[Random.Range(0, EnemyTypes.Length)];
         return e;
     }
     private void OnDrawGizmos()

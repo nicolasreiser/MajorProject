@@ -114,7 +114,7 @@ public class HealthbarUI : MonoBehaviour
         {
             float size = currentExp / maxExp;
 
-            Debug.Log($"CurrentExp : {currentExp} maxExp : {maxExp} size : {size}");
+            //Debug.Log($"CurrentExp : {currentExp} maxExp : {maxExp} size : {size}");
             _expBar.localScale = new Vector3(size * InitialisationValues, 1);
         }
     }

@@ -6,9 +6,7 @@ using Unity.Physics;
 
 public class PlayerMovementSystem : SystemBase
 {
-    private bool StartedMoving = false;
-    private bool hasCastMove = false;
-    private bool hasCastIdle = false;
+    
     EndSimulationEntityCommandBufferSystem esecb;
     protected override void OnCreate()
     {
@@ -36,7 +34,6 @@ public class PlayerMovementSystem : SystemBase
 
                     ecb.SetComponent(animation, animState);
 
-                    StartedMoving = false;
 
                     physics.Linear.x = 0;
                     physics.Linear.z = 0;
@@ -52,7 +49,6 @@ public class PlayerMovementSystem : SystemBase
 
                     ecb.SetComponent(animation, animState);
 
-                    StartedMoving = true;
 
                     float2 curInput = new float2(moveData.direction.x, moveData.direction.z);
                     float2 newVel = physics.Linear.xz;

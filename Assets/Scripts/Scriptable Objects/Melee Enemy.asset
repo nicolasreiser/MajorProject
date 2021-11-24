@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93664a92a6393464896335a5f09df313, type: 3}
   m_Name: Melee Enemy
   m_EditorClassIdentifier: 
-  health: 100
+  health: 50
   Range: 2
   MaxRange: 3
   DetectionRange: 15

@@ -14,7 +14,7 @@ public class PathFollowSystem : ComponentSystem
 
         if(gridTesting == null)
         {
-            Debug.LogError("The Grid has not been setup in the PathFollowSystem");
+            Debug.LogWarning("The Grid has not been setup in the PathFollowSystem");
             return;
         }
         float2 origin = new float2(gridTesting.Origin.x,gridTesting.Origin.z);

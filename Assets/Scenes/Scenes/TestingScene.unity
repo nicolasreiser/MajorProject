@@ -5607,10 +5607,12 @@ MonoBehaviour:
   GetScene: 0
   currentLevel: 0
   GetData: 0
+  PlayerSpawned: 0
   Inject: 0
   LevelCleared: 0
   UpgradesToGet: 0
   UpgradesReceived: 0
+  ReadyForReset: 0
   ReadyForNextLevel: 1
 --- !u!4 &1891141717
 Transform:
@@ -6184,6 +6186,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 5016894827606881360, guid: 7069f6d0374e9c146be7c448e44f8618, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5016894827606881364, guid: 7069f6d0374e9c146be7c448e44f8618, type: 3}
       propertyPath: m_RootOrder
       value: 13
@@ -6194,7 +6200,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5016894827606881364, guid: 7069f6d0374e9c146be7c448e44f8618, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.27
+      value: 3.9
       objectReference: {fileID: 0}
     - target: {fileID: 5016894827606881364, guid: 7069f6d0374e9c146be7c448e44f8618, type: 3}
       propertyPath: m_LocalPosition.z

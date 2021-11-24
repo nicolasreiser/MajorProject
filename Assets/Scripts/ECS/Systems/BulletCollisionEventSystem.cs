@@ -12,11 +12,8 @@ using Unity.Collections;
 [UpdateAfter(typeof(EndFramePhysicsSystem))]
 public class BulletCollisionEventSystem : JobComponentSystem
 {
-
     BuildPhysicsWorld m_BuildPhysicsWorldSystem;
     StepPhysicsWorld m_StepPhysicsWorldSystem;
-
-    
 
     protected override void OnCreate()
     {

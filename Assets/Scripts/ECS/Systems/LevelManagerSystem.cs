@@ -4,19 +4,19 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Scenes;
 using UnityEngine.SceneManagement;
-
+using Unity.Transforms;
 
 public class LevelManagerSystem : SystemBase
 {
-    private LevelDataComponent ldc;
-    private SceneSystem sceneSystem;
     private SceneStorage sceneStorage;
-    private SceneLevels currentScene;
     private EnemiesSpawner enemiesSpawner;
 
+    //private EntityManager entityManager;
+    private Entity entityStorage;
     protected override void OnCreate()
     {
-        sceneSystem = World.GetOrCreateSystem<SceneSystem>();
+
+
     }
     protected override void OnUpdate()
     {
@@ -33,19 +33,43 @@ public class LevelManagerSystem : SystemBase
                 if (levelDataComponent.ReadyForNextLevel)
                 {
                     enemiesSpawner = null;
+                    Debug.Log("Enemies spawner null : " + enemiesSpawner);
                     // TODO unload last level 
                     UnloadScene(levelDataComponent.currentLevel);
 
                     LoadScene(levelDataComponent.currentLevel+1);
                     ResetData(ref levelDataComponent);
-                    enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
+                    //enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
                 }
 
             }).Run();
 
 
 
-        // get data
+        // Spawn player
+
+        Entities
+            .WithoutBurst()
+            .WithStructuralChanges()
+            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+            {
+                if(!levelDataComponent.PlayerSpawned)
+                {
+                    EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
+                    entityStorage = entityQuery.GetSingletonEntity();
+
+                    PrefabEntityStorage pes = EntityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
+
+                    var playerEntity = EntityManager.Instantiate(pes.Player);
+
+                    // todo set spawn position
+                    Translation t = EntityManager.GetComponentData<Translation>(playerEntity);
+
+                    t.Value = new Vector3(2, 4, -7);
+                    EntityManager.SetComponentData(playerEntity, t);
+                    levelDataComponent.PlayerSpawned = true;
+                }
+            }).Run();
 
         // inject in spawner
 
@@ -53,12 +77,17 @@ public class LevelManagerSystem : SystemBase
         {
             enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
 
-            if (enemiesSpawner)
+        }
+
+            if (enemiesSpawner != null)
             {
             Entities
                 .WithoutBurst()
                 .ForEach((Entity entity, ref LevelDataComponent levelDataComponent, in DynamicBuffer <SpawnerDataComponent> spawnerDataComponents) =>
                 {
+                    if (levelDataComponent.Inject)
+                        return;
+
                     enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
                     enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
                     enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;
@@ -84,32 +113,49 @@ public class LevelManagerSystem : SystemBase
                 }).Run();
             }
 
-        }
+        
 
         // check for level completion
 
-
-        if(enemiesSpawner.CheckForLevelCleared())
+        if(enemiesSpawner != null)
         {
-            Debug.Log("Level completed");
-
-            Entities
-            .WithoutBurst()
-            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+            //Debug.Log("Enemies spawner id : " + enemiesSpawner.GetInstanceID() + "Level completion : " + enemiesSpawner.EnemiesAmmount);
+            if(enemiesSpawner.CheckForLevelCleared())
             {
-                levelDataComponent.LevelCleared = true;
-            }).Run();
-
+                Debug.Log("Level completed");
+                Entities
+                .WithoutBurst()
+                .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+                {
+                    levelDataComponent.LevelCleared = true;
+                }).Run();
+            }
         }
 
         // give upgrades to player
 
-        // unload subscene
 
-        // load new Subscene
+
+        
 
         // reset Level data component
+        
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+            {
+                if (levelDataComponent.ReadyForReset)
+                {
+                    levelDataComponent.GetData = false;
+                    levelDataComponent.GetScene = false;
+                    levelDataComponent.Inject = false;
+                    levelDataComponent.UpgradesReceived = false;
+                    levelDataComponent.ReadyForReset = false;
 
+                    levelDataComponent.ReadyForNextLevel = true;
+                }
+
+            }).Run();
 
     }
 

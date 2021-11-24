@@ -27,14 +27,14 @@ public class TimedDestroySystem : SystemBase
             .WithStructuralChanges()
             .ForEach((Entity entity, int entityInQueryIndex, ref LifetimeData lifetimeData, ref DynamicBuffer<Child> childrenFromEntity) =>
             {
-                Debug.Log("Entering death1 children : "+ childrenFromEntity.Length);
+               // Debug.Log("Entering death1 children : "+ childrenFromEntity.Length);
 
             if (lifetimeData.ShouldDie)
             {
                     if(!childrenFromEntity.IsEmpty)
                     {
                         List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
-                        Debug.Log("List of entities : " + entities.Count);
+                        //Debug.Log("List of entities : " + entities.Count);
                         foreach (var item in entities)
                         {
                             EntityManager.DestroyEntity(item);
@@ -49,7 +49,7 @@ public class TimedDestroySystem : SystemBase
                     if (!childrenFromEntity.IsEmpty)
                     {
                         List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
-                        Debug.Log("List of entities : " + entities.Count);
+                        //Debug.Log("List of entities : " + entities.Count);
                         foreach(var item in entities)
                         {
                             EntityManager.DestroyEntity(item);

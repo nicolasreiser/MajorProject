@@ -36,7 +36,6 @@ public class ObjectPooler : MonoBehaviour
 
     public GameObject getPooledObject()
     {
-        Debug.Log("getpooledobject");
         if(pooledObjects.Count == 0)
         {
             AddObjectsToPool(2);
@@ -46,7 +45,6 @@ public class ObjectPooler : MonoBehaviour
         pooledObjects.Remove(obj);
         objectsInUse.Add(obj);
 
-        Debug.Log("Sending object : " + obj);
         return obj;
     }
     public void ReturnObjectToPool(GameObject obj)

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: SpawnerData
   m_EditorClassIdentifier: 
   spawnerData:
-  - EnemiesAmmount: 3
+  - EnemiesAmmount: 1
     InitialDelay: 2
     DelayBetweenSpawns: 3
-    enemytypes: 00000000
+    enemytypes: 01000000
   - EnemiesAmmount: 5
     InitialDelay: 2
     DelayBetweenSpawns: 2
