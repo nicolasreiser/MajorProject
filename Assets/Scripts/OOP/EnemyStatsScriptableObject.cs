@@ -12,5 +12,6 @@ public class EnemyStatsScriptableObject : ScriptableObject
     public int DetectionRange;
     public int dammage;
     public float WeaponCooldown;
+    public int Experience;
 
 }

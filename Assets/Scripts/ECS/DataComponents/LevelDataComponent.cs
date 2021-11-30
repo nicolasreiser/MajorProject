@@ -12,8 +12,10 @@ public struct LevelDataComponent : IComponentData
     public bool PlayerSpawned;
     public bool Inject;
     public bool LevelCleared;
+
     public int UpgradesToGet;
     public bool UpgradesReceived;
+    public bool Upgrading;
     public bool ReadyForReset;
     public bool ReadyForNextLevel;
 }

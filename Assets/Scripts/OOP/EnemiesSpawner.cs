@@ -80,6 +80,7 @@ public class EnemiesSpawner : MonoBehaviour
     {
         PrefabEntityStorage pes = entityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
         
+        
 
         Entity e = Entity.Null;
         switch (enemyType)
@@ -113,9 +114,32 @@ public class EnemiesSpawner : MonoBehaviour
                 i.EnemyDetectionRange = enemyDataContainer.BombDetectionRange;
                 break;
         }
-
         entityManager.SetComponentData(e,i);
-        
+
+        // set enemies stats
+
+        EnemyData enemyData = entityManager.GetComponentData<EnemyData>(e);
+
+        switch (enemyType)
+        {
+            case EnemyType.Melee:
+                enemyData.BaseHealth = enemyDataContainer.MeleeHealth;
+                enemyData.CurrentHealth = enemyDataContainer.MeleeHealth;
+                enemyData.Experience = enemyDataContainer.MeleeExperience;
+                break;
+            case EnemyType.Ranged:
+                enemyData.BaseHealth = enemyDataContainer.RangedHealth;
+                enemyData.CurrentHealth = enemyDataContainer.RangedHealth;
+                enemyData.Experience = enemyDataContainer.RangedExperience;
+                break;
+            case EnemyType.Bomb:
+                enemyData.BaseHealth = enemyDataContainer.BombHealth;
+                enemyData.CurrentHealth = enemyDataContainer.BombHealth;
+                enemyData.Experience = enemyDataContainer.BombExperience;
+                break;
+        }
+
+        entityManager.SetComponentData(e, enemyData);
     }
 
     public void ActivateSpawner()

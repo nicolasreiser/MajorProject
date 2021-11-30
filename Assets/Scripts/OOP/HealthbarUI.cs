@@ -16,7 +16,7 @@ public class HealthbarUI : MonoBehaviour
     [SerializeField] private float InitialisationValues;
 
     private float _delayedCurrentHealth;
-
+    private float _currentHealth;
     EntityManager entityManager;
 
     EntityQuery entity;
@@ -38,6 +38,8 @@ public class HealthbarUI : MonoBehaviour
         CheckforDamage();
         CheckForExperiance();
         SetLevel();
+        SetCurrentHealth();
+        YellowBar(_currentHealth);
         if (_delayedCurrentHealth <= 0) _secondaryHealthBar.localScale = new Vector3(0, 1);
     }
 
@@ -52,13 +54,23 @@ public class HealthbarUI : MonoBehaviour
             {
                 p.OnHealthChange = false;
                 SetSize(p.CurrentHealth, p.BaseHealth);
-                YellowBar(p.CurrentHealth);
+                
                 entityManager.SetComponentData(e, p);
             }
         }
 
     }
 
+    private void SetCurrentHealth()
+    {
+        if (!entity.IsEmpty)
+        {
+            Entity e = entity.GetSingletonEntity();
+            PlayerData p = entityManager.GetComponentData<PlayerData>(e);
+
+            _currentHealth = (float)p.CurrentHealth/ (float)p.BaseHealth;
+        }
+    }
     private void CheckForExperiance()
     {
         if(!entity.IsEmpty)
@@ -101,9 +113,16 @@ public class HealthbarUI : MonoBehaviour
     //reduces the scale of the secondary yellow healthbar slowly
     private void YellowBar(float currentHealth)
     {
+        if (_delayedCurrentHealth < currentHealth)
+        {
+            _delayedCurrentHealth = currentHealth;
+            _secondaryHealthBar.localScale = new Vector3(_delayedCurrentHealth * InitialisationValues, 1);
+
+        }
         if (_delayedCurrentHealth > currentHealth && _delayedCurrentHealth > 0)
         {
-            _delayedCurrentHealth -= Time.deltaTime / 2;
+            _delayedCurrentHealth -= Time.deltaTime / 3;
+            
             _secondaryHealthBar.localScale = new Vector3(_delayedCurrentHealth * InitialisationValues, 1);
         }
     }

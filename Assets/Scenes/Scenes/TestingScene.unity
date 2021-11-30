@@ -4851,6 +4851,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UICamera: {fileID: 1312975138}
   UICanvas: {fileID: 81755746}
+  MainCanvas: {fileID: 178653802}
 --- !u!1 &1805591802
 GameObject:
   m_ObjectHideFlags: 0
@@ -5612,6 +5613,7 @@ MonoBehaviour:
   LevelCleared: 0
   UpgradesToGet: 0
   UpgradesReceived: 0
+  Upgrading: 0
   ReadyForReset: 0
   ReadyForNextLevel: 1
 --- !u!4 &1891141717

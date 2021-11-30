@@ -33,18 +33,21 @@ public class EnemyStatsManager : MonoBehaviour
             MeleeMaxRange = MeleeEnemy.MaxRange,
             MeleeDetectionRange = MeleeEnemy.DetectionRange,
             MeleeCooldown = MeleeEnemy.WeaponCooldown,
+            MeleeExperience = MeleeEnemy.Experience,
             RangedDamage = RangedEnemy.dammage,
             RangedHealth = RangedEnemy.health,
             RangedRange = RangedEnemy.Range,
             RangedMaxRange = RangedEnemy.MaxRange,
             RangedDetectionRange = RangedEnemy.DetectionRange,
             RangedCooldown = RangedEnemy.WeaponCooldown,
+            RangedExperience = RangedEnemy.Experience,
             BombDamage = BombEnemy.dammage,
             BombHealth = BombEnemy.health,
             BombRange = BombEnemy.Range,
             BombMaxRange = BombEnemy.MaxRange,
             BombDetectionRange = BombEnemy.DetectionRange,
-            BombCooldown = BombEnemy.WeaponCooldown
+            BombCooldown = BombEnemy.WeaponCooldown,
+            BombExperience = BombEnemy.Experience
             
         });
     }

@@ -10,14 +10,11 @@ public class LevelManagerSystem : SystemBase
 {
     private SceneStorage sceneStorage;
     private EnemiesSpawner enemiesSpawner;
+    private MonobehaviourStorageComponent monobehaviourStorageComponent;
 
     //private EntityManager entityManager;
     private Entity entityStorage;
-    protected override void OnCreate()
-    {
-
-
-    }
+    
     protected override void OnUpdate()
     {
         if(sceneStorage == null)
@@ -122,7 +119,7 @@ public class LevelManagerSystem : SystemBase
             //Debug.Log("Enemies spawner id : " + enemiesSpawner.GetInstanceID() + "Level completion : " + enemiesSpawner.EnemiesAmmount);
             if(enemiesSpawner.CheckForLevelCleared())
             {
-                Debug.Log("Level completed");
+                //Debug.Log("Level completed");
                 Entities
                 .WithoutBurst()
                 .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
@@ -134,6 +131,39 @@ public class LevelManagerSystem : SystemBase
 
         // give upgrades to player
 
+        if (monobehaviourStorageComponent == null)
+        {
+            Entities.WithoutBurst().
+           ForEach((Entity entity, MonobehaviourStorageComponent storage) =>
+           {
+               monobehaviourStorageComponent = storage;
+           }).Run();
+
+        }
+        if(monobehaviourStorageComponent!= null)
+        {
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+            {
+
+                if (!levelDataComponent.UpgradesReceived && levelDataComponent.UpgradesToGet > 0 && !levelDataComponent.Upgrading && levelDataComponent.LevelCleared) 
+                {
+                    Debug.Log("3");
+
+                    CanvasUpgrades cu = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasUpgrades>();
+
+                    Debug.Log("Canvas : " + cu);
+                    cu.ToggleUI();
+
+                    levelDataComponent.Upgrading = true;
+                }
+
+                
+            }).Run();
+
+            
+        }
 
 
         

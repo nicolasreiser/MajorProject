@@ -8,4 +8,5 @@ public class MonobehaviourStorageComponent : IComponentData
 {
     public Camera UICamera;
     public Canvas UICanvas;
+    public Canvas MainCanvas;
 }

@@ -16,6 +16,7 @@ public class CanvasUpgrades : MonoBehaviour
 
     EntityQuery entity;
     EntityQuery playerStatsQuery;
+    EntityQuery levelData;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +27,8 @@ public class CanvasUpgrades : MonoBehaviour
         {
             All = new ComponentType[] { ComponentType.ReadOnly<PlayerDataContainer>() }
         });
+        levelData = entityManager.CreateEntityQuery(ComponentType.ReadWrite<LevelDataComponent>());
+
     }
 
     public void ToggleUI()
@@ -115,7 +118,34 @@ public class CanvasUpgrades : MonoBehaviour
         button1.onClick.AddListener(ToggleUI);
         button2.onClick.AddListener(ToggleUI);
         button3.onClick.AddListener(ToggleUI);
+
+        button1.onClick.AddListener(SetLevelData);
+        button2.onClick.AddListener(SetLevelData);
+        button3.onClick.AddListener(SetLevelData);
     }
+
+    private void SetLevelData()
+    {
+        LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
+
+        ldc.UpgradesToGet -= 1;
+        ldc.Upgrading = false;
+        if(ldc.UpgradesToGet == 0)
+        {
+            ldc.UpgradesReceived = true;
+        }
+
+        entityManager.SetComponentData(levelData.GetSingletonEntity(), ldc);
+    }
+
+    private void AddUpgrade()
+    {
+        LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
+
+        ldc.UpgradesToGet += 1;
+        entityManager.SetComponentData(levelData.GetSingletonEntity(), ldc);
+    }
+
     public void Heal()
     {
         var player = entity.GetSingletonEntity();
@@ -140,6 +170,8 @@ public class CanvasUpgrades : MonoBehaviour
         playerData.OnExperienceChange = true;
 
         entityManager.SetComponentData(player, playerData);
+
+        AddUpgrade();
 
     }
 

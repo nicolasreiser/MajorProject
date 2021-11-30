@@ -18,3 +18,4 @@ MonoBehaviour:
   DetectionRange: 15
   dammage: 1
   WeaponCooldown: 0.1
+  Experience: 10

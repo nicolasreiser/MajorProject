@@ -12,6 +12,7 @@ public struct EnemyDataContainer : IComponentData
     public int MeleeMaxRange;
     public int MeleeDetectionRange;
     public float MeleeCooldown;
+    public int MeleeExperience;
 
     public int RangedHealth;
     public int RangedRange;
@@ -19,6 +20,7 @@ public struct EnemyDataContainer : IComponentData
     public int RangedMaxRange;
     public int RangedDetectionRange;
     public float RangedCooldown;
+    public int RangedExperience;
 
 
     public int BombHealth;
@@ -27,5 +29,7 @@ public struct EnemyDataContainer : IComponentData
     public int BombMaxRange;
     public int BombDetectionRange;
     public float BombCooldown;
+    public int BombExperience;
+
 
 }
