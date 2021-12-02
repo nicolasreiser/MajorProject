@@ -45,7 +45,7 @@ public class PlayerStatsSystem : SystemBase
             WithAll<PlayerTag>().
             ForEach((Entity entity, ref PlayerData playerData) =>
             {
-                Debug.Log($"Current Exp : {playerData.Experience} Max Exp : {playerData.MaxExperience}");
+                //Debug.Log($"Current Exp : {playerData.Experience} Max Exp : {playerData.MaxExperience}");
                 if (playerData.Experience >= playerData.MaxExperience || !playerData.Initialised)
                 {
                     playerData.Experience = playerData.OverflowExperience;

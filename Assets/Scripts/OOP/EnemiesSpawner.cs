@@ -15,7 +15,7 @@ public class EnemiesSpawner : MonoBehaviour
     private float currentDelayBetweenSpawns;
 
     private EntityManager entityManager;
-    private EnemyDataContainer enemyDataContainer;
+    private DynamicBuffer<EnemyDataContainer> enemyDataContainer;
     private SpawnerTriggerComponent spawnerTrigger;
     private Camera uiCamera;
     private Canvas uiCanvas;
@@ -63,8 +63,8 @@ public class EnemiesSpawner : MonoBehaviour
 
         entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
 
-        enemyDataContainer = entityManager.GetComponentData<EnemyDataContainer>(entityQuery.GetSingletonEntity());
-        
+        enemyDataContainer = entityManager.GetBuffer<EnemyDataContainer>(entityQuery.GetSingletonEntity());
+
     }
     private void GetTrigger()
     {
@@ -76,13 +76,20 @@ public class EnemiesSpawner : MonoBehaviour
         }
 
     }
+    private DynamicBuffer<EnemyDataContainer> GetEnemyDataComponent()
+    {
+        EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
+
+        var dataContainer = entityManager.GetBuffer<EnemyDataContainer>(entityQuery.GetSingletonEntity());
+        return dataContainer;
+    }
     private void SpawnEntity(EnemyType enemyType)
     {
+        Debug.Log("Sparning enemy");
         PrefabEntityStorage pes = entityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
         
-        
-
         Entity e = Entity.Null;
+        
         switch (enemyType)
         {
             case EnemyType.Melee:
@@ -102,42 +109,23 @@ public class EnemiesSpawner : MonoBehaviour
         entityManager.SetComponentData(e, t);
 
         IdleState i = new IdleState();
-        switch (enemyType)
-        {
-            case EnemyType.Melee:
-                i.EnemyDetectionRange = enemyDataContainer.MeleeDetectionRange;
-                break;
-            case EnemyType.Ranged:
-                i.EnemyDetectionRange = enemyDataContainer.RangedDetectionRange;
-                break;
-            case EnemyType.Bomb:
-                i.EnemyDetectionRange = enemyDataContainer.BombDetectionRange;
-                break;
-        }
+        Debug.Log("1");
+
+        i.EnemyDetectionRange = GetEnemyDataComponent()[((int)enemyType)].DetectionRange;
+        Debug.Log("2");
+
         entityManager.SetComponentData(e,i);
+        Debug.Log("3");
 
         // set enemies stats
 
         EnemyData enemyData = entityManager.GetComponentData<EnemyData>(e);
 
-        switch (enemyType)
-        {
-            case EnemyType.Melee:
-                enemyData.BaseHealth = enemyDataContainer.MeleeHealth;
-                enemyData.CurrentHealth = enemyDataContainer.MeleeHealth;
-                enemyData.Experience = enemyDataContainer.MeleeExperience;
-                break;
-            case EnemyType.Ranged:
-                enemyData.BaseHealth = enemyDataContainer.RangedHealth;
-                enemyData.CurrentHealth = enemyDataContainer.RangedHealth;
-                enemyData.Experience = enemyDataContainer.RangedExperience;
-                break;
-            case EnemyType.Bomb:
-                enemyData.BaseHealth = enemyDataContainer.BombHealth;
-                enemyData.CurrentHealth = enemyDataContainer.BombHealth;
-                enemyData.Experience = enemyDataContainer.BombExperience;
-                break;
-        }
+        enemyData.BaseHealth = GetEnemyDataComponent()[((int)enemyType)].Health;
+        enemyData.CurrentHealth = GetEnemyDataComponent()[((int)enemyType)].Health;
+        enemyData.Experience = GetEnemyDataComponent()[((int)enemyType)].Experience;
+            
+        
 
         entityManager.SetComponentData(e, enemyData);
     }

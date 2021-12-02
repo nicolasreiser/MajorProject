@@ -20,11 +20,11 @@ public class EnemyFsmSystem : SystemBase
     {
         var commandBuffer = ecb.CreateCommandBuffer();
 
-        var ecbConcurrent = commandBuffer.AsParallelWriter();
-        EnemyDataContainer tempEnemyDataContainer = new EnemyDataContainer();
+        var ecbConcurrent = commandBuffer;
+        DynamicBuffer<EnemyDataContainer> tempEnemyDataContainer = new DynamicBuffer<EnemyDataContainer>();
 
 
-        Entities.WithoutBurst().ForEach((in EnemyDataContainer enemyDataContainer) =>
+        Entities.WithoutBurst().ForEach((in DynamicBuffer<EnemyDataContainer> enemyDataContainer) =>
         {
             tempEnemyDataContainer = enemyDataContainer;
         }
@@ -32,54 +32,37 @@ public class EnemyFsmSystem : SystemBase
 
         Entities.ForEach((Entity entity, int entityInQueryIndex, ref EnemyFiniteStateMachine fsm, in FsmStateChanged stateChanged, in EnemyTypeData enemyTypeData) => 
         {
-            int enemyAttackRange = 0;
-            int enemyMaxAttackRange = 0;
-            int enemyDetectionRange = 0;
-            float enemyWeaponCooldown = 0;
-            int enemyDamageToDeal = 0;
-
-            switch (enemyTypeData.enemyType)
-            {
-                case EnemyType.Melee:
-                    enemyAttackRange = tempEnemyDataContainer.MeleeRange;
-                    enemyMaxAttackRange = tempEnemyDataContainer.MeleeMaxRange;
-                    enemyDetectionRange = tempEnemyDataContainer.MeleeDetectionRange;
-                    enemyWeaponCooldown = tempEnemyDataContainer.MeleeCooldown;
-                    enemyDamageToDeal = tempEnemyDataContainer.MeleeDamage;
-                    break;
-                case EnemyType.Ranged:
-                    enemyAttackRange = tempEnemyDataContainer.RangedRange;
-                    enemyMaxAttackRange = tempEnemyDataContainer.RangedMaxRange;
-                    enemyDetectionRange = tempEnemyDataContainer.RangedDetectionRange;
-                    enemyWeaponCooldown = tempEnemyDataContainer.RangedCooldown;
-                    enemyDamageToDeal = tempEnemyDataContainer.RangedDamage;
-                    
-
-                    break;
-                case EnemyType.Bomb:
-                    enemyAttackRange = tempEnemyDataContainer.BombRange;
-                    enemyMaxAttackRange = tempEnemyDataContainer.BombMaxRange;
-                    enemyDetectionRange = tempEnemyDataContainer.BombDetectionRange;
-                    enemyWeaponCooldown = tempEnemyDataContainer.BombCooldown;
-                    enemyDamageToDeal = tempEnemyDataContainer.BombDamage;
-                    break;
-            }
-
-
+            int type = ((int)enemyTypeData.enemyType);
+            int  enemyAttackRange = tempEnemyDataContainer[type].Range;
+            int  enemyMaxAttackRange = tempEnemyDataContainer[type].MaxRange;
+            int  enemyDetectionRange = tempEnemyDataContainer[type].DetectionRange;
+            float   enemyWeaponCooldown = tempEnemyDataContainer[type].Cooldown;
+            int  enemyDamageToDeal = tempEnemyDataContainer[type].Damage;
+          
             switch (stateChanged.from)
             {
                 case FsmState.Idle:
-                    ecbConcurrent.RemoveComponent<IdleState>(entityInQueryIndex, entity);
+                    ecbConcurrent.RemoveComponent<IdleState> (entity);
+
+                    //ecbConcurrent.RemoveComponent<IdleState>(entityInQueryIndex, entity);
                     
                     break;
                 case FsmState.Attack:
-                    ecbConcurrent.RemoveComponent<AttackState>(entityInQueryIndex, entity);
+                    ecbConcurrent.RemoveComponent<AttackState>( entity);
+
+                    //ecbConcurrent.RemoveComponent<AttackState>(entityInQueryIndex, entity);
                     break;
                 case FsmState.Pathfind:
-                    ecbConcurrent.RemoveComponent<PathfindState>(entityInQueryIndex, entity);
-                    ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
-                    ecbConcurrent.RemoveComponent<PathFollow>(entityInQueryIndex, entity);
-                    ecbConcurrent.RemoveComponent<PathPosition>(entityInQueryIndex, entity);
+
+                    ecbConcurrent.RemoveComponent<PathfindState>( entity);
+                    ecbConcurrent.RemoveComponent<PathfindingParams>( entity);
+                    ecbConcurrent.RemoveComponent<PathFollow>( entity);
+                    ecbConcurrent.RemoveComponent<PathPosition>( entity);
+
+                    //ecbConcurrent.RemoveComponent<PathfindState>(entityInQueryIndex, entity);
+                    //ecbConcurrent.RemoveComponent<PathfindingParams>(entityInQueryIndex, entity);
+                    //ecbConcurrent.RemoveComponent<PathFollow>(entityInQueryIndex, entity);
+                    //ecbConcurrent.RemoveComponent<PathPosition>(entityInQueryIndex, entity);
 
 
                     break;
@@ -93,64 +76,105 @@ public class EnemyFsmSystem : SystemBase
             {
                 
                 case FsmState.Idle:
-                    ecbConcurrent.AddComponent<IdleState>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
+
+                    ecbConcurrent.AddComponent<IdleState>(entity);
+                    ecbConcurrent.SetComponent( entity, new IdleState
                     {
-                        // to change
                         PlayerDistance = 0,
                         EnemyDetectionRange = enemyDetectionRange
                     });
-                    //Debug.Log("Changed to Idle State");
+                    //ecbConcurrent.AddComponent<IdleState>(entityInQueryIndex, entity);
+                    //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new IdleState
+                    //{
+                    //    // to change
+                    //    PlayerDistance = 0,
+                    //    EnemyDetectionRange = enemyDetectionRange
+                    //});
 
                     break;
                 case FsmState.Attack:
-                    ecbConcurrent.AddComponent<AttackState>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new AttackState
+
+                    ecbConcurrent.AddComponent<AttackState>(entity);
+                    ecbConcurrent.SetComponent( entity, new AttackState
                     {
                         EnemyAttackRange = enemyAttackRange,
                         EnemyMaxAttackRange = enemyMaxAttackRange,
                         BaseShootCooldown = enemyWeaponCooldown,
                         CurrentShootCooldown = enemyWeaponCooldown,
                         DamageToDeal = enemyDamageToDeal
-                    }); ;
+                    });
+                    //ecbConcurrent.AddComponent<AttackState>(entityInQueryIndex, entity);
+                    //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new AttackState
+                    //{
+                    //    EnemyAttackRange = enemyAttackRange,
+                    //    EnemyMaxAttackRange = enemyMaxAttackRange,
+                    //    BaseShootCooldown = enemyWeaponCooldown,
+                    //    CurrentShootCooldown = enemyWeaponCooldown,
+                    //    DamageToDeal = enemyDamageToDeal
+                    //});
 
                     //Debug.Log("Changed to Attack State");
 
                     break;
                 case FsmState.Pathfind:
-                    ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
-                    ecbConcurrent.AddComponent<PathFollow>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathFollow
+
+                    ecbConcurrent.AddBuffer<PathPosition>( entity);
+                    ecbConcurrent.AddComponent<PathFollow>( entity);
+                    ecbConcurrent.SetComponent( entity, new PathFollow
                     {
                         pathIndex = -1
                     });
-                    ecbConcurrent.AddComponent<PathfindState>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindState
+                    ecbConcurrent.AddComponent<PathfindState>( entity);
+                    ecbConcurrent.SetComponent( entity, new PathfindState
                     {
                         PlayerOurOfRangeDistance = 15,
                         EnemyAttackRange = enemyAttackRange,
                         PathfindCooldown = 0
-                        
+
                     });
-                    //Debug.Log("Changed to Pathfind State");
+                    // ecbConcurrent.AddBuffer<PathPosition>(entityInQueryIndex, entity);
+                    // ecbConcurrent.AddComponent<PathFollow>(entityInQueryIndex, entity);
+                    // ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathFollow
+                    // {
+                    //     pathIndex = -1
+                    // });
+                    // ecbConcurrent.AddComponent<PathfindState>(entityInQueryIndex, entity);
+                    // ecbConcurrent.SetComponent(entityInQueryIndex, entity, new PathfindState
+                    // {
+                    //     PlayerOurOfRangeDistance = 15,
+                    //     EnemyAttackRange = enemyAttackRange,
+                    //     PathfindCooldown = 0
+                    //     
+                    // });
                     break;
                 case FsmState.Death:
-                    ecbConcurrent.AddComponent<DeathState>(entityInQueryIndex, entity);
-                    ecbConcurrent.AddComponent<LifetimeData>(entityInQueryIndex, entity);
-                    ecbConcurrent.SetComponent(entityInQueryIndex, entity, new LifetimeData
+
+                    ecbConcurrent.AddComponent<DeathState>( entity);
+                    ecbConcurrent.AddComponent<LifetimeData>( entity);
+                    ecbConcurrent.SetComponent( entity, new LifetimeData
                     {
                         Lifetime = 0.1f,
                         ShouldDie = false
-                    }); ;
+                    }); 
+
+                    //ecbConcurrent.AddComponent<DeathState>(entityInQueryIndex, entity);
+                    //ecbConcurrent.AddComponent<LifetimeData>(entityInQueryIndex, entity);
+                    //ecbConcurrent.SetComponent(entityInQueryIndex, entity, new LifetimeData
+                    //{
+                    //    Lifetime = 0.1f,
+                    //    ShouldDie = false
+                    //});
 
                     break;
                 
             }
 
-            ecbConcurrent.RemoveComponent<FsmStateChanged>(entityInQueryIndex, entity);
+            ecbConcurrent.RemoveComponent<FsmStateChanged>( entity);
+
+            //ecbConcurrent.RemoveComponent<FsmStateChanged>(entityInQueryIndex, entity);
 
 
-        }).ScheduleParallel();
+        }).Run();
 
         ecb.AddJobHandleForProducer(Dependency);
 

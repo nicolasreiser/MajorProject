@@ -3,33 +3,26 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-[GenerateAuthoringComponent]
-public struct EnemyDataContainer : IComponentData
+
+public struct EnemyDataContainer : IBufferElementData
 {
-    public int MeleeHealth;
-    public int MeleeRange;
-    public int MeleeDamage;
-    public int MeleeMaxRange;
-    public int MeleeDetectionRange;
-    public float MeleeCooldown;
-    public int MeleeExperience;
+    public int Health;
+    public int Range;
+    public int Damage;
+    public int MaxRange;
+    public int DetectionRange;
+    public float Cooldown;
+    public int Experience;
 
-    public int RangedHealth;
-    public int RangedRange;
-    public int RangedDamage;
-    public int RangedMaxRange;
-    public int RangedDetectionRange;
-    public float RangedCooldown;
-    public int RangedExperience;
-
-
-    public int BombHealth;
-    public int BombRange;
-    public int BombDamage;
-    public int BombMaxRange;
-    public int BombDetectionRange;
-    public float BombCooldown;
-    public int BombExperience;
-
+    public EnemyDataContainer(int Health, int Range, int Damage, int MaxRange, int DetectionRange, float Cooldown, int Experience)
+    {
+        this.Health = Health;
+        this.Range = Range;
+        this.Damage = Damage;
+        this.MaxRange = MaxRange;
+        this.DetectionRange = DetectionRange;
+        this.Cooldown = Cooldown;
+        this.Experience = Experience;
+    }
 
 }
