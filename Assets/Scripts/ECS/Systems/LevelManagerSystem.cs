@@ -36,12 +36,21 @@ public class LevelManagerSystem : SystemBase
 
                     LoadScene(levelDataComponent.currentLevel+1);
                     ResetData(ref levelDataComponent);
-                    //enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
+
                 }
 
             }).Run();
 
+        EntityQuery playerSpawnPositionQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerSpawnPositionTag>(), ComponentType.ReadOnly<Translation>());
 
+        Translation playerSpawnPosition = new Translation();
+
+        
+        if (!playerSpawnPositionQuery.IsEmpty)
+        {
+            playerSpawnPosition = EntityManager.GetComponentData<Translation>(playerSpawnPositionQuery.GetSingletonEntity());
+
+        }
 
         // Spawn player
 
@@ -50,7 +59,7 @@ public class LevelManagerSystem : SystemBase
             .WithStructuralChanges()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if(!levelDataComponent.PlayerSpawned)
+                if(!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty)
                 {
                     EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
                     entityStorage = entityQuery.GetSingletonEntity();
@@ -59,12 +68,18 @@ public class LevelManagerSystem : SystemBase
 
                     var playerEntity = EntityManager.Instantiate(pes.Player);
 
-                    // todo set spawn position
-                    Translation t = EntityManager.GetComponentData<Translation>(playerEntity);
-
-                    t.Value = new Vector3(2, 4, -7);
-                    EntityManager.SetComponentData(playerEntity, t);
                     levelDataComponent.PlayerSpawned = true;
+                }
+                if(!levelDataComponent.PlayerSetPosition)
+                {
+                    EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
+
+                    Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
+                    Vector3 pos = playerSpawnPosition.Value;
+                    t.Value = pos;
+
+                    EntityManager.SetComponentData(entityQuery.GetSingletonEntity(), t);
+                    levelDataComponent.PlayerSetPosition = true;
                 }
             }).Run();
 
@@ -165,22 +180,52 @@ public class LevelManagerSystem : SystemBase
             
         }
 
+        //Exit Trigger
 
-        
+        EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<ExitTriggerComponent>());
+        ExitTriggerComponent etc = new ExitTriggerComponent();
 
-        // reset Level data component
+        if (!query.IsEmpty)
+        {
+            etc = EntityManager.GetComponentData<ExitTriggerComponent>(query.GetSingletonEntity());
+
+        }
         
+        // toggle completion UI
+
         Entities
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (levelDataComponent.ReadyForReset)
+                if(levelDataComponent.UpgradesReceived && !levelDataComponent.CompletionUI)
+                {
+                    CanvasUpgrades cu = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasUpgrades>();
+                    cu.LevelCompleted();
+                    levelDataComponent.CompletionUI = true;
+                    etc.Exit = false;
+                    EntityManager.SetComponentData(query.GetSingletonEntity(), etc);
+                }
+
+            }).Run();
+
+       
+
+
+        // reset Level data component
+
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+            {
+                if (levelDataComponent.ReadyForReset && etc.Exit)
                 {
                     levelDataComponent.GetData = false;
                     levelDataComponent.GetScene = false;
                     levelDataComponent.Inject = false;
                     levelDataComponent.UpgradesReceived = false;
                     levelDataComponent.ReadyForReset = false;
+                    levelDataComponent.CompletionUI = false;
+                    levelDataComponent.PlayerSetPosition = false;
 
                     levelDataComponent.ReadyForNextLevel = true;
                 }
@@ -204,11 +249,16 @@ public class LevelManagerSystem : SystemBase
         ldc.currentLevel++;
         ldc.GetData = false;
         ldc.GetScene = false;
-        ldc. Inject = false;
-        ldc. LevelCleared = false;
+        ldc.Inject = false;
+        ldc.LevelCleared = false;
         ldc.UpgradesToGet = 0;
-        ldc. UpgradesReceived = false;
-        ldc. ReadyForNextLevel = false;
-}
+        ldc.UpgradesReceived = false;
+        ldc.ReadyForNextLevel = false;
+        ldc.CompletionUI = false;
+        ldc.PlayerSetPosition = false;
+        ldc.ReadyForReset = false;
+
+
+    }
 
 }

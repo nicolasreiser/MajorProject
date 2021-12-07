@@ -11,6 +11,7 @@ public class CanvasUpgrades : MonoBehaviour
     [SerializeField] private Button button1;
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
+    [SerializeField] private GameObject LevelCompletePanel;
 
     EntityManager entityManager;
 
@@ -144,6 +145,30 @@ public class CanvasUpgrades : MonoBehaviour
 
         ldc.UpgradesToGet += 1;
         entityManager.SetComponentData(levelData.GetSingletonEntity(), ldc);
+        
+    }
+
+    public void LevelCompleted()
+    {
+        StartCoroutine(LevelCompletion());
+    }
+    private void SetReset()
+    {
+        LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
+
+        ldc.ReadyForReset = true;
+
+        entityManager.SetComponentData(levelData.GetSingletonEntity(), ldc);
+    }
+
+    private IEnumerator LevelCompletion()
+    {
+        LevelCompletePanel.SetActive(true);
+        yield return new WaitForSeconds(2);
+
+        LevelCompletePanel.SetActive(false);
+
+        SetReset();
     }
 
     public void Heal()
@@ -155,6 +180,7 @@ public class CanvasUpgrades : MonoBehaviour
         entityManager.SetComponentData(player, playerData);
 
     }
+
     public void LevelUp()
     {
         var player = entity.GetSingletonEntity();
