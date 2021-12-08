@@ -85,7 +85,6 @@ public class EnemiesSpawner : MonoBehaviour
     }
     private void SpawnEntity(EnemyType enemyType)
     {
-        Debug.Log("Sparning enemy");
         PrefabEntityStorage pes = entityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
         
         Entity e = Entity.Null;
@@ -109,14 +108,10 @@ public class EnemiesSpawner : MonoBehaviour
         entityManager.SetComponentData(e, t);
 
         IdleState i = new IdleState();
-        Debug.Log("1");
 
         i.EnemyDetectionRange = GetEnemyDataComponent()[((int)enemyType)].DetectionRange;
-        Debug.Log("2");
 
         entityManager.SetComponentData(e,i);
-        Debug.Log("3");
-
         // set enemies stats
 
         EnemyData enemyData = entityManager.GetComponentData<EnemyData>(e);

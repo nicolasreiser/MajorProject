@@ -17,6 +17,7 @@ public class LevelManagerSystem : SystemBase
     
     protected override void OnUpdate()
     {
+        float deltatime = Time.DeltaTime;
         if(sceneStorage == null)
         {
             sceneStorage = SceneStorage.Instance;
@@ -37,6 +38,7 @@ public class LevelManagerSystem : SystemBase
                     LoadScene(levelDataComponent.currentLevel+1);
                     ResetData(ref levelDataComponent);
 
+                    
                 }
 
             }).Run();
@@ -59,7 +61,7 @@ public class LevelManagerSystem : SystemBase
             .WithStructuralChanges()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if(!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty)
+                if(!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty && levelDataComponent.PlayerSpawnTimer <= 0)
                 {
                     EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
                     entityStorage = entityQuery.GetSingletonEntity();
@@ -68,19 +70,27 @@ public class LevelManagerSystem : SystemBase
 
                     var playerEntity = EntityManager.Instantiate(pes.Player);
 
+                    levelDataComponent.ActivePlayer = true;
                     levelDataComponent.PlayerSpawned = true;
                 }
-                if(!levelDataComponent.PlayerSetPosition)
+                if(!levelDataComponent.PlayerSetPosition && levelDataComponent.PlayerSpawnTimer <= 0)
                 {
+                    levelDataComponent.ActivePlayer = true;
+
                     EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
+                    if (entityQuery.IsEmpty)
+                        return;
 
                     Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
                     Vector3 pos = playerSpawnPosition.Value;
                     t.Value = pos;
-
                     EntityManager.SetComponentData(entityQuery.GetSingletonEntity(), t);
                     levelDataComponent.PlayerSetPosition = true;
+
+                    CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
+                    cpm.PanelState(false);
                 }
+                levelDataComponent.PlayerSpawnTimer -= deltatime;
             }).Run();
 
         // inject in spawner
@@ -88,42 +98,41 @@ public class LevelManagerSystem : SystemBase
         if (enemiesSpawner == null)
         {
             enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
-
         }
 
-            if (enemiesSpawner != null)
+        if (enemiesSpawner != null)
+        {
+        Entities
+            .WithoutBurst()
+            .ForEach((Entity entity, ref LevelDataComponent levelDataComponent, in DynamicBuffer <SpawnerDataComponent> spawnerDataComponents) =>
             {
-            Entities
-                .WithoutBurst()
-                .ForEach((Entity entity, ref LevelDataComponent levelDataComponent, in DynamicBuffer <SpawnerDataComponent> spawnerDataComponents) =>
+                if (levelDataComponent.Inject)
+                    return;
+
+                enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
+                enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
+                enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;
+
+                List<EnemyType> enemyTypes = new List<EnemyType>();
+                if(spawnerDataComponents[levelDataComponent.currentLevel - 1].MeleeEnemy)
                 {
-                    if (levelDataComponent.Inject)
-                        return;
+                    enemyTypes.Add(EnemyType.Melee);
+                }
+                if (spawnerDataComponents[levelDataComponent.currentLevel - 1].RangedEnemy)
+                {
+                    enemyTypes.Add(EnemyType.Ranged);
+                }
+                if (spawnerDataComponents[levelDataComponent.currentLevel - 1].BombEnemy)
+                {
+                    enemyTypes.Add(EnemyType.Bomb);
+                }
 
-                    enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
-                    enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
-                    enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;
+                EnemyType[] enemyTypesArray = enemyTypes.ToArray();
+                enemiesSpawner.EnemyTypes = enemyTypesArray;
 
-                    List<EnemyType> enemyTypes = new List<EnemyType>();
-                    if(spawnerDataComponents[levelDataComponent.currentLevel - 1].MeleeEnemy)
-                    {
-                        enemyTypes.Add(EnemyType.Melee);
-                    }
-                    if (spawnerDataComponents[levelDataComponent.currentLevel - 1].RangedEnemy)
-                    {
-                        enemyTypes.Add(EnemyType.Ranged);
-                    }
-                    if (spawnerDataComponents[levelDataComponent.currentLevel - 1].BombEnemy)
-                    {
-                        enemyTypes.Add(EnemyType.Bomb);
-                    }
-
-                    EnemyType[] enemyTypesArray = enemyTypes.ToArray();
-                    enemiesSpawner.EnemyTypes = enemyTypesArray;
-
-                    levelDataComponent.Inject = true;
-                }).Run();
-            }
+                levelDataComponent.Inject = true;
+            }).Run();
+        }
 
         
 
@@ -131,15 +140,14 @@ public class LevelManagerSystem : SystemBase
 
         if(enemiesSpawner != null)
         {
-            //Debug.Log("Enemies spawner id : " + enemiesSpawner.GetInstanceID() + "Level completion : " + enemiesSpawner.EnemiesAmmount);
             if(enemiesSpawner.CheckForLevelCleared())
             {
-                //Debug.Log("Level completed");
                 Entities
                 .WithoutBurst()
                 .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
                 {
                     levelDataComponent.LevelCleared = true;
+                    levelDataComponent.PlayerInvulnerability = true;
                 }).Run();
             }
         }
@@ -153,31 +161,20 @@ public class LevelManagerSystem : SystemBase
            {
                monobehaviourStorageComponent = storage;
            }).Run();
-
         }
         if(monobehaviourStorageComponent!= null)
         {
-        Entities
+            Entities
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-
-                if (!levelDataComponent.UpgradesReceived && levelDataComponent.UpgradesToGet > 0 && !levelDataComponent.Upgrading && levelDataComponent.LevelCleared) 
+                if (levelDataComponent.LevelCleared && !levelDataComponent.CompletionUI)
                 {
-                    Debug.Log("3");
-
                     CanvasUpgrades cu = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasUpgrades>();
-
-                    Debug.Log("Canvas : " + cu);
-                    cu.ToggleUI();
-
-                    levelDataComponent.Upgrading = true;
+                    cu.LevelCompleted();
+                    levelDataComponent.CompletionUI = true;
                 }
-
-                
             }).Run();
-
-            
         }
 
         //Exit Trigger
@@ -186,30 +183,36 @@ public class LevelManagerSystem : SystemBase
         ExitTriggerComponent etc = new ExitTriggerComponent();
 
         if (!query.IsEmpty)
-        {
             etc = EntityManager.GetComponentData<ExitTriggerComponent>(query.GetSingletonEntity());
-
-        }
         
-        // toggle completion UI
+        
+        // Give Upgrades
 
-        Entities
+        if (monobehaviourStorageComponent != null)
+        {
+            Entities
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if(levelDataComponent.UpgradesReceived && !levelDataComponent.CompletionUI)
+                if (!levelDataComponent.UpgradesReceived && levelDataComponent.UpgradesToGet > 0 && !levelDataComponent.Upgrading && levelDataComponent.LevelCleared)
                 {
+                    if (levelDataComponent.UpgradesTimer >= 0)
+                    {
+                        levelDataComponent.UpgradesTimer -= deltatime;
+                        return;
+                    }
                     CanvasUpgrades cu = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasUpgrades>();
-                    cu.LevelCompleted();
-                    levelDataComponent.CompletionUI = true;
+
+                    cu.ToggleUI();
+
+                    levelDataComponent.Upgrading = true;
                     etc.Exit = false;
                     EntityManager.SetComponentData(query.GetSingletonEntity(), etc);
                 }
 
+
             }).Run();
-
-       
-
+        }
 
         // reset Level data component
 
@@ -217,19 +220,21 @@ public class LevelManagerSystem : SystemBase
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (levelDataComponent.ReadyForReset && etc.Exit)
+            if (levelDataComponent.ReadyForReset && etc.Exit)
                 {
-                    levelDataComponent.GetData = false;
-                    levelDataComponent.GetScene = false;
-                    levelDataComponent.Inject = false;
-                    levelDataComponent.UpgradesReceived = false;
-                    levelDataComponent.ReadyForReset = false;
-                    levelDataComponent.CompletionUI = false;
-                    levelDataComponent.PlayerSetPosition = false;
+                    if(!levelDataComponent.TransitionPanel)
+                    {
+                        CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
+                        cpm.PanelState(true);
+                    }
 
-                    levelDataComponent.ReadyForNextLevel = true;
+                    if (levelDataComponent.ExitTimer <= 0)
+                    {
+                        levelDataComponent.ActivePlayer = false;
+                        levelDataComponent.ReadyForNextLevel = true;
+                    }
+                    levelDataComponent.ExitTimer -= deltatime;
                 }
-
             }).Run();
 
     }
@@ -257,8 +262,13 @@ public class LevelManagerSystem : SystemBase
         ldc.CompletionUI = false;
         ldc.PlayerSetPosition = false;
         ldc.ReadyForReset = false;
+        ldc.PlayerInvulnerability = false;
+        ldc.ActivePlayer = false;
+        ldc.TransitionPanel = false;
 
-
+        ldc.PlayerSpawnTimer = 2;
+        ldc.UpgradesTimer = 2;
+        ldc.ExitTimer = 2;
     }
 
 }

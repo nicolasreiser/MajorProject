@@ -11,6 +11,7 @@ public class PlayerStatsSystem : SystemBase
 
     private EntityQuery playerStatsQuery;
 
+    private Entity player;
     protected override void OnCreate()
     {
         base.OnCreate();
@@ -21,15 +22,13 @@ public class PlayerStatsSystem : SystemBase
             All = new ComponentType[] { ComponentType.ReadOnly<PlayerDataContainer>() }
         });
 
-        //UpdateStats();
-
-        //SetHealth();
-
     }
 
     protected override void OnUpdate()
     {
         UpdateStats();
+        PlayerInvulnerability();
+        ActivePlayer();
     }
 
     private void UpdateStats()
@@ -45,7 +44,6 @@ public class PlayerStatsSystem : SystemBase
             WithAll<PlayerTag>().
             ForEach((Entity entity, ref PlayerData playerData) =>
             {
-                //Debug.Log($"Current Exp : {playerData.Experience} Max Exp : {playerData.MaxExperience}");
                 if (playerData.Experience >= playerData.MaxExperience || !playerData.Initialised)
                 {
                     playerData.Experience = playerData.OverflowExperience;
@@ -63,9 +61,13 @@ public class PlayerStatsSystem : SystemBase
                     playerData.OnExperienceChange = true;
                     playerData.OnHealthChange = true;
                     if(!playerData.Initialised)
+                    {
                         playerData.CurrentHealth = playerData.BaseHealth;
-                    
-                    if(playerData.Initialised)
+                        Debug.Log("Player Initialised");
+
+                    }
+
+                    if (playerData.Initialised)
                     {
                         AddLevel();
                     }
@@ -83,5 +85,47 @@ public class PlayerStatsSystem : SystemBase
             {
                 levelDataComponent.UpgradesToGet += 1;
             }).Run();
+    }
+
+    private void PlayerInvulnerability()
+    {
+        EntityQuery playerQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<LevelDataComponent>());
+        if (playerQuery.IsEmpty)
+            return;
+
+        var ldc = EntityManager.GetComponentData<LevelDataComponent>(playerQuery.GetSingletonEntity());
+        Entities.
+            WithAll<PlayerTag>().
+            ForEach((Entity entity, ref PlayerData playerData) =>
+            {
+                playerData.IsInvulnerable = ldc.PlayerInvulnerability;
+            }).Run();
+    }
+
+    private void ActivePlayer()
+    {
+        EntityQuery playerQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>());
+        if (!playerQuery.IsEmpty)
+        {
+            player = playerQuery.GetSingletonEntity();
+        }
+
+        if(player == Entity.Null)
+        {
+            return;
+        }
+        Entities.
+            WithStructuralChanges().
+           ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+           {
+               if (!levelDataComponent.ActivePlayer)
+               {
+                   EntityManager.SetEnabled(player, false);
+               }
+               else
+               {
+                   EntityManager.SetEnabled(player, true);
+               }
+           }).Run();
     }
 }

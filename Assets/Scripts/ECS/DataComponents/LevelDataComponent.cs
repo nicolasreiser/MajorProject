@@ -21,4 +21,11 @@ public struct LevelDataComponent : IComponentData
     public bool CompletionUI;
     public bool ReadyToExit;
     public bool ReadyForNextLevel;
+    public bool PlayerInvulnerability;
+    public bool ActivePlayer;
+    public bool TransitionPanel;
+
+    public float PlayerSpawnTimer;
+    public float UpgradesTimer;
+    public float ExitTimer;
 }

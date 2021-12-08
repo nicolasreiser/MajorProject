@@ -99,7 +99,7 @@ public class PathFindingSystem : SystemBase
         {
             Vector3 origin = translation.Value;
             Vector3 direction = playerposition - translation.Value;
-            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction,layerMask);
+            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction/*,layerMask*/);
 
         }).ScheduleParallel(Dependency);
 

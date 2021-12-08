@@ -83,7 +83,7 @@ public class BombAttackSystem : SystemBase
                 ForEach((Entity entity,
                 ref PlayerData playerData) =>
                 {
-                    if(isPlayerHit)
+                    if(isPlayerHit && !playerData.IsInvulnerable)
                     {
                         playerData.CurrentHealth -= damageToDeal;
                         playerData.OnHealthChange = true;

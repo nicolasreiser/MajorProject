@@ -90,13 +90,15 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var player = PlayerGroup[entityB];
                             var bullet = BulletGroup[entityA];
 
-                            player.CurrentHealth -= bullet.Damage;
-                            player.OnHealthChange = true;
-                            if (player.CurrentHealth < 0)
-                                player.CurrentHealth = 0;
+                            if (player.IsInvulnerable)
+                            {
+                                player.CurrentHealth -= bullet.Damage;
+                                player.OnHealthChange = true;
+                                if (player.CurrentHealth < 0)
+                                    player.CurrentHealth = 0;
 
-                            PlayerGroup[entityB] = player;
-
+                                PlayerGroup[entityB] = player;
+                            }
                         }
                         break;
                 }
@@ -143,13 +145,16 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var player = PlayerGroup[entityA];
                             var bullet = BulletGroup[entityB];
 
-                            player.CurrentHealth -= bullet.Damage;
-                            player.OnHealthChange = true;
+                            if (!player.IsInvulnerable)
+                            {
+                                player.CurrentHealth -= bullet.Damage;
+                                player.OnHealthChange = true;
 
-                            if (player.CurrentHealth < 0)
-                                player.CurrentHealth = 0;
+                                if (player.CurrentHealth < 0)
+                                    player.CurrentHealth = 0;
 
-                            PlayerGroup[entityA] = player;
+                                PlayerGroup[entityA] = player;
+                            }
 
                         }
                         break;

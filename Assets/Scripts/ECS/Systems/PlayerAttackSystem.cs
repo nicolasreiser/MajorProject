@@ -87,10 +87,11 @@ public class PlayerAttackSystem : SystemBase
         JobHandle jobHandle = Entities.WithStoreEntityQueryInField(ref playerQuery)
             .ForEach((Entity entity, int entityInQueryIndex, in Translation translation, in PlayerTag playerTag) =>
             {
-                Vector3 origin = translation.Value;
+
+                Vector3 origin = translation.Value + new float3(0,1,0);
                 Vector3 direction = closestTargetPosition - translation.Value;
 
-                raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction, layerMask);
+                raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction/*, layerMask*/);
 
 
             }).ScheduleParallel(Dependency);

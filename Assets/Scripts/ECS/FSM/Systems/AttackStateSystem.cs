@@ -90,7 +90,7 @@ public class AttackStateSystem : SystemBase
             Vector3 origin = translation.Value;
             Vector3 direction = playerposition - translation.Value;
 
-            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction,layerMask);
+            raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction/*,layerMask*/);
             
 
         }).ScheduleParallel(Dependency);
@@ -101,6 +101,7 @@ public class AttackStateSystem : SystemBase
 
         for (int i = 0; i < dataCount; i++)
         {
+            Debug.Log("collider : " + results[i].collider);
             if (results[i].collider == null)
             {
                 hit[i] = false;
@@ -108,6 +109,7 @@ public class AttackStateSystem : SystemBase
             else
             {
                 hit[i] = true;
+
             }
         }
 
