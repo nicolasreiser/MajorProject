@@ -69,7 +69,7 @@ public class EnemiesSpawner : MonoBehaviour
     private void GetTrigger()
     {
         EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<SpawnerTriggerComponent>());
-        if(!entityQuery.IsEmpty)
+        if(entityQuery.CalculateEntityCount() == 1)
         {
             spawnerTrigger = entityManager.GetComponentData<SpawnerTriggerComponent>( entityQuery.GetSingletonEntity());
             IsActive = spawnerTrigger.isActive;

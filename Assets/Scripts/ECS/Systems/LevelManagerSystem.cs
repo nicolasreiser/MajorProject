@@ -12,9 +12,14 @@ public class LevelManagerSystem : SystemBase
     private EnemiesSpawner enemiesSpawner;
     private MonobehaviourStorageComponent monobehaviourStorageComponent;
 
-    //private EntityManager entityManager;
     private Entity entityStorage;
-    
+    private int loadedLevel;
+
+    protected override void OnCreate()
+    {
+        loadedLevel = 0;
+        base.OnCreate();
+    }
     protected override void OnUpdate()
     {
         float deltatime = Time.DeltaTime;
@@ -28,16 +33,29 @@ public class LevelManagerSystem : SystemBase
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (levelDataComponent.ReadyForNextLevel)
+                if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles)
                 {
                     enemiesSpawner = null;
-                    Debug.Log("Enemies spawner null : " + enemiesSpawner);
-                    // TODO unload last level 
-                    UnloadScene(levelDataComponent.currentLevel);
 
-                    LoadScene(levelDataComponent.currentLevel+1);
+                    // TODO unload last level 
                     ResetData(ref levelDataComponent);
 
+                    UnloadScene(loadedLevel);
+
+                    
+
+                    if (levelDataComponent.currentLevel == 1)
+                    {
+                        loadedLevel = 1;
+                        LoadScene(1);
+                    }
+                    else
+                    {
+                        loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
+                        Debug.Log("Loading scene level " + loadedLevel);
+                        LoadScene(loadedLevel);
+
+                    }
                     
                 }
 
@@ -232,6 +250,7 @@ public class LevelManagerSystem : SystemBase
                     {
                         levelDataComponent.ActivePlayer = false;
                         levelDataComponent.ReadyForNextLevel = true;
+                        levelDataComponent.CleanupObstacles = false;
                     }
                     levelDataComponent.ExitTimer -= deltatime;
                 }
@@ -265,6 +284,8 @@ public class LevelManagerSystem : SystemBase
         ldc.PlayerInvulnerability = false;
         ldc.ActivePlayer = false;
         ldc.TransitionPanel = false;
+        //ldc.CleanupObstacles = false;
+
 
         ldc.PlayerSpawnTimer = 2;
         ldc.UpgradesTimer = 2;

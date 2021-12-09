@@ -24,6 +24,7 @@ public struct LevelDataComponent : IComponentData
     public bool PlayerInvulnerability;
     public bool ActivePlayer;
     public bool TransitionPanel;
+    public bool CleanupObstacles;
 
     public float PlayerSpawnTimer;
     public float UpgradesTimer;
