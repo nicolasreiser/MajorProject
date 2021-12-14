@@ -14,6 +14,7 @@ public class LevelManagerSystem : SystemBase
 
     private Entity entityStorage;
     private int loadedLevel;
+    
 
     protected override void OnCreate()
     {
@@ -37,24 +38,41 @@ public class LevelManagerSystem : SystemBase
                 {
                     enemiesSpawner = null;
 
-                    // TODO unload last level 
                     ResetData(ref levelDataComponent);
 
-                    UnloadScene(loadedLevel);
+                    if(levelDataComponent.isStartLLevel)
+                    {
+                        levelDataComponent.isStartLLevel = false;
+                        sceneStorage.UnLoadStartLevel();
+                    }
+                    else if(levelDataComponent.isEndLevel)
+                    {
+                        sceneStorage.UnLoadEndLevel();
+                    }
+                    else if(levelDataComponent.isMenu)
+                    {
+                        // TODO
+                    }
+                    else
+                    {
+                        sceneStorage.UnloadLevel(loadedLevel);
+                    }
 
-                    
-
+                    Debug.Log("Loading scene time");
                     if (levelDataComponent.currentLevel == 1)
                     {
-                        loadedLevel = 1;
-                        LoadScene(1);
+                        levelDataComponent.isStartLLevel = true;
+                        sceneStorage.LoadStartLevel();
+                    }
+                    else if(levelDataComponent.currentLevel == 5)
+                    {
+                        sceneStorage.LoadEndLevel();
                     }
                     else
                     {
                         loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
                         Debug.Log("Loading scene level " + loadedLevel);
-                        LoadScene(loadedLevel);
-
+                        sceneStorage.LoadLevel(loadedLevel);
                     }
                     
                 }
@@ -258,15 +276,7 @@ public class LevelManagerSystem : SystemBase
 
     }
 
-    private void LoadScene(int level)
-    {
-           sceneStorage.LoadScene(level);
-
-    }
-    private void UnloadScene(int level)
-    {
-        sceneStorage.UnloadScene(level);
-    }
+    
 
     private void ResetData(ref LevelDataComponent ldc)
     {

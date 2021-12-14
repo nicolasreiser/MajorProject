@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fb65705c3e3bb8e468d176c701b0f5c5, type: 3}
+  m_Name: BigBadBuff
+  m_EditorClassIdentifier: 
+  Cooldown: 30
+  Description: Gain a 200% Damage buff and 100% Attack Speed buff for 5 Seconds
+  Picture: {fileID: 21300000, guid: 7ff78b329f164464ea5df9a3227b3f0d, type: 3}
+  Unlocked: 0
+  Selected: 0

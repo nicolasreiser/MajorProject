@@ -53,7 +53,6 @@ public class ExitTriggerSystem : JobComponentSystem
             if (!ExitTriggerComponent.HasComponent(trigger))
                 return;
             
-            Debug.Log("Triggering");
             var exitTrigger = ExitTriggerComponent[trigger];
 
 

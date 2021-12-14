@@ -29,4 +29,9 @@ public struct LevelDataComponent : IComponentData
     public float PlayerSpawnTimer;
     public float UpgradesTimer;
     public float ExitTimer;
+
+    public bool isMenu;
+    public bool isStartLLevel;
+    public bool isEndLevel;
+
 }

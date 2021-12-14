@@ -101,7 +101,6 @@ public class AttackStateSystem : SystemBase
 
         for (int i = 0; i < dataCount; i++)
         {
-            Debug.Log("collider : " + results[i].collider);
             if (results[i].collider == null)
             {
                 hit[i] = false;
