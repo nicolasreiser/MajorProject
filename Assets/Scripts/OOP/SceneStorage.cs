@@ -81,6 +81,7 @@ public class SceneStorage : MonoBehaviour
         SceneManager.UnloadSceneAsync(MenuLevel.BuildLevel);
 
     }
+    
     private void SetupDictionary()
     {
         LevelDictionary = new Dictionary<int, int>();

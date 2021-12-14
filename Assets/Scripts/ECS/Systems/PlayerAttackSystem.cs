@@ -184,7 +184,7 @@ public class PlayerAttackSystem : SystemBase
                             }
                             EntityManager.SetComponentData(instance, new BulletData
                             {
-                                Damage = (playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 100,
+                                Damage = (int)(((playerData.WeaponBaseDamage * playerData.BulletDamagePercentage) / 100)* playerData.AttackDamageModifier),
 
                                 ScatterShot = ScatterShot,
                                 ScatterShotDamage = ScatterShotDamage,
@@ -206,8 +206,8 @@ public class PlayerAttackSystem : SystemBase
                 }
 
             }
-            playerData.WeaponCooldown -= deltaTime;
-            playerData.DoubleShotCooldown -= deltaTime;
+            playerData.WeaponCooldown -= deltaTime * playerData.AttackSpeedModifier;
+            playerData.DoubleShotCooldown -= deltaTime * playerData.AttackSpeedModifier;
 
         }).Run();
 

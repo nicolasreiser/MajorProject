@@ -28,6 +28,9 @@ public struct PlayerData : IComponentData
     public int DamageAmplification;
     public float AttackSpeed;
 
+    public float AttackSpeedModifier;
+    public float AttackDamageModifier;
+
     public int BulletDamagePercentage;
 
     public float StandStillTimer;
@@ -36,6 +39,8 @@ public struct PlayerData : IComponentData
     public bool OnHealthChange;
     public bool OnExperienceChange;
     public bool Initialised;
+
+    public bool IsDead;
 
     public void EditDoubleSHot(int value)
     {

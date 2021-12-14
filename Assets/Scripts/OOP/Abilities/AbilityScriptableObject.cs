@@ -7,7 +7,7 @@ using UnityEngine.UI;
 
 public class AbilityScriptableObject : ScriptableObject
 {
-    public string AbilityName;
+    public AbilityType Ability;
     public float Cooldown;
     public string Description;
     public Sprite Picture;

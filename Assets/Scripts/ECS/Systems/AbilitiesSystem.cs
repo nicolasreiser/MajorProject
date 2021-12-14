@@ -5,10 +5,15 @@ using Unity.Entities;
 
 public class AbilitiesSystem : SystemBase
 {
-    //Ability Sorage Entity;
+    SceneStorage sceneStorage;
+    private float abilityCooldown;
 
     protected override void OnUpdate()
     {
+        if (sceneStorage == null)
+        {
+            sceneStorage = SceneStorage.Instance;
+        }
 
         // get the ability data
 
@@ -21,22 +26,44 @@ public class AbilitiesSystem : SystemBase
         }
         ).Run();
 
-        //EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<DynamicBuffer<AbilityStorageData>>());
-
-        //if(!query.IsEmpty)
-        //{
-          //  Debug.Log("Query not empty");
-           // abilityStorage = EntityManager.GetBuffer<AbilityStorageData>(query.GetSingletonEntity());
-        //}
+        
 
         // check if in a run
 
+        EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<LevelDataComponent>());
 
+        if (query.IsEmpty)
+            return;
+        
+            LevelDataComponent ldc = EntityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
+
+
+        if (ldc.isMenu)
+            return;
 
         // check what ability is in use
 
+        var ability = new AbilityStorageData(); 
+
+        foreach (var item in abilityStorage)
+        {
+            if(item.Selected)
+            {
+                ability = item;
+                break;
+            }
+        }
+
+
         // check if ability is being cast
 
+        if(ability.IsCast)
+        {
+            Debug.Log("Ability got cast");
+            // do modifiers
+        }
+
+        // apply modifiers
 
     }
 }

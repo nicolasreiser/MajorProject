@@ -6,19 +6,26 @@ using Unity.Collections;
 
 public struct AbilityStorageData : IBufferElementData
 {
-    //public NativeString64 Name;
+    public int Ability;
     public float Cooldown;
     public bool Unlocked;
     public bool Selected;
     public bool IsCast;
 
-    public AbilityStorageData( float Cooldown, bool Unlocked, bool Selected)
+    public AbilityStorageData( AbilityType abilityType, float Cooldown, bool Unlocked, bool Selected)
     {
-        //this.Name = Name;
+        Ability = (int)abilityType;
         this.Cooldown = Cooldown;
         this.Unlocked = Unlocked;
         this.Selected = Selected;
         this.IsCast = false;
     }
 
+}
+
+public enum AbilityType
+{
+    BigBadBuff = 1,
+    Dash = 2,
+    Nova = 3
 }

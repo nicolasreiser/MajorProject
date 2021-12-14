@@ -388,6 +388,8 @@ MonoBehaviour:
   ScatterShot: 0
   DamageAmplification: 0
   AttackSpeed: 0
+  AttackSpeedModifier: 1
+  AttackDamageModifier: 1
   BulletDamagePercentage: 100
   StandStillTimer: 0
   PlayerRange: 15
@@ -395,6 +397,7 @@ MonoBehaviour:
   OnHealthChange: 0
   OnExperienceChange: 0
   Initialised: 0
+  IsDead: 0
 --- !u!114 &5016894827606881356
 MonoBehaviour:
   m_ObjectHideFlags: 0

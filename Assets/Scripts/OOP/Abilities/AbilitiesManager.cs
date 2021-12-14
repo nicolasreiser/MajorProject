@@ -16,6 +16,7 @@ public class AbilitiesManager : MonoBehaviour
     void Awake()
     {
         CreateAbilityStorageEntity();
+
     }
 
     // Update is called once per frame
@@ -33,7 +34,7 @@ public class AbilitiesManager : MonoBehaviour
 
     public void CastAbility()
     {
-
+        Ability.CastAbility();
     }
 
     public void IsOnCooldown()
@@ -60,7 +61,7 @@ public class AbilitiesManager : MonoBehaviour
 
         foreach (var item in AbilitySO)
         {
-            abilityStorage.Add(new AbilityStorageData(item.Cooldown, item.Unlocked, item.Selected));
+            abilityStorage.Add(new AbilityStorageData(item.Ability,item.Cooldown, item.Unlocked, item.Selected));
         }
     }
 
