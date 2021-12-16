@@ -15,6 +15,16 @@ public class AbilitiesSystem : SystemBase
             sceneStorage = SceneStorage.Instance;
         }
 
+        // FOR TESTING
+        var deltaTime = Time.DeltaTime;
+        Entities.ForEach((Entity entity, ref AbilityData abilityData) =>
+        {
+            abilityData.CurrentCooldown -= deltaTime;
+            if (abilityData.CurrentCooldown < 0)
+                abilityData.CurrentCooldown = 0;
+        }).Run();
+
+
         // get the ability data
 
         DynamicBuffer<AbilityStorageData> abilityStorage = new DynamicBuffer<AbilityStorageData>();
