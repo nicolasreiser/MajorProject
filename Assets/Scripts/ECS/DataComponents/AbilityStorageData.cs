@@ -12,6 +12,9 @@ public struct AbilityStorageData : IBufferElementData
     public bool Selected;
     public bool IsCast;
 
+    public float DamageModifier;
+    public float AttackspeedModifier;
+    public float Duration;
     public AbilityStorageData( AbilityType abilityType, float Cooldown, bool Unlocked, bool Selected)
     {
         Ability = (int)abilityType;
@@ -19,6 +22,21 @@ public struct AbilityStorageData : IBufferElementData
         this.Unlocked = Unlocked;
         this.Selected = Selected;
         this.IsCast = false;
+        DamageModifier = 1;
+        AttackspeedModifier = 1;
+        Duration = 0;
+    }
+
+    public AbilityStorageData(AbilityType abilityType, float Cooldown, bool Unlocked, bool Selected, float DamageModifier, float AttackspeedModifier, float Duration)
+    {
+        Ability = (int)abilityType;
+        this.Cooldown = Cooldown;
+        this.Unlocked = Unlocked;
+        this.Selected = Selected;
+        this.IsCast = false;
+        this.AttackspeedModifier = AttackspeedModifier;
+        this.DamageModifier = DamageModifier;
+        this.Duration = Duration;
     }
 
 }

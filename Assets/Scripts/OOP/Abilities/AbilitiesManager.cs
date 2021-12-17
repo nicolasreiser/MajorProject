@@ -83,6 +83,21 @@ public class AbilitiesManager : MonoBehaviour
 
         foreach (var item in AbilitySO)
         {
+            switch (item.Ability)
+            {
+                case AbilityType.BigBadBuff:
+                    BBBAbilityScriptableObject bbb = item as BBBAbilityScriptableObject;
+
+                    abilityStorage.Add(new AbilityStorageData(bbb.Ability, bbb.Cooldown, bbb.Unlocked, bbb.Selected,bbb.AttackDamageBuff,bbb.AttackSpeedBuff, bbb.Duration));
+
+                    break;
+                case AbilityType.Dash:
+                    break;
+                case AbilityType.Nova:
+                    break;
+                default:
+                    break;
+            }
             abilityStorage.Add(new AbilityStorageData(item.Ability,item.Cooldown, item.Unlocked, item.Selected));
         }
     }
@@ -120,11 +135,11 @@ public class AbilitiesManager : MonoBehaviour
         {
             case AbilityType.BigBadBuff:
                 data.AbilityType = 1;
-                data.BaseCooldown = AbilitySO[0].Cooldown;
+                data.BaseCooldown = AbilitySO[1].Cooldown;
                 break;
             case AbilityType.Dash:
                 data.AbilityType = 2;
-                data.BaseCooldown = AbilitySO[1].Cooldown;
+                data.BaseCooldown = AbilitySO[2].Cooldown;
                 break;
             case AbilityType.Nova:
                 data.AbilityType = 3;

@@ -7,5 +7,6 @@ public struct AbilityData : IComponentData
     public int AbilityType;
     public float BaseCooldown;
     public float CurrentCooldown;
+    public float Duration;
     public bool IsCast;
 }

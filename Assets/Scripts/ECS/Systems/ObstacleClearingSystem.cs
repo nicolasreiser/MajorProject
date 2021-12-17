@@ -31,6 +31,7 @@ public class ObstacleClearingSystem : SystemBase
           
 
             EntityManager.SetComponentData(query.GetSingletonEntity(),levelDataComponent);
+            Debug.Log("Set Clearup to true");
           
 
         }

@@ -31,7 +31,7 @@ public struct LevelDataComponent : IComponentData
     public float ExitTimer;
 
     public bool isMenu;
-    public bool isStartLLevel;
+    public bool isStartLevel;
     public bool isEndLevel;
 
 }

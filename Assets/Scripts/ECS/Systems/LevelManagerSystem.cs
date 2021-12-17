@@ -30,20 +30,26 @@ public class LevelManagerSystem : SystemBase
         }
         // check for scene
 
+        //Debug.Log("-1");
+
         Entities
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
                 if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles)
                 {
+                    Debug.Log("1");
                     enemiesSpawner = null;
 
                     ResetData(ref levelDataComponent);
 
-                    if(levelDataComponent.isStartLLevel)
+                    if(levelDataComponent.isStartLevel)
                     {
-                        levelDataComponent.isStartLLevel = false;
+                        Debug.Log("2");
+
+                        levelDataComponent.isStartLevel = false;
                         sceneStorage.UnLoadStartLevel();
+                        Debug.Log("Unloaded Start Level");
                     }
                     else if(levelDataComponent.isEndLevel)
                     {
@@ -55,14 +61,20 @@ public class LevelManagerSystem : SystemBase
                     }
                     else
                     {
+                        Debug.Log("3");
+
                         sceneStorage.UnloadLevel(loadedLevel);
                     }
+                    Debug.Log("4");
 
-                    Debug.Log("Loading scene time");
                     if (levelDataComponent.currentLevel == 1)
                     {
-                        levelDataComponent.isStartLLevel = true;
+                        Debug.Log("0");
+
+                        levelDataComponent.isStartLevel = true;
                         sceneStorage.LoadStartLevel();
+                        Debug.Log("Loaded Start Level");
+
                     }
                     else if(levelDataComponent.currentLevel == 5)
                     {
@@ -70,6 +82,8 @@ public class LevelManagerSystem : SystemBase
                     }
                     else
                     {
+                        Debug.Log("5");
+
                         loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
                         Debug.Log("Loading scene level " + loadedLevel);
                         sceneStorage.LoadLevel(loadedLevel);
@@ -300,6 +314,8 @@ public class LevelManagerSystem : SystemBase
         ldc.PlayerSpawnTimer = 2;
         ldc.UpgradesTimer = 2;
         ldc.ExitTimer = 2;
+
+        Debug.Log("Data Reset");
     }
 
 }
