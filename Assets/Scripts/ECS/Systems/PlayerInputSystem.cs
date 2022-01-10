@@ -16,7 +16,9 @@ public class PlayseInputSystem : SystemBase
     {
         var jw = joystick.Vertical;
         var jh = joystick.Horizontal;
-        Entities.ForEach((ref MoveData moveData, in InputData inputData) =>
+        Entities.
+            WithNone<PausedTag>().
+            ForEach((ref MoveData moveData, in InputData inputData) =>
         {
             moveData.direction.x = jh;
             moveData.direction.z = jw;

@@ -23,6 +23,16 @@ public class LevelManagerSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if(pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         float deltatime = Time.DeltaTime;
         if(sceneStorage == null)
         {
@@ -30,22 +40,20 @@ public class LevelManagerSystem : SystemBase
         }
         // check for scene
 
-        //Debug.Log("-1");
 
         Entities
             .WithoutBurst()
+            .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
                 if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles)
                 {
-                    Debug.Log("1");
                     enemiesSpawner = null;
 
                     ResetData(ref levelDataComponent);
 
                     if(levelDataComponent.isStartLevel)
                     {
-                        Debug.Log("2");
 
                         levelDataComponent.isStartLevel = false;
                         sceneStorage.UnLoadStartLevel();
@@ -61,15 +69,12 @@ public class LevelManagerSystem : SystemBase
                     }
                     else
                     {
-                        Debug.Log("3");
 
                         sceneStorage.UnloadLevel(loadedLevel);
                     }
-                    Debug.Log("4");
 
                     if (levelDataComponent.currentLevel == 1)
                     {
-                        Debug.Log("0");
 
                         levelDataComponent.isStartLevel = true;
                         sceneStorage.LoadStartLevel();
@@ -82,7 +87,6 @@ public class LevelManagerSystem : SystemBase
                     }
                     else
                     {
-                        Debug.Log("5");
 
                         loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
                         Debug.Log("Loading scene level " + loadedLevel);
@@ -109,6 +113,7 @@ public class LevelManagerSystem : SystemBase
         Entities
             .WithoutBurst()
             .WithStructuralChanges()
+            .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
                 if(!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty && levelDataComponent.PlayerSpawnTimer <= 0)
@@ -154,6 +159,7 @@ public class LevelManagerSystem : SystemBase
         {
         Entities
             .WithoutBurst()
+            .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent, in DynamicBuffer <SpawnerDataComponent> spawnerDataComponents) =>
             {
                 if (levelDataComponent.Inject)
@@ -194,6 +200,7 @@ public class LevelManagerSystem : SystemBase
             {
                 Entities
                 .WithoutBurst()
+                .WithNone<PausedTag>()
                 .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
                 {
                     levelDataComponent.LevelCleared = true;

@@ -19,7 +19,7 @@ public class HealthBarCleanupSystem : SystemBase
         var commandBuffer = ecb.CreateCommandBuffer();
 
         Entities.WithoutBurst().
-            //WithNone<EnemyData>().
+            WithNone<PausedTag>().
             ForEach((Entity entity, HealthBarData healthBarData, in LifetimeData lifetimeData) =>
             {
 

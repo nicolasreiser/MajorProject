@@ -15,14 +15,26 @@ public class DeathStateSystem : SystemBase
         base.OnCreate();
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
-        playerQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>(), ComponentType.ReadWrite<PlayerData>() }
-        });
+        
     }
 
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
+        playerQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>(), ComponentType.ReadWrite<PlayerData>() }
+        });
+
         var player = playerQuery.GetSingletonEntity();
         var commandBudder = ecb.CreateCommandBuffer();
 

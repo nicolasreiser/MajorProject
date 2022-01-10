@@ -18,6 +18,16 @@ public class RangedAttackSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         Entity projectile = Entity.Null;
         float deltaTime = Time.DeltaTime;
 

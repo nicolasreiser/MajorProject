@@ -21,6 +21,7 @@ public class PlayerMovementSystem : SystemBase
         Entities.
             WithoutBurst().
             WithAll<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((ref PhysicsVelocity physics, ref PhysicsMass mass, ref Translation pos, ref Rotation rotation, ref AnimationHolderComponent anim ,in MoveData moveData) =>
             {
                 if (moveData.direction.x == 0 && moveData.direction.z == 0)

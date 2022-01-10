@@ -9,7 +9,16 @@ public class PathFollowSystem : ComponentSystem
 {
     protected override void OnUpdate()
     {
-        
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         GridSetup gridTesting = GridSetup.Instance;
 
         if(gridTesting == null)

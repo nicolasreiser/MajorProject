@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 2385218214276681672}
   - component: {fileID: 4442158545052436084}
   - component: {fileID: 894165628}
+  - component: {fileID: 3105344869217748520}
   m_Layer: 0
   m_Name: MeleeEnemy
   m_TagString: Untagged
@@ -430,6 +431,18 @@ MonoBehaviour:
   Blade: {fileID: 1616740521023349737}
   ScaleSpeed: 5
   SpinSpeed: 10
+--- !u!114 &3105344869217748520
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2797350219805891960}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1979218363245992716
 MonoBehaviour:
   m_ObjectHideFlags: 0

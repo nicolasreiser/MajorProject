@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8939119542067013354}
   - component: {fileID: 8939119542067013357}
+  - component: {fileID: 3682870633269471901}
   m_Layer: 0
   m_Name: EnemySpawner
   m_TagString: Spawner
@@ -48,3 +49,15 @@ MonoBehaviour:
   EnemyTypes: 000000000200000001000000
   InitialDelay: 4
   DelayBetweenSpawns: 1
+--- !u!114 &3682870633269471901
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8939119542067013356}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

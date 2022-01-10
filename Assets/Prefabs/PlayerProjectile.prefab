@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 2011119110787742761}
   - component: {fileID: 4145882298595377334}
   - component: {fileID: 1532994171535082554}
+  - component: {fileID: 6043244039788213845}
   m_Layer: 7
   m_Name: PlayerProjectile
   m_TagString: Untagged
@@ -5126,3 +5127,15 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &6043244039788213845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3181952172486164237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

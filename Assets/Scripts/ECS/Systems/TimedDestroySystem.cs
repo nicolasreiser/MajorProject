@@ -19,12 +19,23 @@ public class TimedDestroySystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         float deltaTime = Time.DeltaTime;
 
         var commandBuffer = ecb.CreateCommandBuffer().AsParallelWriter();
 
         Entities.WithoutBurst()
             .WithStructuralChanges()
+            .WithNone<PausedTag>()
             .ForEach((Entity entity, int entityInQueryIndex, ref LifetimeData lifetimeData, ref DynamicBuffer<Child> childrenFromEntity) =>
             {
                // Debug.Log("Entering death1 children : "+ childrenFromEntity.Length);

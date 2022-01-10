@@ -29,16 +29,25 @@ public class PathFindingSystem : SystemBase
 
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-        playerQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
-        });
-        
     }
 
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
         var commandBuffer = ecb.CreateCommandBuffer().AsParallelWriter();
+
+        playerQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
+        });
 
         var player = playerQuery.CalculateChunkCount();
 

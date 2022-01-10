@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7895686281870036509}
   - component: {fileID: 7895686281870036508}
   - component: {fileID: 7895686281870036505}
+  - component: {fileID: -5295263942555676889}
   m_Layer: 0
   m_Name: ExitTrigger
   m_TagString: Untagged
@@ -266,3 +267,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Exit: 0
+--- !u!114 &-5295263942555676889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7895686281870036511}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

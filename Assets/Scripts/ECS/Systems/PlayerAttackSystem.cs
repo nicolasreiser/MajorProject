@@ -22,7 +22,9 @@ public class PlayerAttackSystem : SystemBase
 
         Translation playerPosition = new Translation();
 
-        Entities.ForEach((in PrefabEntityStorage prefabs) =>
+        Entities.
+            WithNone<PausedTag>().
+            ForEach((in PrefabEntityStorage prefabs) =>
         {
             projectile = prefabs.PlayerProjectile;
         }).Run();
@@ -31,6 +33,7 @@ public class PlayerAttackSystem : SystemBase
 
         Entities.
             WithAny<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 playerPosition = position;
@@ -52,6 +55,7 @@ public class PlayerAttackSystem : SystemBase
 
         Entities.
         WithAll<EnemyTag>().
+        WithNone<PausedTag>().
         ForEach(( Entity targetEntity, in Translation enemyPosition) =>
         {
             if (closestEnemy == Entity.Null)
@@ -113,7 +117,9 @@ public class PlayerAttackSystem : SystemBase
         }
 
         // chesk if player has vision 
-         Entities.WithStructuralChanges()
+         Entities.
+            WithNone<PausedTag>().
+            WithStructuralChanges()
             .ForEach((Entity entity,
             int entityInQueryIndex,
             ref PlayerTag player,

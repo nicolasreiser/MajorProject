@@ -42,6 +42,7 @@ public class PlayerStatsSystem : SystemBase
         Entities.
             WithoutBurst().
             WithAll<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((Entity entity, ref PlayerData playerData) =>
             {
                 if (playerData.Experience >= playerData.MaxExperience || !playerData.Initialised)
@@ -96,6 +97,7 @@ public class PlayerStatsSystem : SystemBase
         var ldc = EntityManager.GetComponentData<LevelDataComponent>(playerQuery.GetSingletonEntity());
         Entities.
             WithAll<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((Entity entity, ref PlayerData playerData) =>
             {
                 playerData.IsInvulnerable = ldc.PlayerInvulnerability;
@@ -116,6 +118,7 @@ public class PlayerStatsSystem : SystemBase
         }
         Entities.
             WithStructuralChanges().
+            WithNone<PausedTag>().
            ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
            {
                if (!levelDataComponent.ActivePlayer)

@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: 310181224601670420}
   - component: {fileID: 253939142684311990}
   - component: {fileID: 3674090605659318150}
+  - component: {fileID: 5193990487412454983}
   m_Layer: 0
   m_Name: RangedEnemy
   m_TagString: Untagged
@@ -339,7 +340,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDistance: 0
-  MaxPlayerDistance: 8
+  EnemyDetectionRange: 0
 --- !u!114 &310181224601670416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -448,6 +449,18 @@ MonoBehaviour:
     x: 0
     y: 1
     z: 1
+--- !u!114 &5193990487412454983
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 310181224601670406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &4525820625699572324
 PrefabInstance:
   m_ObjectHideFlags: 0

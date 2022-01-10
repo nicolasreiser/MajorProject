@@ -12,6 +12,7 @@ public class CharacterAnimationSystem : SystemBase
     {
         var deltaTime = Time.DeltaTime;
         Entities
+            .WithNone<PausedTag>()
            .WithoutBurst()
            .ForEach((
                ref Entity entity,

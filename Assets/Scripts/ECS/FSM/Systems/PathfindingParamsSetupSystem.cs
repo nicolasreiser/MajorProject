@@ -27,13 +27,19 @@ public class PathfindingParamsSetupSystem : SystemBase
 
         ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
-        EnemyQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<EnemyTag>() }
-        });
+        
     }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
         grid = GridSetup.Instance;
 
         if(grid == null)
@@ -59,6 +65,10 @@ public class PathfindingParamsSetupSystem : SystemBase
             }).Run();
 
         // Entities in Pathfinding mode
+        EnemyQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<EnemyTag>() }
+        });
 
         var commandBuffer = ecb.CreateCommandBuffer();
         var ecbConcurrent = commandBuffer;

@@ -18,6 +18,16 @@ public class EnemyFsmSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         var commandBuffer = ecb.CreateCommandBuffer();
 
         var ecbConcurrent = commandBuffer;

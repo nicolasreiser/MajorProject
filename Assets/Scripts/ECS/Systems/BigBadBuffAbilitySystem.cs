@@ -9,6 +9,16 @@ public class BigBadBuffAbilitySystem : SystemBase
 
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         bool isActive = false;
         if (sceneStorage == null)
         {

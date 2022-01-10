@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 5695781037630386323}
   - component: {fileID: 7707763551609715138}
   - component: {fileID: 1462817099}
+  - component: {fileID: -3272705288913318020}
   m_Layer: 0
   m_Name: Bomb Enemy
   m_TagString: Untagged
@@ -325,7 +326,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   PlayerDistance: 0
-  MaxPlayerDistance: 8
+  EnemyDetectionRange: 0
 --- !u!114 &5242377764718879285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -434,6 +435,18 @@ MonoBehaviour:
     x: 0
     y: 1
     z: 1
+--- !u!114 &-3272705288913318020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5242377764718879267}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &8482036926347399869
 PrefabInstance:
   m_ObjectHideFlags: 0

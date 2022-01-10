@@ -11,15 +11,18 @@ public class MeleeAttackSystem : SystemBase
 {
     private EntityQuery playerQuery;
 
-    protected override void OnCreate()
-    {
-        playerQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
-        });
-    }
     protected override void OnUpdate()
     {
+        PauseManagement pm = PauseManagement.Instance;
+
+        if (pm != null)
+        {
+            if (pm.IsPaused)
+            {
+                return;
+            }
+        }
+
         bool isPlayerHit = false;
         int damageToDeal = 0;
         float deltaTime = Time.DeltaTime;
@@ -28,6 +31,10 @@ public class MeleeAttackSystem : SystemBase
 
         float3 playerposition = float3.zero;
 
+        playerQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
+        });
 
         int player = playerQuery.CalculateEntityCount();
 

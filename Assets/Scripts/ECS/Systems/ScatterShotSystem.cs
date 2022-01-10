@@ -33,6 +33,7 @@ public class ScatterShotSystem : SystemBase
         Entities.
             WithoutBurst().
             WithAll<EnemyTag>().
+            WithNone<PausedTag>().
             ForEach((Entity entity, ref EnemyData enemyData, in Translation translation) =>
             {
                 if(enemyData.ScatterShot && enemyData.ScatterShotCooldown <= 0)

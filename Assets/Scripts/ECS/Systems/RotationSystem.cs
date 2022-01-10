@@ -16,6 +16,7 @@ public class RotationSystem : SystemBase
 
         Entities.
             WithAny<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 playerPosition = position;
@@ -34,7 +35,7 @@ public class RotationSystem : SystemBase
 
         Entities.
             WithAny<PlayerTag,EnemyTag>().
-            WithNone<AttackState>().
+            WithNone<AttackState, PausedTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 if (!moveData.direction.Equals(float3.zero))
@@ -59,6 +60,7 @@ public class RotationSystem : SystemBase
 
         Entities.
         WithAll<EnemyTag>().
+        WithNone<PausedTag>().
         ForEach((ref Entity targetEntity, ref Translation enemyPosition) =>
         {
             if (closestEnemy == Entity.Null)
@@ -78,6 +80,7 @@ public class RotationSystem : SystemBase
         // rotate towards closest enemy if not moving
         Entities.
             WithAll<PlayerTag>().
+            WithNone<PausedTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 if (closestEnemy != Entity.Null && !playerIsMoving)
@@ -101,6 +104,7 @@ public class RotationSystem : SystemBase
         // rotate attacking enemies towards player
 
         Entities.WithAll<EnemyTag, AttackState>().
+            WithNone<PausedTag>().
             ForEach((ref Entity entity, ref Translation position, ref Rotation rotation, in MoveData moveData) =>
             {
                 
