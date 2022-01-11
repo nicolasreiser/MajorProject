@@ -51,6 +51,17 @@ public class DeathStateSystem : SystemBase
 
                 // add currency to player
 
+                if(!enemyData.hasGivenGold)
+                {
+                    CurrencyManager currencyManager = CurrencyManager.Instance;
+
+                    currencyManager.AddGold(enemyData.Gold);
+                    enemyData.hasGivenGold = true;
+
+                    Debug.Log("Added Gold");
+                }
+
+
                 // add experience
                 if(!enemyData.hasGivenExperience)
                 {

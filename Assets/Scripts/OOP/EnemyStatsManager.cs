@@ -28,11 +28,11 @@ public class EnemyStatsManager : MonoBehaviour
             Value = new Unity.Mathematics.float4x4(rotation: Quaternion.identity, translation: new Unity.Mathematics.float3(0, 0, 0))
         });
 
-        DynamicBuffer<EnemyDataContainer> playerDataContainers = entityManager.GetBuffer<EnemyDataContainer>(entity);
+        DynamicBuffer<EnemyDataContainer> enemyDataContainers = entityManager.GetBuffer<EnemyDataContainer>(entity);
 
-        playerDataContainers.Add(new EnemyDataContainer(MeleeEnemy.health,MeleeEnemy.Range, MeleeEnemy.dammage,MeleeEnemy.MaxRange, MeleeEnemy.DetectionRange, MeleeEnemy.WeaponCooldown, MeleeEnemy.Experience));
-        playerDataContainers.Add(new EnemyDataContainer(RangedEnemy.health, RangedEnemy.Range, RangedEnemy.dammage, RangedEnemy.MaxRange, RangedEnemy.DetectionRange, RangedEnemy.WeaponCooldown, RangedEnemy.Experience));
-        playerDataContainers.Add(new EnemyDataContainer(BombEnemy.health, BombEnemy.Range, BombEnemy.dammage, BombEnemy.MaxRange, BombEnemy.DetectionRange, BombEnemy.WeaponCooldown, BombEnemy.Experience));
+        enemyDataContainers.Add(new EnemyDataContainer(MeleeEnemy.health,MeleeEnemy.Range, MeleeEnemy.dammage,MeleeEnemy.MaxRange, MeleeEnemy.DetectionRange, MeleeEnemy.WeaponCooldown, MeleeEnemy.Experience, MeleeEnemy.Gold));
+        enemyDataContainers.Add(new EnemyDataContainer(RangedEnemy.health, RangedEnemy.Range, RangedEnemy.dammage, RangedEnemy.MaxRange, RangedEnemy.DetectionRange, RangedEnemy.WeaponCooldown, RangedEnemy.Experience, RangedEnemy.Gold));
+        enemyDataContainers.Add(new EnemyDataContainer(BombEnemy.health, BombEnemy.Range, BombEnemy.dammage, BombEnemy.MaxRange, BombEnemy.DetectionRange, BombEnemy.WeaponCooldown, BombEnemy.Experience, BombEnemy.Gold));
 
     }
 

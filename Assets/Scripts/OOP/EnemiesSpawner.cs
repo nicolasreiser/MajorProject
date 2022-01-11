@@ -23,18 +23,28 @@ public class EnemiesSpawner : MonoBehaviour
     private bool IsActive = false;
 
     private Entity entityStorage;
+
+    private PauseManagement pm;
     // Start is called before the first frame update
     void Start()
     {
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         currentDelayBetweenSpawns = 0;
         GetPrefabs();
-        
+        pm = PauseManagement.Instance;
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if(pm != null)
+        {
+            if(pm.IsPaused)
+            {
+                return;
+            }
+        }
         GetTrigger();
         if (!IsActive)
             return;
@@ -112,6 +122,7 @@ public class EnemiesSpawner : MonoBehaviour
         i.EnemyDetectionRange = GetEnemyDataComponent()[((int)enemyType)].DetectionRange;
 
         entityManager.SetComponentData(e,i);
+
         // set enemies stats
 
         EnemyData enemyData = entityManager.GetComponentData<EnemyData>(e);
@@ -119,6 +130,7 @@ public class EnemiesSpawner : MonoBehaviour
         enemyData.BaseHealth = GetEnemyDataComponent()[((int)enemyType)].Health;
         enemyData.CurrentHealth = GetEnemyDataComponent()[((int)enemyType)].Health;
         enemyData.Experience = GetEnemyDataComponent()[((int)enemyType)].Experience;
+        enemyData.Gold = GetEnemyDataComponent()[((int)enemyType)].Gold;
             
         
 

@@ -19,3 +19,4 @@ MonoBehaviour:
   dammage: 10
   WeaponCooldown: 1
   Experience: 10
+  Gold: 10

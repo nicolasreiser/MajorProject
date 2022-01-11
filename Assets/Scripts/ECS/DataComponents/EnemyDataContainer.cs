@@ -13,8 +13,9 @@ public struct EnemyDataContainer : IBufferElementData
     public int DetectionRange;
     public float Cooldown;
     public int Experience;
+    public int Gold;
 
-    public EnemyDataContainer(int Health, int Range, int Damage, int MaxRange, int DetectionRange, float Cooldown, int Experience)
+    public EnemyDataContainer(int Health, int Range, int Damage, int MaxRange, int DetectionRange, float Cooldown, int Experience, int Gold)
     {
         this.Health = Health;
         this.Range = Range;
@@ -23,6 +24,7 @@ public struct EnemyDataContainer : IBufferElementData
         this.DetectionRange = DetectionRange;
         this.Cooldown = Cooldown;
         this.Experience = Experience;
+        this.Gold = Gold;
     }
 
 }

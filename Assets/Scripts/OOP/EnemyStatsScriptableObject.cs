@@ -13,5 +13,6 @@ public class EnemyStatsScriptableObject : ScriptableObject
     public int dammage;
     public float WeaponCooldown;
     public int Experience;
+    public int Gold;
 
 }

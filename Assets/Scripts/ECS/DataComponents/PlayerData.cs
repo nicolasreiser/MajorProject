@@ -9,7 +9,6 @@ public struct PlayerData : IComponentData
     public int Level;
     public int BaseHealth;
     public int CurrentHealth;
-    public int gold;
     public int Experience;
     public int MaxExperience;
     public int OverflowExperience;
