@@ -13,7 +13,7 @@ public class PauseSystem : SystemBase
         {
             if(pm.IsPaused)
             {
-                Debug.Log("Pausing");
+                //Debug.Log("Pausing");
                 EntityManager e = EntityManager;
 
                 Entities.
@@ -29,7 +29,7 @@ public class PauseSystem : SystemBase
             }
             else
             {
-                Debug.Log("Unpausing");
+                //Debug.Log("Unpausing");
                 EntityManager e = EntityManager;
 
                 Entities.
@@ -42,37 +42,5 @@ public class PauseSystem : SystemBase
             }
         }
 
-        //if(Input.GetKeyDown(KeyCode.Space))
-        //{
-        //    Debug.Log("Pausing");
-        //    EntityManager e = EntityManager;
-
-        //    Entities.
-        //        WithNone<PausedTag>().
-        //        WithStructuralChanges().
-        //        ForEach((Entity entity, PausableTag pausable) =>
-        //        {
-        //            PausedTag paused = new PausedTag();
-        //            e.AddComponentData(entity, paused);
-
-
-        //         }).Run();
-
-        //}
-
-        //if (Input.GetKeyDown(KeyCode.M))
-        //{
-        //    Debug.Log("Unpausing");
-        //    EntityManager e = EntityManager;
-
-        //    Entities.
-        //        WithAll<PausedTag>().
-        //        WithStructuralChanges().
-        //        ForEach((Entity entity, PausableTag pausable) =>
-        //        {
-        //            e.RemoveComponent<PausedTag>(entity);
-        //        }).Run();
-
-        //}
     }
 }

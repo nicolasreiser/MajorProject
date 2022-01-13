@@ -46,7 +46,7 @@ public class LevelManagerSystem : SystemBase
             .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles)
+                if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles && levelDataComponent.hasSaved)
                 {
                     enemiesSpawner = null;
 
@@ -290,6 +290,7 @@ public class LevelManagerSystem : SystemBase
                         levelDataComponent.ActivePlayer = false;
                         levelDataComponent.ReadyForNextLevel = true;
                         levelDataComponent.CleanupObstacles = false;
+                        levelDataComponent.hasSaved = false;
                     }
                     levelDataComponent.ExitTimer -= deltatime;
                 }

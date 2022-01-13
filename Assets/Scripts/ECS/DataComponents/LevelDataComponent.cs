@@ -34,4 +34,6 @@ public struct LevelDataComponent : IComponentData
     public bool isStartLevel;
     public bool isEndLevel;
 
+    public bool hasSaved;
+
 }
