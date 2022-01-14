@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerStats
 {
-    public int Currency;
+    public int RunCurrency;
+    public int TotalCurrency;
     public int TopLevel;
+    public int LastLevel;
     public int AbilityType;
 }

@@ -6,14 +6,14 @@ using System.Runtime.Serialization.Formatters.Binary;
 
 public static class SaveManager
 {
-    public static void SaveStats(PlayerStats playerStats, int SaveType)
+    public static void SaveStats(PlayerStats playerStats)
     {
         BinaryFormatter formatter = new BinaryFormatter();
 
-        string path = Application.persistentDataPath + "/plaverSave.txt";
+        string path = Application.persistentDataPath + "/playerSave.txt";
         FileStream stream = new FileStream(path,FileMode.Create);
 
-        SaveData data = new SaveData(playerStats, SaveType);
+        SaveData data = new SaveData(playerStats);
 
         formatter.Serialize(stream, data);
         stream.Close();

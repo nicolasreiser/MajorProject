@@ -32,6 +32,11 @@ public class EnemyHealthbarSystem : SystemBase
                 return;
             }
         }
+
+        if(objectPooler == null)
+        {
+            objectPooler = GameObject.FindObjectOfType<ObjectPooler>();
+        }
         var commandBuffer = ecb.CreateCommandBuffer();
 
         if(uiCanvas == null)

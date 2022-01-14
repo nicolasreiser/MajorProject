@@ -16,6 +16,11 @@ public class HealthBarCleanupSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        if(objectPooler == null)
+        {
+            objectPooler = GameObject.FindObjectOfType<ObjectPooler>();
+
+        }
         var commandBuffer = ecb.CreateCommandBuffer();
 
         Entities.WithoutBurst().

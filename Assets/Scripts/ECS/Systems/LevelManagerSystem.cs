@@ -23,6 +23,9 @@ public class LevelManagerSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        //TODO is in game check
+
+
         PauseManagement pm = PauseManagement.Instance;
 
         if(pm != null)
@@ -46,7 +49,7 @@ public class LevelManagerSystem : SystemBase
             .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles && levelDataComponent.hasSaved)
+                if (levelDataComponent.ReadyForNextLevel && levelDataComponent.CleanupObstacles && levelDataComponent.hasSaved && levelDataComponent.hasLoadedSave)
                 {
                     enemiesSpawner = null;
 

@@ -11,26 +11,14 @@ public class SaveData
     public int AbilityType;
 
 
-    public SaveData( PlayerStats playerStats, int SaveType)
+    public SaveData( PlayerStats playerStats)
     {
-        if(SaveType == 1)
-        {
-            // In Run Save
-            this.Currency += playerStats.Currency;
-            if (playerStats.TopLevel > this.TopLevel)
-            {
-                this.TopLevel = playerStats.TopLevel;
-            }
-        }
-        if(SaveType == 0)
-        {
-            this.Currency = playerStats.Currency;
-            if (playerStats.TopLevel > this.TopLevel)
-            {
-                this.TopLevel = playerStats.TopLevel;
-            }
-            this.AbilityType = playerStats.AbilityType;
 
+        this.Currency = playerStats.RunCurrency + playerStats.TotalCurrency;
+        if (playerStats.LastLevel > playerStats.TopLevel)
+        {
+            this.TopLevel = playerStats.LastLevel;
         }
+        this.AbilityType = playerStats.AbilityType;
     }
 }

@@ -5,15 +5,31 @@ using Unity.Entities;
 
 public class SaveSystem : SystemBase
 {
+    PlayerStats stats;
+
+    protected override void OnCreate()
+    {
+        stats = new PlayerStats();
+    }
+
     protected override void OnUpdate()
     {
         EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<LevelDataComponent>());
 
-        if(query != null)
+        if(!query.IsEmpty)
         {
             LevelDataComponent ldc = EntityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
 
-            if(ldc.ReadyForNextLevel && !ldc.hasSaved)
+            if (ldc.ReadyForNextLevel && !ldc.hasLoadedSave)
+            {
+                Load();
+                ldc.hasLoadedSave = true;
+                EntityManager.SetComponentData<LevelDataComponent>(query.GetSingletonEntity(), ldc);
+            }
+
+            ldc = EntityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
+
+            if (ldc.ReadyForNextLevel && !ldc.hasSaved)
             {
                 //Todo save mechanic
                 Save(ldc);
@@ -21,9 +37,12 @@ public class SaveSystem : SystemBase
                 EntityManager.SetComponentData<LevelDataComponent>(query.GetSingletonEntity(), ldc);
             }
 
+
+            
         }
 
         
+
     }
 
 
@@ -31,16 +50,29 @@ public class SaveSystem : SystemBase
     {
         Debug.Log("Saving...");
 
-        PlayerStats stats = new PlayerStats();
-        stats.Currency = CurrencyManager.Instance.Gold;
-        stats.TopLevel = ldc.currentLevel + 1;
+        stats.RunCurrency = CurrencyManager.Instance.Gold;
+        stats.LastLevel = ldc.currentLevel + 1;
+
         //To change
         EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
-        AbilityData abilityData = EntityManager.GetComponentData<AbilityData>(query.GetSingletonEntity());
+        if(!query.IsEmpty)
+        {
+            AbilityData abilityData = EntityManager.GetComponentData<AbilityData>(query.GetSingletonEntity());
+            stats.AbilityType = abilityData.AbilityType;
 
-        stats.AbilityType = abilityData.AbilityType;
+        }
 
-        SaveManager.SaveStats(stats,1);
 
+        SaveManager.SaveStats(stats);
+
+    }
+
+    private void Load()
+    {
+        SaveData saveData = SaveManager.LoadStats();
+
+        stats.TotalCurrency = saveData.Currency;
+        stats.AbilityType = saveData.AbilityType;
+        stats.TopLevel = saveData.TopLevel;
     }
 }

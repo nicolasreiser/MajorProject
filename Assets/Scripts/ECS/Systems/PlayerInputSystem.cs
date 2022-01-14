@@ -14,6 +14,11 @@ public class PlayseInputSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        if( joystick == null)
+        {
+            joystick = UnityEngine.Object.FindObjectOfType<FloatingJoystick>();
+
+        }
         var jw = joystick.Vertical;
         var jh = joystick.Horizontal;
         Entities.
