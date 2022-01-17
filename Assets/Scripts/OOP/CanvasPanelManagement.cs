@@ -2,14 +2,53 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using Unity.Entities;
 
 public class CanvasPanelManagement : MonoBehaviour
 {
     public GameObject DarkPanel;
-    
+
+    public int MainMenuIndex;
+    public int CharacterSelectionIndex;
+
+    EntityManager entityManager;
+
+
     public void PanelState(bool state)
     {
         StartCoroutine(PanelStateCoroutine(state));
+    }
+
+    public void LoadMainMenu()
+    {
+        StartCoroutine(PanelStateCoroutine(true));
+
+        ClearEntities();
+        
+        SceneManager.LoadScene(MainMenuIndex,LoadSceneMode.Single);
+    }
+
+    public void LoadCharacterSelection()
+    {
+        SceneManager.LoadScene(CharacterSelectionIndex, LoadSceneMode.Single);
+
+    }
+
+    public void ClearEntities()
+    {
+
+        entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
+
+        var queryDesc = new EntityQueryDesc
+        {
+            Any = new ComponentType[] { ComponentType.ReadWrite<Entity>(), ComponentType.ReadWrite<Prefab>() }
+
+        };
+        EntityQuery query = entityManager.CreateEntityQuery(queryDesc); 
+
+        entityManager.DestroyEntity(query);
+        
     }
 
     private IEnumerator PanelStateCoroutine( bool state)
@@ -47,4 +86,5 @@ public class CanvasPanelManagement : MonoBehaviour
 
 
     }
+
 }

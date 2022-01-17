@@ -11,7 +11,6 @@ public class PlayerStatsSystem : SystemBase
 
     private EntityQuery playerStatsQuery;
 
-    private Entity player;
     protected override void OnCreate()
     {
         base.OnCreate();
@@ -106,6 +105,7 @@ public class PlayerStatsSystem : SystemBase
 
     private void ActivePlayer()
     {
+        Entity player = Entity.Null;
         EntityQuery playerQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>());
         if (!playerQuery.IsEmpty)
         {
@@ -116,6 +116,7 @@ public class PlayerStatsSystem : SystemBase
         {
             return;
         }
+        Debug.Log("Player : " + player);
         Entities.
             WithStructuralChanges().
             WithNone<PausedTag>().

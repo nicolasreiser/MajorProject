@@ -13,15 +13,21 @@ public class SpawnerDataContainer : MonoBehaviour
 
     void Start()
     {
-        GenerateEntity();
+        StartCoroutine(EntityGenerationCoroutine());
     }
 
+    
 
-    private void GenerateEntity()
+
+    private bool GenerateEntity()
     {
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
         EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadWrite<LevelDataComponent>());
+        if(query.IsEmpty)
+        {
+            return false;
+        }
 
         var entity = query.GetSingletonEntity();
         entityManager.SetName(entity, "LevelAndSpawnerData");
@@ -42,6 +48,23 @@ public class SpawnerDataContainer : MonoBehaviour
 
         }
 
+        return true;
+
     }
+
+    private IEnumerator EntityGenerationCoroutine()
+    {
+        bool result = false;
+
+        while(!result)
+        {
+            yield return new  WaitForFixedUpdate();
+
+            result = GenerateEntity();
+        }
+
+
+    }
+
 }
 
