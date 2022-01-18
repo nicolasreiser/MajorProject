@@ -8,6 +8,7 @@ using Unity.Transforms;
 public class AbilitiesManager : MonoBehaviour
 {
     public Button AbilityButton;
+    public GameObject AbilityPanel;
     public Image AbilityImage;
     public Image CooldownImage;
     public TMPro.TextMeshProUGUI CooldownText;
@@ -24,7 +25,7 @@ public class AbilitiesManager : MonoBehaviour
          entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
         CreateAbilityStorageEntity();
         CreateAbilityDataEntity();
-
+        InitialiseAbility();
     }
 
     // Update is called once per frame
@@ -146,15 +147,62 @@ public class AbilitiesManager : MonoBehaviour
                 data.BaseCooldown = AbilitySO[3].Cooldown;
                 break;
             default:
+                data.AbilityType = 0;
                 break;
         }
+
         entityManager.SetComponentData(query.GetSingletonEntity(),data);
     }
     public void SetAbility1()
     {
         SetAbility(AbilityType.BigBadBuff);
+        InitialiseAbility();
     }
 
+    private void InitialiseAbility()
+    {
+
+        //todo, wait for save to be loaded and it has to be start level
+
+        StartCoroutine(InitialisationCoroutine());
+    }
+    private IEnumerator InitialisationCoroutine()
+    {
+        EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<LevelDataComponent>());
+
+        LevelDataComponent ldc = new LevelDataComponent();
+        while (query.CalculateEntityCount() == 0)
+        {
+            query = entityManager.CreateEntityQuery(ComponentType.ReadOnly<LevelDataComponent>());
+            
+            yield return new WaitForFixedUpdate();
+        }
+
+        ldc = entityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
+
+        while (!ldc.hasLoadedSave || !ldc.isStartLevel)
+        {
+            yield return new WaitForFixedUpdate();
+        }
+
+        EntityQuery abilityQuery = entityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
+        AbilityData data = entityManager.GetComponentData<AbilityData>(abilityQuery.GetSingletonEntity());
+
+        if (data.AbilityType <= 0)
+        {
+            Debug.Log("No ability selected");
+            AbilityPanel.SetActive(false);
+        }
+        else
+        {
+            AbilityPanel.SetActive(true);
+
+            AbilityType type = (AbilityType)data.AbilityType;
+            Debug.Log("Ability " + type + " selected");
+
+            SetAbility(type);
+        }
+    }
     public bool IsOnCooldown()
     {
         EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());

@@ -43,6 +43,7 @@ public struct AbilityStorageData : IBufferElementData
 
 public enum AbilityType
 {
+    None = 0,
     BigBadBuff = 1,
     Dash = 2,
     Nova = 3

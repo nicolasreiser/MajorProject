@@ -106,7 +106,15 @@ public class PlayerStatsSystem : SystemBase
     private void ActivePlayer()
     {
         Entity player = Entity.Null;
-        EntityQuery playerQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>());
+
+        var entityQueryDesc = new EntityQueryDesc
+        {
+            All = new ComponentType[] {  ComponentType.ReadOnly<PlayerData>() },
+            Options = EntityQueryOptions.IncludeDisabled
+        };
+
+        EntityQuery playerQuery = GetEntityQuery(entityQueryDesc);
+
         if (!playerQuery.IsEmpty)
         {
             player = playerQuery.GetSingletonEntity();
@@ -116,7 +124,6 @@ public class PlayerStatsSystem : SystemBase
         {
             return;
         }
-        Debug.Log("Player : " + player);
         Entities.
             WithStructuralChanges().
             WithNone<PausedTag>().
@@ -128,6 +135,7 @@ public class PlayerStatsSystem : SystemBase
                }
                else
                {
+                   
                    EntityManager.SetEnabled(player, true);
                }
            }).Run();

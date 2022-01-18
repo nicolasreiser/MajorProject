@@ -129,6 +129,7 @@ public class LevelManagerSystem : SystemBase
            {
                monobehaviourStorageComponent = storage;
            }).Run();
+
             if (monobehaviourStorageComponent.MainCanvas != null)
 
             {
@@ -138,6 +139,7 @@ public class LevelManagerSystem : SystemBase
                     .WithNone<PausedTag>()
                     .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
                     {
+                        
                         if (!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty && levelDataComponent.PlayerSpawnTimer <= 0)
                         {
                             EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
@@ -149,14 +151,19 @@ public class LevelManagerSystem : SystemBase
 
                             levelDataComponent.ActivePlayer = true;
                             levelDataComponent.PlayerSpawned = true;
+
+                            Debug.Log("Player Spawned 1");
                         }
                         if (!levelDataComponent.PlayerSetPosition && levelDataComponent.PlayerSpawnTimer <= 0)
                         {
+                            Debug.Log("1");
                             levelDataComponent.ActivePlayer = true;
 
                             EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
                             if (entityQuery.IsEmpty)
                                 return;
+
+                            Debug.Log("2");
 
                             Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
                             Vector3 pos = playerSpawnPosition.Value;
@@ -164,11 +171,11 @@ public class LevelManagerSystem : SystemBase
                             EntityManager.SetComponentData(entityQuery.GetSingletonEntity(), t);
                             levelDataComponent.PlayerSetPosition = true;
 
-                            Debug.Log("MonobehaviourStorageComponent: " + monobehaviourStorageComponent);
-                            Debug.Log("MonobehaviourStorageComponent.MainCanvas: " + monobehaviourStorageComponent.MainCanvas);
-                            Debug.Log("MonobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>(): " + monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>());
                             CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
                             cpm.PanelState(false);
+
+                            Debug.Log("Player Spawned 2");
+
                         }
                         levelDataComponent.PlayerSpawnTimer -= deltatime;
                     }).Run();

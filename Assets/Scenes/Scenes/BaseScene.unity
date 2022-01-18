@@ -1329,6 +1329,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DarkPanel: {fileID: 834192317}
   MainMenuIndex: 5
+  CharacterSelectionIndex: 0
 --- !u!114 &178653805
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6212,6 +6213,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   AbilityButton: {fileID: 1017902744}
+  AbilityPanel: {fileID: 100706618}
   AbilityImage: {fileID: 1017902745}
   CooldownImage: {fileID: 67673259}
   CooldownText: {fileID: 1803437637}

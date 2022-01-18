@@ -73,6 +73,18 @@ public class SaveSystem : SystemBase
 
         stats.TotalCurrency = saveData.Currency;
         stats.AbilityType = saveData.AbilityType;
+
+        EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
+        if (!query.IsEmpty)
+        {
+            AbilityData abilityData = EntityManager.GetComponentData<AbilityData>(query.GetSingletonEntity());
+            abilityData.AbilityType = stats.AbilityType;
+
+            EntityManager.SetComponentData(query.GetSingletonEntity(), abilityData);
+        }
+        
         stats.TopLevel = saveData.TopLevel;
+
+        Debug.Log("Loaded...");
     }
 }
