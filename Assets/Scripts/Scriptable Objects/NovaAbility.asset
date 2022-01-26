@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c5d1557cc695267448a353fb5c762864, type: 3}
+  m_Name: NovaAbility
+  m_EditorClassIdentifier: 
+  Ability: 3
+  Cooldown: 5
+  Description: Shoot lots Bullets around yourself for a short duratiom
+  Picture: {fileID: 21300000, guid: ed3b4c75a68320349a9f4481bab4876c, type: 3}
+  InventoryIcon: {fileID: 0}
+  Unlocked: 0
+  Selected: 0
+  InternalCooldown: 0.001
+  Duration: 1

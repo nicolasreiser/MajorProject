@@ -38,53 +38,50 @@ public class TimedDestroySystem : SystemBase
             .WithNone<PausedTag>()
             .ForEach((Entity entity, int entityInQueryIndex, ref LifetimeData lifetimeData, ref DynamicBuffer<Child> childrenFromEntity) =>
             {
-               // Debug.Log("Entering death1 children : "+ childrenFromEntity.Length);
-
-            if (lifetimeData.ShouldDie)
-            {
-                    if(!childrenFromEntity.IsEmpty)
-                    {
-                        List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
-                        //Debug.Log("List of entities : " + entities.Count);
-                        foreach (var item in entities)
+                if (lifetimeData.ShouldDie)
+                {
+                        if(!childrenFromEntity.IsEmpty)
                         {
-                            EntityManager.DestroyEntity(item);
+                            List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
+                            foreach (var item in entities)
+                            {
+                                EntityManager.DestroyEntity(item);
+                            }
                         }
-                    }
-
-                return;
-            }
-            lifetimeData.Lifetime -= deltaTime;
-            if (lifetimeData.Lifetime <= 0)
-            {
-                    if (!childrenFromEntity.IsEmpty)
-                    {
-                        List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
-                        //Debug.Log("List of entities : " + entities.Count);
-                        foreach(var item in entities)
-                        {
-                            EntityManager.DestroyEntity(item);
-                        }
-                    }
-
+                    return;
                 }
+                lifetimeData.Lifetime -= deltaTime;
+                if (lifetimeData.Lifetime <= 0)
+                {
+                        if (!childrenFromEntity.IsEmpty)
+                        {
+                            List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
+                            foreach(var item in entities)
+                            {
+                                EntityManager.DestroyEntity(item);
+                            }
+                        }
+                    }
             }).Run();
 
     }
     List<Entity> GetListOfEntities(Entity entity,  DynamicBuffer<Child> childrenFromEntity)
     {
+        // Create an empty list of Entities
         List<Entity> entities = new List<Entity>();
         BufferFromEntity<Child> childBuffer = this.GetBufferFromEntity<Child>(true);
 
+        // Iterate over possible children
         foreach (var child in childrenFromEntity)
         {
             var childEntity = child.Value;
             bool hasChild = childBuffer.HasComponent(childEntity);
-
+            // If a  child Entity is found recursively use this method to find other children
             if (hasChild)
             {
                 var childbuffer = EntityManager.GetBuffer<Child>(childEntity);
                 List<Entity> childEntitiesList = GetListOfEntities(childEntity, childbuffer);
+                // Add the entities found to the main Entity list
                 foreach (var item in childEntitiesList)
                 {
                     entities.Add(item);
@@ -96,6 +93,7 @@ public class TimedDestroySystem : SystemBase
             }
         }
         entities.Add(entity);
+        // Return the list of child Entities
         return entities;
     }
 }

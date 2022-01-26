@@ -25,15 +25,15 @@ public class BigBadBuffAbilitySystem : SystemBase
             sceneStorage = SceneStorage.Instance;
         }
 
-        // FOR TESTING
+
         var deltaTime = Time.DeltaTime;
         Entities.ForEach((Entity entity, ref AbilityData abilityData) =>
         {
             abilityData.CurrentCooldown -= deltaTime;
-            abilityData.Duration -= deltaTime; 
+            abilityData.Duration -= deltaTime;
             if (abilityData.CurrentCooldown < 0)
                 abilityData.CurrentCooldown = 0;
-            if(abilityData.Duration < 0)
+            if (abilityData.Duration < 0)
                 abilityData.Duration = 0;
         }).Run();
 

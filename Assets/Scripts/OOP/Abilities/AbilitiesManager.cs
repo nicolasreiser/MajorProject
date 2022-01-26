@@ -87,14 +87,17 @@ public class AbilitiesManager : MonoBehaviour
             switch (item.Ability)
             {
                 case AbilityType.BigBadBuff:
-                    BBBAbilityScriptableObject bbb = item as BBBAbilityScriptableObject;
 
+                    BBBAbilityScriptableObject bbb = item as BBBAbilityScriptableObject;
                     abilityStorage.Add(new AbilityStorageData(bbb.Ability, bbb.Cooldown, bbb.Unlocked, bbb.Selected,bbb.AttackDamageBuff,bbb.AttackSpeedBuff, bbb.Duration));
 
                     break;
                 case AbilityType.Dash:
                     break;
                 case AbilityType.Nova:
+
+                    NovaScriptableObject nso = item as NovaScriptableObject;
+                    abilityStorage.Add(new AbilityStorageData(nso.Ability, nso.Cooldown, nso.Unlocked, nso.Selected, nso.Duration, nso.InternalCooldown));
                     break;
                 default:
                     break;
@@ -156,6 +159,11 @@ public class AbilitiesManager : MonoBehaviour
     public void SetAbility1()
     {
         SetAbility(AbilityType.BigBadBuff);
+        InitialiseAbility();
+    }
+    public void SetAbility3()
+    {
+        SetAbility(AbilityType.Nova);
         InitialiseAbility();
     }
 
