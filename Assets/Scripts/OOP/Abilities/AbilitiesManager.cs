@@ -93,6 +93,9 @@ public class AbilitiesManager : MonoBehaviour
 
                     break;
                 case AbilityType.Dash:
+                    DashAbilityScriptableObject dash = item as DashAbilityScriptableObject;
+                    abilityStorage.Add(new AbilityStorageData(dash.Ability, dash.Cooldown, dash.Unlocked, dash.Selected, dash.Duration));
+
                     break;
                 case AbilityType.Nova:
 
@@ -159,6 +162,11 @@ public class AbilitiesManager : MonoBehaviour
     public void SetAbility1()
     {
         SetAbility(AbilityType.BigBadBuff);
+        InitialiseAbility();
+    }
+    public void SetAbility2()
+    {
+        SetAbility(AbilityType.Dash);
         InitialiseAbility();
     }
     public void SetAbility3()

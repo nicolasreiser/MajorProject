@@ -56,6 +56,18 @@ public struct AbilityStorageData : IBufferElementData
         this.IntervalCooldown = InternalCooldown;
     }
 
+    public AbilityStorageData(AbilityType abilityType, float Cooldown, bool Unlocked, bool Selected, float Duration)
+    {
+        Ability = (int)abilityType;
+        this.Cooldown = Cooldown;
+        this.Unlocked = Unlocked;
+        this.Selected = Selected;
+        this.IsCast = false;
+        DamageModifier = 1;
+        AttackspeedModifier = 1;
+        this.Duration = Duration;
+        this.IntervalCooldown = 0;
+    }
 }
 
 public enum AbilityType

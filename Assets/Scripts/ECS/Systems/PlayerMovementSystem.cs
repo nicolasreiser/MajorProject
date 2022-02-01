@@ -59,6 +59,7 @@ public class PlayerMovementSystem : SystemBase
                     physics.Linear.xz = newVel;
 
 
+
                     if (physics.Linear.x > moveData.maxVelocity)
                     {
                         physics.Linear.x = moveData.maxVelocity;

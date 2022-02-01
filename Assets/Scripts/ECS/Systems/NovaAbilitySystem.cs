@@ -11,7 +11,6 @@ public class NovaAbilitySystem : SystemBase
     SceneStorage sceneStorage;
 
     private bool isRunning;
-    private int bulletNrShot;
     protected override void OnUpdate()
     {
         PauseManagement pm = PauseManagement.Instance;
@@ -93,6 +92,7 @@ public class NovaAbilitySystem : SystemBase
                 abilityData.IsCast = false;
                 isCast = true;
                 abilityData.Duration = abilityStorage[3].Duration;
+                abilityData.Active = true;
             }
 
         }).Run();
@@ -102,7 +102,6 @@ public class NovaAbilitySystem : SystemBase
         if (isCast)
         {
             isRunning = true;
-            bulletNrShot = 1;
         }
 
         if (isRunning)
@@ -111,19 +110,17 @@ public class NovaAbilitySystem : SystemBase
         }
         // check if the ability is finished
 
-        bool isFinished = false;
-        Entities.ForEach((Entity entity, ref AbilityData abilityData) =>
+        Entities.WithoutBurst()
+            .ForEach((Entity entity, ref AbilityData abilityData) =>
         {
-            if (abilityData.Duration <= 0)
+            if (abilityData.Duration <= 0 && abilityData.Active)
             {
-                isFinished = true;
+                isRunning = false;
+                abilityData.Active = false;
             }
         }).Run();
 
-        if (isFinished)
-        {
-            isRunning = false;
-        }
+        
     }
 
 

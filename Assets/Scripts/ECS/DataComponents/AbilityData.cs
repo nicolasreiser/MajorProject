@@ -9,5 +9,6 @@ public struct AbilityData : IComponentData
     public float CurrentCooldown;
     public float InternalCooldown;
     public float Duration;
+    public bool Active;
     public bool IsCast;
 }

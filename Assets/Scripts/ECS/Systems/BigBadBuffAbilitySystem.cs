@@ -89,7 +89,7 @@ public class BigBadBuffAbilitySystem : SystemBase
                 abilityData.IsCast = false;
                 isCast = true;
                 abilityData.Duration = abilityStorage[1].Duration;
-                Debug.Log("Ability got cast");
+                abilityData.Active = true;
             }
 
         }).Run();
@@ -108,16 +108,17 @@ public class BigBadBuffAbilitySystem : SystemBase
         }
 
         // check if the ability is finished
-        bool isFinished = false;
+        bool removeModifiers = false;
         Entities.ForEach((Entity entity, ref AbilityData abilityData) =>
         {
-            if(abilityData.Duration <= 0)
+            if(abilityData.Duration <= 0 && abilityData.Active)
             {
-                isFinished = true;
+                abilityData.Active = false;
+                removeModifiers = true;
             }
         }).Run();
 
-        if(isFinished)
+        if(removeModifiers)
         {
             Entities.
                 WithoutBurst().
@@ -139,7 +140,7 @@ public class BigBadBuffAbilitySystem : SystemBase
     }
     private void RemoveModifiers(ref PlayerData playerData)
     {
-        //Debug.Log("Rmoved the modifiers");
+        Debug.Log("Removed the modifiers");
         playerData.AttackSpeedModifier = 1;
         playerData.AttackDamageModifier = 1;
 
