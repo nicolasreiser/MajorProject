@@ -88,7 +88,7 @@ public class BigBadBuffAbilitySystem : SystemBase
             {
                 abilityData.IsCast = false;
                 isCast = true;
-                abilityData.Duration = abilityStorage[1].Duration;
+                abilityData.Duration = abilityStorage[0].Duration;
                 abilityData.Active = true;
             }
 
@@ -101,7 +101,7 @@ public class BigBadBuffAbilitySystem : SystemBase
                 WithoutBurst().
                 ForEach((Entity entity, ref PlayerData playerData) =>
             {
-                ApplyModifiers(ref  playerData, abilityStorage[1]);
+                ApplyModifiers(ref  playerData, abilityStorage[0]);
 
             }).Run();
 

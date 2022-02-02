@@ -91,7 +91,7 @@ public class NovaAbilitySystem : SystemBase
             {
                 abilityData.IsCast = false;
                 isCast = true;
-                abilityData.Duration = abilityStorage[3].Duration;
+                abilityData.Duration = abilityStorage[2].Duration;
                 abilityData.Active = true;
             }
 
@@ -106,7 +106,7 @@ public class NovaAbilitySystem : SystemBase
 
         if (isRunning)
         {
-            CastNova(deltaTime, projectile, abilityStorage[3]);
+            CastNova(deltaTime, projectile, abilityStorage[2]);
         }
         // check if the ability is finished
 

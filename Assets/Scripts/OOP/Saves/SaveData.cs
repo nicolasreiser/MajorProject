@@ -10,6 +10,9 @@ public class SaveData
 
     public int AbilityType;
 
+    public List<bool> AbilitiesUnlocked;
+
+
 
     public SaveData( PlayerStats playerStats)
     {
@@ -20,5 +23,11 @@ public class SaveData
             this.TopLevel = playerStats.LastLevel;
         }
         this.AbilityType = playerStats.AbilityType;
+
+        AbilitiesUnlocked = new List<bool>();
+        foreach(bool ability in playerStats.AbilitiesLock)
+        {
+            AbilitiesUnlocked.Add(ability);
+        }
     }
 }

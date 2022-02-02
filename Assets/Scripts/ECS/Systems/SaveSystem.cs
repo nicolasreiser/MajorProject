@@ -74,6 +74,15 @@ public class SaveSystem : SystemBase
         stats.TotalCurrency = saveData.Currency;
         stats.AbilityType = saveData.AbilityType;
 
+
+        stats.AbilitiesLock = new List<bool>();
+
+        foreach (bool item in saveData.AbilitiesUnlocked)
+        {
+            stats.AbilitiesLock.Add(item); 
+
+        }
+
         EntityQuery query = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
         if (!query.IsEmpty)
         {

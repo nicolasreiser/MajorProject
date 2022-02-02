@@ -6430,10 +6430,9 @@ MonoBehaviour:
   CooldownImage: {fileID: 67673259}
   CooldownText: {fileID: 1803437637}
   AbilitySO:
-  - {fileID: 11400000, guid: 6da8d462fa9b2a243a3d179e8f67927c, type: 2}
   - {fileID: 11400000, guid: 118edf9498134744599505e7d51e5118, type: 2}
-  - {fileID: 11400000, guid: 688b0ece580207540b65249366b777fe, type: 2}
   - {fileID: 11400000, guid: a2921c4bf27f3474d8381861d0da2fab, type: 2}
+  - {fileID: 11400000, guid: 688b0ece580207540b65249366b777fe, type: 2}
 --- !u!4 &1352788358
 Transform:
   m_ObjectHideFlags: 0

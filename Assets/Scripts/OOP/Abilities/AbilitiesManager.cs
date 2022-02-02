@@ -45,6 +45,13 @@ public class AbilitiesManager : MonoBehaviour
         }
 
 
+        // DEBUG
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            CastAbility();
+        }
+
     }
 
     public void SelectAbility(AbilityType abilityType)
@@ -105,7 +112,7 @@ public class AbilitiesManager : MonoBehaviour
                 default:
                     break;
             }
-            abilityStorage.Add(new AbilityStorageData(item.Ability,item.Cooldown, item.Unlocked, item.Selected));
+            //abilityStorage.Add(new AbilityStorageData(item.Ability,item.Cooldown, item.Unlocked, item.Selected));
         }
     }
 

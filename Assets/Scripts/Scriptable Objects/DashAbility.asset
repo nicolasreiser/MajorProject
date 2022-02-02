@@ -19,4 +19,4 @@ MonoBehaviour:
   InventoryIcon: {fileID: 0}
   Unlocked: 0
   Selected: 0
-  Duration: 0.2
+  Duration: 0.07

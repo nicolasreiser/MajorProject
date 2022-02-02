@@ -2,7 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Mathematics;
+using Unity.Transforms;
+using Unity.Physics;
 
+[UpdateAfter(typeof(PlayerMovementSystem))]
 public class DashAbilitySystem : SystemBase
 {
 
@@ -81,31 +85,43 @@ public class DashAbilitySystem : SystemBase
             {
                 abilityData.IsCast = false;
                 isCast = true;
-                abilityData.Duration = abilityStorage[3].Duration;
+                abilityData.Duration = abilityStorage[1].Duration;
                 abilityData.Active = true;
             }
 
         }).Run();
 
-
+        
+        
         if (isCast)
+        {
+            isRunning = true;
+        }
+
+        if(isRunning)
         {
             DashStart();
         }
 
         // check if the ability is finished
-
+        bool removeModifiers = false;
         Entities.
             WithoutBurst()
             .ForEach((Entity entity, ref AbilityData abilityData) =>
         {
             if (abilityData.Duration <= 0 && abilityData.Active)
             {
-                DashFinish();
+                isRunning = false;
 
+                removeModifiers = true;
                 abilityData.Active = false;
             }
         }).Run();
+
+        if (removeModifiers)
+        {
+            DashFinish();
+        }
 
     }
 
@@ -113,6 +129,20 @@ public class DashAbilitySystem : SystemBase
     private void DashStart()
     {
         Debug.Log("Started Dashing");
+
+        float deltaTime = Time.DeltaTime;
+        Entities.
+            WithAll<PlayerTag>().
+            WithNone<PausedTag>().
+            ForEach((ref PhysicsVelocity physics, ref PhysicsMass mass, ref Translation pos, ref Rotation rotation, ref MoveData moveData) =>
+            {
+                float2 newVel = physics.Linear.xz;
+
+                 newVel += moveData.lastDirection.xz * moveData.speed * deltaTime * 50;
+                
+                physics.Linear.xz = newVel;
+            }
+            ).Run();
     }
 
     private void DashFinish()

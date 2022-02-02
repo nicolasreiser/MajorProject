@@ -9,4 +9,7 @@ public class PlayerStats
     public int TopLevel;
     public int LastLevel;
     public int AbilityType;
+    public List<bool> AbilitiesLock; 
 }
+
+

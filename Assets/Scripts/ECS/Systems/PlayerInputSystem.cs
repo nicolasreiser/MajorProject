@@ -28,6 +28,12 @@ public class PlayseInputSystem : SystemBase
             moveData.direction.x = jh;
             moveData.direction.z = jw;
 
+            if(jh != 0 && jw != 0)
+            {
+                moveData.lastDirection.x = jh;
+                moveData.lastDirection.z = jw;
+            }
+
         }).Run();
     }
 }

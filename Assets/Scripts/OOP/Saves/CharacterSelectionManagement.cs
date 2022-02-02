@@ -53,9 +53,11 @@ public class CharacterSelectionManagement : MonoBehaviour
         data.Currency += value;
     }
 
+    
     private void SetAbility( SaveData saveData)
     {
-
+        AbilitySelection AS = GetComponent<AbilitySelection>();
+        AS.SelectAbility(saveData.AbilityType);
     }
 
     public void SaveProgress()
@@ -64,6 +66,13 @@ public class CharacterSelectionManagement : MonoBehaviour
         stats.TotalCurrency = data.Currency;
         stats.AbilityType = data.AbilityType;
         stats.TopLevel = data.TopLevel;
+
+        stats.AbilitiesLock = new List<bool>();
+        foreach (bool item in data.AbilitiesUnlocked)
+        {
+            stats.AbilitiesLock.Add(item);
+
+        }
 
         SaveManager.SaveStats(stats);
 
