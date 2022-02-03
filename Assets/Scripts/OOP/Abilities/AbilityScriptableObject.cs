@@ -14,4 +14,5 @@ public class AbilityScriptableObject : ScriptableObject
     public Sprite InventoryIcon;
     public bool Unlocked;
     public bool Selected;
+    public int Price;
 }

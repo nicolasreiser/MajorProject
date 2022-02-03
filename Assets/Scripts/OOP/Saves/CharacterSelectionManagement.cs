@@ -11,13 +11,13 @@ public class CharacterSelectionManagement : MonoBehaviour
     {
        data = SaveManager.LoadStats();
 
-        if(data == null)
-        {
-            Debug.Log("Created new save");
-            PlayerStats stats = new PlayerStats();
+        //if(data == null)
+        //{
+        //    Debug.Log("Created new save");
+        //    PlayerStats stats = new PlayerStats();
             
-            data = new SaveData(stats);
-        }
+        //    data = new SaveData(stats);
+        //}
         SetCurrency(data);
         SetAbility(data);
     }
@@ -43,18 +43,32 @@ public class CharacterSelectionManagement : MonoBehaviour
         return data.Currency;
     }
 
-    public void RemoveCurrency( int value)
+    public void RemoveCurrency(int value)
     {
         data.Currency -= value;
+        CharacterMenuUI ui = GameObject.FindObjectOfType<CharacterMenuUI>();
+
+        if (ui != null)
+        {
+            ui.CurrencyText.text = data.Currency.ToString();
+
+        }
     }
 
-    public void AddCurrency( int value)
+    public void AddCurrency(int value)
     {
         data.Currency += value;
+
+        CharacterMenuUI ui = GameObject.FindObjectOfType<CharacterMenuUI>();
+
+        if (ui != null)
+        {
+            ui.CurrencyText.text = data.Currency.ToString();
+
+        }
     }
 
-    
-    private void SetAbility( SaveData saveData)
+     private void SetAbility( SaveData saveData)
     {
         AbilitySelection AS = GetComponent<AbilitySelection>();
         AS.SelectAbility(saveData.AbilityType);

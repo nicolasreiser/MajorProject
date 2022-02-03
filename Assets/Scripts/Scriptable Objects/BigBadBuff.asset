@@ -12,8 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb65705c3e3bb8e468d176c701b0f5c5, type: 3}
   m_Name: BigBadBuff
   m_EditorClassIdentifier: 
+  Ability: 0
   Cooldown: 30
   Description: Gain a 200% Damage buff and 100% Attack Speed buff for 5 Seconds
   Picture: {fileID: 21300000, guid: 7ff78b329f164464ea5df9a3227b3f0d, type: 3}
+  InventoryIcon: {fileID: 21300000, guid: 6e66bb159c14d844580544244bf0d9d5, type: 3}
   Unlocked: 0
   Selected: 0
+  Price: 100

@@ -79,8 +79,9 @@ public class AbilitiesManager : MonoBehaviour
             ComponentType.ReadOnly<LocalToWorld>(),
             ComponentType.ReadWrite<AbilityStorageData>()
             );
-
+#if UNITY_EDITOR
         entityManager.SetName(entity, "AbilityStorageDynamicBuffer");
+#endif
 
         entityManager.SetComponentData(entity, new LocalToWorld
         {
@@ -123,8 +124,9 @@ public class AbilitiesManager : MonoBehaviour
             ComponentType.ReadWrite<AbilityData>()
             
             );
-
+#if UNITY_EDITOR
         entityManager.SetName(entity, "AbilityStorageData");
+#endif
 
         entityManager.SetComponentData(entity, new LocalToWorld
         {

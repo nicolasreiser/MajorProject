@@ -87,4 +87,9 @@ public class CanvasPanelManagement : MonoBehaviour
 
     }
 
+    public void DeleteSaves()
+    {
+        SaveManager.DeleteSaves();
+    }
+
 }

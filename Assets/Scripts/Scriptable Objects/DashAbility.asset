@@ -16,7 +16,8 @@ MonoBehaviour:
   Cooldown: 5
   Description: 'Short dash '
   Picture: {fileID: 0}
-  InventoryIcon: {fileID: 0}
+  InventoryIcon: {fileID: 21300000, guid: 9c0068a62e7a92d40824e0b03460035a, type: 3}
   Unlocked: 0
   Selected: 0
+  Price: 100
   Duration: 0.07

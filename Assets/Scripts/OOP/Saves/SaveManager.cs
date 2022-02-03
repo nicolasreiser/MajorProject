@@ -36,9 +36,47 @@ public static class SaveManager
         }
         else
         {
-            Debug.LogError("Save file not found");
-            return null;
+            Debug.LogError("Save file not found, creating base file");
+
+            PlayerStats playerStats = GenerateDefaultSave();
+
+
+            SaveStats(playerStats);
+
+            
+
+
+            return LoadStats();
         }
+    }
+
+    public static void DeleteSaves()
+    {
+        string path = Application.persistentDataPath + "/playerSave.txt";
+        if (File.Exists(path))
+        {
+            File.Delete(path);
+
+            Debug.Log("Saves Deleted");
+        }
+    }
+
+    public static  PlayerStats GenerateDefaultSave()
+    {
+        PlayerStats playerStats = new PlayerStats();
+        playerStats.AbilitiesLock = new List<bool>();
+        playerStats.AbilitiesLock.Add(true);
+        playerStats.AbilitiesLock.Add(false);
+        playerStats.AbilitiesLock.Add(false);
+        playerStats.AbilitiesLock.Add(false);
+
+        playerStats.RunCurrency = 0;
+        playerStats.TotalCurrency = 0;
+        playerStats.TopLevel = 0;
+        playerStats.LastLevel = 0;
+        playerStats.AbilityType = 0;
+
+        return playerStats;
     }
 
 }

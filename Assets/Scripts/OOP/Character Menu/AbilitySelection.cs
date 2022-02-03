@@ -7,14 +7,21 @@ public class AbilitySelection : MonoBehaviour
 {
     private CharacterSelectionManagement csm;
 
-    public List<Button> Ability;
+    public AbilityScriptableObject[] AbilitySO;
+
+
+    public List<Button> AbilityButtons;
 
     public List<TMPro.TextMeshProUGUI> AbilityText;
+    public List<Image> AbilityImages;
+
+    public GameObject NoMoneyPanel;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         csm = GetComponent<CharacterSelectionManagement>();
+        InitializeAbilitiesUI();
     }
 
     // Update is called once per frame
@@ -31,17 +38,38 @@ public class AbilitySelection : MonoBehaviour
             AbilityText[abilityID].text = "Selected";
             csm.data.AbilityType = abilityID;
 
-            Ability[abilityID].enabled = false;
+            AbilityButtons[abilityID].enabled = false;
             ResetText(abilityID);
         }
         else
         {
             //check if i have money to unlock
 
+            int currentMoney = csm.GetCurrency();
 
+            int AbilityPrice = AbilitySO[abilityID - 1].Price;
 
-            //TODO popup no money to unlock
-            Debug.Log("NO money to unlock");
+            if(AbilityPrice <= currentMoney)
+            {
+                // Ability purchased
+
+                csm.RemoveCurrency(AbilityPrice);
+                csm.data.AbilitiesUnlocked[abilityID] = true;
+                AbilityText[abilityID].text = "Selected";
+                csm.data.AbilityType = abilityID;
+
+                AbilityButtons[abilityID].enabled = false;
+                ResetText(abilityID);
+
+            }
+            else
+            {
+                StartCoroutine(NoCurrencyCoroutine());
+
+                Debug.Log("NO money to unlock");
+
+            }
+
         }
 
     }
@@ -53,7 +81,7 @@ public class AbilitySelection : MonoBehaviour
             AbilityText[0].text = "Select";
             if(csm.data.AbilitiesUnlocked[0] == true)
             {
-                Ability[0].enabled = true;
+                AbilityButtons[0].enabled = true;
             }
 
         }
@@ -62,7 +90,7 @@ public class AbilitySelection : MonoBehaviour
             if (csm.data.AbilitiesUnlocked[1] == true)
             {
                 AbilityText[1].text = "Select";
-                Ability[1].enabled = true;
+                AbilityButtons[1].enabled = true;
             }
             else
             {
@@ -75,7 +103,7 @@ public class AbilitySelection : MonoBehaviour
             if (csm.data.AbilitiesUnlocked[2] == true)
             {
                 AbilityText[2].text = "Select";
-                Ability[2].enabled = true;
+                AbilityButtons[2].enabled = true;
             }
             else
             {
@@ -88,7 +116,7 @@ public class AbilitySelection : MonoBehaviour
             if (csm.data.AbilitiesUnlocked[3] == true)
             {
                 AbilityText[3].text = "Select";
-                Ability[3].enabled = true;
+                AbilityButtons[3].enabled = true;
             }
             else
             {
@@ -98,4 +126,22 @@ public class AbilitySelection : MonoBehaviour
         }
     }
 
+    private IEnumerator NoCurrencyCoroutine()
+    {
+        NoMoneyPanel.SetActive(true);
+
+        yield return new WaitForSeconds(1);
+
+        NoMoneyPanel.SetActive(false);
+
+    }
+
+    private void InitializeAbilitiesUI()
+    {
+        for (int i = 0; i < AbilityButtons.Count; i++)
+        {
+            AbilityImages[i].sprite = AbilitySO[i].InventoryIcon;
+        }
+
+    }
 }

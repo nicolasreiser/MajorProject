@@ -30,7 +30,9 @@ public class SpawnerDataContainer : MonoBehaviour
         }
 
         var entity = query.GetSingletonEntity();
+#if UNITY_EDITOR
         entityManager.SetName(entity, "LevelAndSpawnerData");
+#endif
 
         entityManager.SetComponentData(entity, new LocalToWorld
         {
