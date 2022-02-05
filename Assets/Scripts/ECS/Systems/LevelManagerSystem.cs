@@ -60,7 +60,7 @@ public class LevelManagerSystem : SystemBase
 
                         levelDataComponent.isStartLevel = false;
                         sceneStorage.UnLoadStartLevel();
-                        Debug.Log("Unloaded Start Level");
+                        //Debug.Log("Unloaded Start Level");
                     }
                     else if(levelDataComponent.isEndLevel)
                     {
@@ -81,7 +81,7 @@ public class LevelManagerSystem : SystemBase
 
                         levelDataComponent.isStartLevel = true;
                         sceneStorage.LoadStartLevel();
-                        Debug.Log("Loaded Start Level");
+                        //Debug.Log("Loaded Start Level");
 
                     }
                     else if(levelDataComponent.currentLevel == 5)
@@ -92,7 +92,7 @@ public class LevelManagerSystem : SystemBase
                     {
 
                         loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
-                        Debug.Log("Loading scene level " + loadedLevel);
+                        //Debug.Log("Loading scene level " + loadedLevel);
                         sceneStorage.LoadLevel(loadedLevel);
                     }
                     
@@ -152,18 +152,18 @@ public class LevelManagerSystem : SystemBase
                             levelDataComponent.ActivePlayer = true;
                             levelDataComponent.PlayerSpawned = true;
 
-                            Debug.Log("Player Spawned 1");
+                            //Debug.Log("Player Spawned 1");
                         }
                         if (!levelDataComponent.PlayerSetPosition && levelDataComponent.PlayerSpawnTimer <= 0)
                         {
-                            Debug.Log("1");
+                            //Debug.Log("1");
                             levelDataComponent.ActivePlayer = true;
 
                             EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
                             if (entityQuery.IsEmpty)
                                 return;
 
-                            Debug.Log("2");
+                            //Debug.Log("2");
 
                             Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
                             Vector3 pos = playerSpawnPosition.Value;
@@ -199,8 +199,8 @@ public class LevelManagerSystem : SystemBase
                 if (levelDataComponent.Inject)
                     return;
 
-                Debug.Log("Injected spawner with Enemies Level : " + levelDataComponent.currentLevel + ", Enemies Ammount : " +
-                    spawnerDataComponents[levelDataComponent.currentLevel - 1].EnemiesAmmount + "");
+                //Debug.Log("Injected spawner with Enemies Level : " + levelDataComponent.currentLevel + ", Enemies Ammount : " +
+                 //   spawnerDataComponents[levelDataComponent.currentLevel - 1].EnemiesAmmount + "");
                 enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
                 enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
                 enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;

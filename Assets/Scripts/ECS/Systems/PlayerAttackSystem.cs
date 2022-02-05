@@ -129,6 +129,8 @@ public class PlayerAttackSystem : SystemBase
             ref PhysicsVelocity physics,
             ref PlayerData playerData) =>
         {
+            if(playerData.IsDead)
+                return;
 
 
             if (!hit[entityInQueryIndex])

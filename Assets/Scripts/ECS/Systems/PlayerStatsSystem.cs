@@ -28,6 +28,7 @@ public class PlayerStatsSystem : SystemBase
         UpdateStats();
         PlayerInvulnerability();
         ActivePlayer();
+        PlayerAlive();
     }
 
     private void UpdateStats()
@@ -139,5 +140,17 @@ public class PlayerStatsSystem : SystemBase
                    EntityManager.SetEnabled(player, true);
                }
            }).Run();
+    }
+
+    private void PlayerAlive()
+    {
+        Entities.ForEach((Entity entity, ref PlayerData playerData) =>
+        {
+            if(playerData.CurrentHealth <= 0)
+            {
+                playerData.IsDead = true;
+                Debug.Log("Player is Dead");
+            }
+        }).Run();
     }
 }

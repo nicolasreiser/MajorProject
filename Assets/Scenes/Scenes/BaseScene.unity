@@ -1328,6 +1328,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   DarkPanel: {fileID: 834192317}
+  DeathPanel: {fileID: 0}
   MainMenuIndex: 0
   CharacterSelectionIndex: 1
 --- !u!114 &178653805
@@ -7813,6 +7814,7 @@ MonoBehaviour:
   RangedEnemy: {fileID: 310181224601670406, guid: 120e8c670b9c5074eaf775da6903930d, type: 3}
   BombEnemy: {fileID: 5242377764718879267, guid: 5bf98b96fa1fd394197fd94b8aba3e57, type: 3}
   Player: {fileID: 5016894827606881360, guid: 7069f6d0374e9c146be7c448e44f8618, type: 3}
+  DeathExplosion: {fileID: 7648029343658188357, guid: 5f19276707bb3a548a0cbbd6d667e168, type: 3}
 --- !u!4 &1752730532
 Transform:
   m_ObjectHideFlags: 0

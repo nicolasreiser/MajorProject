@@ -47,7 +47,7 @@ public class DeathStateSystem : SystemBase
             ref LifetimeData lifetimeData) =>
             {
 
-                // death animation
+                // death animation maybe ?
 
                 // add currency to player
 

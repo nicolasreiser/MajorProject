@@ -9,6 +9,8 @@ public class CanvasPanelManagement : MonoBehaviour
 {
     public GameObject DarkPanel;
 
+    public GameObject DeathPanel;
+
     public int MainMenuIndex;
     public int CharacterSelectionIndex;
 
@@ -20,6 +22,11 @@ public class CanvasPanelManagement : MonoBehaviour
         StartCoroutine(PanelStateCoroutine(state));
     }
 
+    public void DeathPanelToggle()
+    {
+        StartCoroutine(DeathPanelStateCoroutine());
+
+    }
     public void LoadMainMenu()
     {
         StartCoroutine(PanelStateCoroutine(true));
@@ -83,6 +90,26 @@ public class CanvasPanelManagement : MonoBehaviour
             DarkPanel.SetActive(false);
 
         }
+
+
+    }
+
+    private IEnumerator DeathPanelStateCoroutine()
+    {
+        var image = DeathPanel.GetComponent<Image>();
+
+        DeathPanel.SetActive(true);
+
+        while (image.color.a < 1)
+        {
+            var color = image.color;
+            color.a += Time.deltaTime;
+            if (color.a > 1)
+                color.a = 1;
+            image.color = color;
+            yield return new WaitForFixedUpdate();
+        }
+
 
 
     }
