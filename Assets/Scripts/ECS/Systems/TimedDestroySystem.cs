@@ -8,6 +8,7 @@ using Unity.Collections;
 
 [UpdateAfter(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]
 
+
 public class TimedDestroySystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
@@ -31,7 +32,7 @@ public class TimedDestroySystem : SystemBase
 
         float deltaTime = Time.DeltaTime;
 
-        var commandBuffer = ecb.CreateCommandBuffer().AsParallelWriter();
+        //var commandBuffer = ecb.CreateCommandBuffer().AsParallelWriter();
 
         Entities.WithoutBurst()
             .WithStructuralChanges()
@@ -48,6 +49,7 @@ public class TimedDestroySystem : SystemBase
                                 EntityManager.DestroyEntity(item);
                             }
                         }
+                    Debug.Log("Entity Destroyed");
                     return;
                 }
                 lifetimeData.Lifetime -= deltaTime;

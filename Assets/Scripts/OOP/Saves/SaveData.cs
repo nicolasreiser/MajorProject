@@ -12,6 +12,10 @@ public class SaveData
 
     public List<bool> AbilitiesUnlocked;
 
+    public int HealthBuff;
+    public int DamageBuff;
+    public int AttackspeedBuff;
+    public int EarningsBuff;
 
 
     public SaveData( PlayerStats playerStats)
@@ -29,5 +33,10 @@ public class SaveData
         {
             AbilitiesUnlocked.Add(ability);
         }
-    }
+
+         this.HealthBuff = playerStats.HealthBuff;
+        this.DamageBuff = playerStats.DamageBuff;
+        this.AttackspeedBuff = playerStats.AttackspeedBuff;
+        this.EarningsBuff = playerStats.EarningsBuff;
+}
 }

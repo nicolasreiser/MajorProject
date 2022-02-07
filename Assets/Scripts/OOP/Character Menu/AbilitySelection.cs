@@ -64,7 +64,7 @@ public class AbilitySelection : MonoBehaviour
             }
             else
             {
-                StartCoroutine(NoCurrencyCoroutine());
+                NoCurrencyPanelTrigger();
 
                 Debug.Log("NO money to unlock");
 
@@ -124,6 +124,11 @@ public class AbilitySelection : MonoBehaviour
             }
 
         }
+    }
+
+    public void NoCurrencyPanelTrigger()
+    {
+        StartCoroutine(NoCurrencyCoroutine());
     }
 
     private IEnumerator NoCurrencyCoroutine()

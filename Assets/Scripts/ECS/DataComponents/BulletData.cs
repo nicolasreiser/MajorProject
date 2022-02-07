@@ -12,6 +12,7 @@ public struct BulletData : IComponentData
     public int ScatterShotDamage;
     public float ScatterShotCooldown;
     public bool ShouldDestroy;
+    public bool ParticleEffect;
 }
 
 public enum BulletOrigin

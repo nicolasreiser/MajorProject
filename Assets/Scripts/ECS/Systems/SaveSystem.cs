@@ -74,6 +74,10 @@ public class SaveSystem : SystemBase
         stats.TotalCurrency = saveData.Currency;
         stats.AbilityType = saveData.AbilityType;
 
+        stats.HealthBuff = saveData.HealthBuff;
+        stats.DamageBuff = saveData.DamageBuff;
+        stats.AttackspeedBuff = saveData.AttackspeedBuff;
+        stats.EarningsBuff = saveData.EarningsBuff;
 
         stats.AbilitiesLock = new List<bool>();
 

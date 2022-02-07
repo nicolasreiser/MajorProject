@@ -16,4 +16,8 @@ public struct PrefabEntityStorage : IComponentData
     public Entity Player;
 
     public Entity DeathExplosion;
+    public Entity PlayerBulletExplosion;
+    public Entity EnemyBulletExplosion;
+    public Entity EnemyScatter;
+        
 }

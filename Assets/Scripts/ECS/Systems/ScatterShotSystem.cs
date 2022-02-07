@@ -9,6 +9,7 @@ using Unity.Mathematics;
 public class ScatterShotSystem : SystemBase
 {
         EntityQuery query;
+
     protected override void OnUpdate()
     {
 
@@ -29,9 +30,19 @@ public class ScatterShotSystem : SystemBase
 
         float deltaTime = Time.DeltaTime;
 
+        //Get scatter effect
+        Entity explosion = Entity.Null;
+        Entities.
+            WithNone<PausedTag>().
+            ForEach((in PrefabEntityStorage prefabs) =>
+            {
+                explosion = prefabs.EnemyScatter;
+            }).Run();
+
         // iterate over enemies and damage the ones in range
         Entities.
             WithoutBurst().
+            WithStructuralChanges().
             WithAll<EnemyTag>().
             WithNone<PausedTag>().
             ForEach((Entity entity, ref EnemyData enemyData, in Translation translation) =>
@@ -54,11 +65,19 @@ public class ScatterShotSystem : SystemBase
                                 eD.CurrentHealth = 0;
                             }
                             EntityManager.SetComponentData(e, eD);
+
+                            // Particles
+                            var instance = EntityManager.Instantiate(explosion);
+
+                            EntityManager.SetComponentData(instance, new Translation
+                            {
+                                Value = new float3(translation.Value)
+                            });
                         }
                     }
                     enemyData.ScatterShot = false;
 
-                    //Gizmos.DrawWireSphere(translation.Value, 2);
+                    Gizmos.DrawWireSphere(translation.Value, 3);
 
                 }
                 enemyData.ScatterShotCooldown -= deltaTime;

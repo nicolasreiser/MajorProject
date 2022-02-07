@@ -75,6 +75,10 @@ public static class SaveManager
         playerStats.TopLevel = 0;
         playerStats.LastLevel = 0;
         playerStats.AbilityType = 0;
+        playerStats.HealthBuff = 0;
+        playerStats.DamageBuff = 0;
+        playerStats.AttackspeedBuff = 0;
+        playerStats.EarningsBuff = 0;
 
         return playerStats;
     }

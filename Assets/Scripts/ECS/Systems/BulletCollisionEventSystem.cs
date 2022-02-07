@@ -90,7 +90,7 @@ public class BulletCollisionEventSystem : JobComponentSystem
                             var player = PlayerGroup[entityB];
                             var bullet = BulletGroup[entityA];
 
-                            if (player.IsInvulnerable)
+                            if (!player.IsInvulnerable)
                             {
                                 player.CurrentHealth -= bullet.Damage;
                                 player.OnHealthChange = true;
@@ -104,7 +104,8 @@ public class BulletCollisionEventSystem : JobComponentSystem
                 }
                 
                 var Bullet = BulletGroup[entityA];
-                Bullet.ShouldDestroy = true;
+                Bullet.ParticleEffect = true;
+                //Bullet.ShouldDestroy = true;
                 BulletGroup[entityA] = Bullet;
             }
             if (isBulletB && isColliderA)
@@ -155,12 +156,12 @@ public class BulletCollisionEventSystem : JobComponentSystem
 
                                 PlayerGroup[entityA] = player;
                             }
-
                         }
                         break;
                 }
                 var Bullet = BulletGroup[entityB];
-                Bullet.ShouldDestroy = true;
+                Bullet.ParticleEffect = true;
+               // Bullet.ShouldDestroy = true;
                 BulletGroup[entityB] = Bullet;
             }
         }

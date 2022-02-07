@@ -9,7 +9,12 @@ public class PlayerStats
     public int TopLevel;
     public int LastLevel;
     public int AbilityType;
-    public List<bool> AbilitiesLock; 
+    public List<bool> AbilitiesLock;
+
+    public int HealthBuff;
+    public int DamageBuff;
+    public int AttackspeedBuff;
+    public int EarningsBuff;
 }
 
 

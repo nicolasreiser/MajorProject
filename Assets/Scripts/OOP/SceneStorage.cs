@@ -39,13 +39,13 @@ public class SceneStorage : MonoBehaviour
 
     public void LoadLevel(int level)
     {
-        Debug.Log("Loading scene Level : " + level);
+        //Debug.Log("Loading scene Level : " + level);
         SceneManager.LoadSceneAsync(LevelDictionary[level],LoadSceneMode.Additive);
     }
 
     public void UnloadLevel(int level)
     {
-        Debug.Log("Scene to unload : " + level);
+       //Debug.Log("Scene to unload : " + level);
         if (LevelDictionary.ContainsKey(level))
         {
             SceneManager.UnloadSceneAsync(LevelDictionary[level]);
