@@ -7,19 +7,14 @@ using Unity.Entities;
 
 public class PlayerStatsSystem : SystemBase
 {
-    private EndSimulationEntityCommandBufferSystem ecb;
 
     private EntityQuery playerStatsQuery;
 
     protected override void OnCreate()
     {
         base.OnCreate();
-        ecb = World.GetExistingSystem<EndSimulationEntityCommandBufferSystem>();
 
-        playerStatsQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<PlayerDataContainer>() }
-        });
+        
 
     }
 
@@ -33,11 +28,19 @@ public class PlayerStatsSystem : SystemBase
 
     private void UpdateStats()
     {
-        
+        playerStatsQuery = GetEntityQuery(new EntityQueryDesc
+        {
+            All = new ComponentType[] { ComponentType.ReadOnly<PlayerDataContainer>() }
+        });
         var player = playerStatsQuery.GetSingletonEntity();
 
         var Stats = EntityManager.GetBuffer<PlayerDataContainer>(player);
         
+        EntityQuery playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
+
+        var buffs = EntityManager.GetComponentData<PlayerBuffComponent>(playerBuffQuery.GetSingletonEntity());
+
+        // wait till buff entity exists
 
         Entities.
             WithoutBurst().
@@ -50,7 +53,9 @@ public class PlayerStatsSystem : SystemBase
                     playerData.Experience = playerData.OverflowExperience;
                     playerData.OverflowExperience = 0;
                     playerData.Level++;
-                    playerData.BaseHealth = Stats[playerData.Level - 1].Health;
+                    playerData.BaseHealth = Stats[playerData.Level - 1].Health + 10* buffs.HealthBuff;
+                    playerData.AttackSpeed = 1 + buffs.AttackspeedBuff* 0.25f;
+                    playerData.WeaponBaseDamage = 10 + buffs.DamageBuff * 3;
 
                     var healthToAdd = 0;
                     if(playerData.Initialised)
@@ -58,6 +63,10 @@ public class PlayerStatsSystem : SystemBase
                         healthToAdd = playerData.BaseHealth - Stats[playerData.Level - 2].Health;
                     }
                     playerData.CurrentHealth += healthToAdd;
+                    if (playerData.CurrentHealth > playerData.BaseHealth)
+                    {
+                        playerData.CurrentHealth = playerData.BaseHealth;
+                    }
                     playerData.MaxExperience = Stats[playerData.Level - 1].Experience;
                     playerData.OnExperienceChange = true;
                     playerData.OnHealthChange = true;

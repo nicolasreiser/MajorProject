@@ -54,11 +54,14 @@ public class DeathStateSystem : SystemBase
                 if(!enemyData.hasGivenGold)
                 {
                     CurrencyManager currencyManager = CurrencyManager.Instance;
+                    EntityQuery playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
 
-                    currencyManager.AddGold(enemyData.Gold);
+                    var buffs = EntityManager.GetComponentData<PlayerBuffComponent>(playerBuffQuery.GetSingletonEntity());
+
+                    currencyManager.AddGold((int)(enemyData.Gold * (1f + buffs.EarningsBuff/10f)));
                     enemyData.hasGivenGold = true;
 
-                    Debug.Log("Added Gold");
+                    Debug.Log("Base Gold : "+ enemyData.Gold + " multiplyer : " + (1f + buffs.EarningsBuff / 10f));
                 }
 
 

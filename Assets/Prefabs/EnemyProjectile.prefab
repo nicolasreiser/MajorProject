@@ -355,6 +355,7 @@ MonoBehaviour:
   ScatterShotDamage: 0
   ScatterShotCooldown: 0
   ShouldDestroy: 0
+  ParticleEffect: 0
 --- !u!198 &-2560378915623494839
 ParticleSystem:
   m_ObjectHideFlags: 0

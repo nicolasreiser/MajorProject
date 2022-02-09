@@ -19,9 +19,11 @@ public class BulletParticleSystem : SystemBase
 
     protected override void OnUpdate()
     {
+        playerBulletExplosion = Entity.Null;
+        enemyBulletExplosion = Entity.Null;
         //Get explosion effect
-       
-        if(playerBulletExplosion == Entity.Null)
+
+        if (playerBulletExplosion == Entity.Null)
         {
             Entities.
                 WithoutBurst().

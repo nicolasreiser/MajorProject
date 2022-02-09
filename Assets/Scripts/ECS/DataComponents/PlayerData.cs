@@ -27,6 +27,11 @@ public struct PlayerData : IComponentData
     public int DamageAmplification;
     public float AttackSpeed;
 
+    public int HealthBuff;
+    public int DamageBuff;
+    public int AttackspeedBuff;
+    public int EarningsBuff;
+
     public float AttackSpeedModifier;
     public float AttackDamageModifier;
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Transforms;
 
 public class SaveSystem : SystemBase
 {
@@ -97,6 +98,38 @@ public class SaveSystem : SystemBase
         }
         
         stats.TopLevel = saveData.TopLevel;
+
+
+        // create playerbuff entity
+
+        EntityQuery playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
+
+        
+            Entity e = EntityManager.CreateEntity(
+            ComponentType.ReadOnly<LocalToWorld>()
+            );
+            EntityManager.AddComponentData(e, new PlayerBuffComponent {
+                AttackspeedBuff = 1,
+                EarningsBuff = 0,
+                DamageBuff= 0,
+                HealthBuff = 0
+
+            });
+
+        
+        //playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
+
+
+        PlayerBuffComponent playerData = EntityManager.GetComponentData<PlayerBuffComponent>(e);
+            playerData.HealthBuff = saveData.HealthBuff;
+            playerData.DamageBuff = saveData.DamageBuff;
+            playerData.AttackspeedBuff = saveData.AttackspeedBuff;
+            playerData.EarningsBuff = saveData.EarningsBuff;
+
+
+        Debug.Log("PlayerBuffEntity : " +  playerData.AttackspeedBuff);
+            EntityManager.SetComponentData(e, playerData);
+        
 
         Debug.Log("Loaded...");
     }

@@ -49,8 +49,9 @@ public class CanvasPanelManagement : MonoBehaviour
 
         var queryDesc = new EntityQueryDesc
         {
-            Any = new ComponentType[] { ComponentType.ReadWrite<Entity>(), ComponentType.ReadWrite<Prefab>() }
-
+            Any = new ComponentType[] { ComponentType.ReadWrite<Entity>(), ComponentType.ReadWrite<Prefab>() },
+            Options = EntityQueryOptions.IncludePrefab
+            
         };
         EntityQuery query = entityManager.CreateEntityQuery(queryDesc); 
 

@@ -34,11 +34,7 @@ public class BuffsManagement : MonoBehaviour
         // get save data
 
 
-        for (int i = 0; i < 4; i++)
-        {
-            BuffNumberOfUpgrades[i].text = csm.GetBuff(i).ToString();
-            BuffCosts[i].text = BuffCostCalculation(csm.GetBuff(i)).ToString();
-        }
+        UIUpdate();
 
         //load save data
 
@@ -47,12 +43,14 @@ public class BuffsManagement : MonoBehaviour
 
     public void UpgradeBuff( int BuffIndex)
     {
+        Debug.Log("Buffing : " + BuffIndex);
         int BuffCost = BuffCostCalculation(csm.GetBuff(BuffIndex));
 
         if( BuffCost <= csm.GetCurrency())
         {
             csm.AddBuff(BuffIndex);
             csm.RemoveCurrency(BuffCost);
+            UIUpdate();
 
         }
         else
@@ -64,8 +62,17 @@ public class BuffsManagement : MonoBehaviour
 
     private int BuffCostCalculation( int BuffLevel)
     {
-        int res = (int)(100 + Mathf.Sqrt(BuffLevel)/ 2);
+        int res = (int)(100 + Mathf.Pow(BuffLevel,2));
         return res;
+    }
+
+    private void UIUpdate()
+    {
+        for (int i = 0; i < 4; i++)
+        {
+            BuffNumberOfUpgrades[i].text = csm.GetBuff(i).ToString();
+            BuffCosts[i].text = BuffCostCalculation(csm.GetBuff(i)).ToString();
+        }
     }
 
 }
