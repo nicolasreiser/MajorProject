@@ -34,7 +34,7 @@ public class CameraMovement : MonoBehaviour
 
         if(player.IsEmpty)
         {
-            return new Vector3(1.47131002f, 19.5873547f, -8.8517065f);
+            return new Vector3(0, 15, -5);
         }
         Translation t = entityManager.GetComponentData<Translation>(player.GetSingletonEntity());
 

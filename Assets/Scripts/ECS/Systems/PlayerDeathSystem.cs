@@ -74,8 +74,13 @@ public class PlayerDeathSystem : SystemBase
         // death panel
 
         CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
-        cpm.DeathPanelToggle();
+
+        cpm.DeathLoop();
 
         HasCastDeathEffects = true;
+
+
+
+
     }
 }

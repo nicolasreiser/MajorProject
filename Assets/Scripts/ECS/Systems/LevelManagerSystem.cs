@@ -172,7 +172,7 @@ public class LevelManagerSystem : SystemBase
                             levelDataComponent.PlayerSetPosition = true;
 
                             CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
-                            cpm.PanelState(false);
+                            cpm.PanelState(false,0);
 
                             Debug.Log("Player Spawned 2");
 
@@ -311,7 +311,7 @@ public class LevelManagerSystem : SystemBase
                     if(!levelDataComponent.TransitionPanel)
                     {
                         CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
-                        cpm.PanelState(true);
+                        cpm.PanelState(true,0);
                     }
 
                     if (levelDataComponent.ExitTimer <= 0)

@@ -17,23 +17,20 @@ public class CanvasPanelManagement : MonoBehaviour
     EntityManager entityManager;
 
 
-    public void PanelState(bool state)
+    public void PanelState(bool state, float startDelay)
     {
-        StartCoroutine(PanelStateCoroutine(state));
+        StartCoroutine(PanelStateCoroutine(state, startDelay));
     }
 
-    public void DeathPanelToggle()
+    public void DeathLoop()
     {
-        StartCoroutine(DeathPanelStateCoroutine());
+        StartCoroutine(DeathCoroutine());
 
     }
     public void LoadMainMenu()
     {
-        StartCoroutine(PanelStateCoroutine(true));
+        StartCoroutine(MainMenuCoroutine());
 
-        ClearEntities();
-        
-        SceneManager.LoadScene(MainMenuIndex,LoadSceneMode.Single);
     }
 
     public void LoadCharacterSelection()
@@ -47,21 +44,56 @@ public class CanvasPanelManagement : MonoBehaviour
 
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
 
-        var queryDesc = new EntityQueryDesc
+        var queryDesc0 = new EntityQueryDesc
         {
             Any = new ComponentType[] { ComponentType.ReadWrite<Entity>(), ComponentType.ReadWrite<Prefab>() },
             Options = EntityQueryOptions.IncludePrefab
             
         };
-        EntityQuery query = entityManager.CreateEntityQuery(queryDesc); 
+        var queryDesc1 = new EntityQueryDesc
+        {
+            Any = new ComponentType[] { ComponentType.ReadWrite<Entity>(), ComponentType.ReadWrite<Prefab>() },
+            Options = EntityQueryOptions.IncludeDisabled
+
+        };
+
+        EntityQuery query = entityManager.CreateEntityQuery(new EntityQueryDesc[] {queryDesc0,queryDesc1}); 
 
         entityManager.DestroyEntity(query);
         
     }
 
-    private IEnumerator PanelStateCoroutine( bool state)
+    private IEnumerator MainMenuCoroutine()
+    {
+        StartCoroutine(PanelStateCoroutine(true,0));
+
+        yield return new WaitForSeconds(2);
+
+        ClearEntities();
+        SceneManager.LoadScene(MainMenuIndex, LoadSceneMode.Single);
+    }
+    private IEnumerator DeathCoroutine()
+    {
+        StartCoroutine(DeathPanelStateCoroutine());
+        yield return new WaitForFixedUpdate();
+        StartCoroutine(PanelStateCoroutine(true, 2));
+
+        
+
+        yield return new WaitForSeconds(4);
+
+        ClearEntities();
+        SceneManager.LoadScene(MainMenuIndex, LoadSceneMode.Single);
+
+
+    }
+
+
+    private IEnumerator PanelStateCoroutine( bool state, float startDelay)
     {
         var image = DarkPanel.GetComponent<Image>();
+
+        yield return new WaitForSeconds(startDelay);
 
         if(state)
         {
