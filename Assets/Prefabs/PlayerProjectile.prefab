@@ -14,13 +14,13 @@ GameObject:
   - component: {fileID: 6890246170386300499}
   - component: {fileID: 95603182104728109}
   - component: {fileID: 1176959294}
-  - component: {fileID: 8212710132237586327}
   - component: {fileID: -9015174991700575981}
   - component: {fileID: 8783830780794809004}
   - component: {fileID: 2011119110787742761}
   - component: {fileID: 4145882298595377334}
   - component: {fileID: 1532994171535082554}
   - component: {fileID: 6043244039788213845}
+  - component: {fileID: 8643514865151022612}
   m_Layer: 7
   m_Name: PlayerProjectile
   m_TagString: Untagged
@@ -130,20 +130,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   velocity: 15
---- !u!114 &8212710132237586327
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3181952172486164237}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e4af987e2738f154fae576d154c039fb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Lifetime: 3
-  ShouldDie: 0
 --- !u!114 &-9015174991700575981
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5140,3 +5126,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2e6f75588d3bbf5438770935ce97504d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &8643514865151022612
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3181952172486164237}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4af987e2738f154fae576d154c039fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Lifetime: 3
+  ShouldDie: 0

@@ -23,6 +23,7 @@ public class SceneStorage : MonoBehaviour
     [SerializeField]
     public LevelParams EndLevel;
 
+    [SerializeField]
     private Dictionary<int, int> LevelDictionary;
 
     private void Awake()
@@ -40,6 +41,11 @@ public class SceneStorage : MonoBehaviour
     public void LoadLevel(int level)
     {
         //Debug.Log("Loading scene Level : " + level);
+        if(!LevelDictionary.ContainsKey(level))
+        {
+            Debug.LogError("This key doesn't exist : " + level);
+            return;
+        }
         SceneManager.LoadSceneAsync(LevelDictionary[level],LoadSceneMode.Additive);
     }
 

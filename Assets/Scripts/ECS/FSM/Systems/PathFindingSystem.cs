@@ -163,7 +163,7 @@ public class PathFindingSystem : SystemBase
             if (hit[entityInQueryIndex])
             {
                 // continue pathing
-                Debug.Log("I dont see the player, Pathfind");
+                //Debug.Log("I dont see the player, Pathfind");
             }
             else
             {

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SpawnerData
   m_EditorClassIdentifier: 
   spawnerData:
-  - EnemiesAmmount: 1
+  - EnemiesAmmount: 2
     InitialDelay: 2
     DelayBetweenSpawns: 3
     enemytypes: 01000000
@@ -21,19 +21,19 @@ MonoBehaviour:
     InitialDelay: 2
     DelayBetweenSpawns: 2
     enemytypes: 00000000
-  - EnemiesAmmount: 4
-    InitialDelay: 2
-    DelayBetweenSpawns: 3
-    enemytypes: 0000000001000000
-  - EnemiesAmmount: 5
-    InitialDelay: 2
-    DelayBetweenSpawns: 3
-    enemytypes: 0200000000000000
   - EnemiesAmmount: 6
     InitialDelay: 2
-    DelayBetweenSpawns: 3
-    enemytypes: 0200000001000000
-  - EnemiesAmmount: 7
+    DelayBetweenSpawns: 1
+    enemytypes: 0000000001000000
+  - EnemiesAmmount: 9
     InitialDelay: 2
-    DelayBetweenSpawns: 3
+    DelayBetweenSpawns: 1
+    enemytypes: 0200000000000000
+  - EnemiesAmmount: 13
+    InitialDelay: 2
+    DelayBetweenSpawns: 1
+    enemytypes: 0200000001000000
+  - EnemiesAmmount: 15
+    InitialDelay: 2
+    DelayBetweenSpawns: 1
     enemytypes: 000000000100000002000000

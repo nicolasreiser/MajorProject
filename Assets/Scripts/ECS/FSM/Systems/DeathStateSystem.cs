@@ -61,7 +61,7 @@ public class DeathStateSystem : SystemBase
                     currencyManager.AddGold((int)(enemyData.Gold * (1f + buffs.EarningsBuff/10f)));
                     enemyData.hasGivenGold = true;
 
-                    Debug.Log("Base Gold : "+ enemyData.Gold + " multiplyer : " + (1f + buffs.EarningsBuff / 10f));
+                    //Debug.Log("Base Gold : "+ enemyData.Gold + " multiplyer : " + (1f + buffs.EarningsBuff / 10f));
                 }
 
 

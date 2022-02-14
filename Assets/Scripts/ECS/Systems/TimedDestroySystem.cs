@@ -41,14 +41,14 @@ public class TimedDestroySystem : SystemBase
             {
                 if (lifetimeData.ShouldDie)
                 {
-                        if(!childrenFromEntity.IsEmpty)
+                    if(!childrenFromEntity.IsEmpty)
+                    {
+                        List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
+                        foreach (var item in entities)
                         {
-                            List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
-                            foreach (var item in entities)
-                            {
-                                EntityManager.DestroyEntity(item);
-                            }
+                            EntityManager.DestroyEntity(item);
                         }
+                    }
                     Debug.Log("Entity Destroyed");
                     return;
                 }

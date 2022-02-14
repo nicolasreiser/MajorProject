@@ -12,6 +12,7 @@ public class CanvasUpgrades : MonoBehaviour
     [SerializeField] private Button button2;
     [SerializeField] private Button button3;
     [SerializeField] private GameObject LevelCompletePanel;
+    [SerializeField] private GameObject RunCompletePanel;
 
     EntityManager entityManager;
 
@@ -152,6 +153,12 @@ public class CanvasUpgrades : MonoBehaviour
     {
         StartCoroutine(LevelCompletion());
     }
+
+    public void RunCompleted()
+    {
+        StartCoroutine(RunCompletion());
+
+    }
     private void SetReset()
     {
         LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
@@ -167,6 +174,15 @@ public class CanvasUpgrades : MonoBehaviour
         yield return new WaitForSeconds(2);
 
         LevelCompletePanel.SetActive(false);
+
+        SetReset();
+    }
+    private IEnumerator RunCompletion()
+    {
+        RunCompletePanel.SetActive(true);
+        yield return new WaitForSeconds(2);
+
+        RunCompletePanel.SetActive(false);
 
         SetReset();
     }

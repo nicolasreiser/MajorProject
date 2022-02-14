@@ -39,7 +39,7 @@ public class BulletParticleSystem : SystemBase
         Entities.
             WithStructuralChanges().
             WithNone<PausedTag>().
-            ForEach((Entity entity, ref BulletData bulletData, ref Translation translation) =>
+            ForEach((Entity entity, ref BulletData bulletData, ref Translation translation, ref LifetimeData lifetimeData) =>
         {
 
             if (bulletData.ParticleEffect)

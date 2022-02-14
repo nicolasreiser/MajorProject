@@ -65,19 +65,19 @@ public class ScatterShotSystem : SystemBase
                                 eD.CurrentHealth = 0;
                             }
                             EntityManager.SetComponentData(e, eD);
-
-                            // Particles
-                            var instance = EntityManager.Instantiate(explosion);
-
-                            EntityManager.SetComponentData(instance, new Translation
-                            {
-                                Value = new float3(translation.Value)
-                            });
                         }
                     }
+                    // Particles
+
+                    var instance = EntityManager.Instantiate(explosion);
+
+                    EntityManager.SetComponentData(instance, new Translation
+                    {
+                        Value = new float3(translation.Value)
+                    });
+
                     enemyData.ScatterShot = false;
 
-                    Gizmos.DrawWireSphere(translation.Value, 3);
 
                 }
                 enemyData.ScatterShotCooldown -= deltaTime;

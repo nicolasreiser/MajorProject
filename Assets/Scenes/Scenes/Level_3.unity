@@ -186,6 +186,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Super_Clone_Streetlight (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 38f54c80b0e79e54785d56d4a2d65184, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38f54c80b0e79e54785d56d4a2d65184, type: 3}
 --- !u!1 &159480056 stripped
@@ -361,6 +365,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55da67b6680cbe44a0e1bdc1208ed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &159480060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 159480056}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 1
 --- !u!1 &913260510
 GameObject:
   m_ObjectHideFlags: 0
@@ -524,7 +541,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Super_Clone_Barrel
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8943221152726228578, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6968971266922535063, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
 --- !u!1 &1808585095 stripped
 GameObject:
@@ -543,6 +565,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55da67b6680cbe44a0e1bdc1208ed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1808585097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1808585095}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 1
 --- !u!1001 &1809158907
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -605,6 +640,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: 38f54c80b0e79e54785d56d4a2d65184, type: 3}
       propertyPath: m_Name
       value: Super_Clone_Streetlight (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 38f54c80b0e79e54785d56d4a2d65184, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 38f54c80b0e79e54785d56d4a2d65184, type: 3}
@@ -781,6 +820,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55da67b6680cbe44a0e1bdc1208ed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1809158912
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1809158908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 1
 --- !u!1001 &2096602936
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -844,7 +896,12 @@ PrefabInstance:
       propertyPath: m_Name
       value: Super_Clone_Barrel (1)
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 8943221152726228578, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 6968971266922535063, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3d4283562d24cb24c8d2676dc53649d6, type: 3}
 --- !u!1 &2096602937 stripped
 GameObject:
@@ -863,6 +920,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f55da67b6680cbe44a0e1bdc1208ed19, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2096602939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2096602937}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea7d7495833204790ba1d3a8755397f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ConversionMode: 1
 --- !u!1 &2140010946
 GameObject:
   m_ObjectHideFlags: 0

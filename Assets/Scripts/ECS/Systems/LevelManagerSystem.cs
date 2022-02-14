@@ -87,12 +87,21 @@ public class LevelManagerSystem : SystemBase
                     else if(levelDataComponent.currentLevel == 5)
                     {
                         sceneStorage.LoadEndLevel();
+                        levelDataComponent.isEndLevel = true;
+
                     }
                     else
                     {
 
-                        loadedLevel = Random.Range(2,sceneStorage.SceneLength()+1);
-                        //Debug.Log("Loading scene level " + loadedLevel);
+                        loadedLevel = Random.Range(1,sceneStorage.SceneLength()+1);
+                        for (int i = 0; i < 5; i++)
+                        {
+                            loadedLevel = Random.Range(1, sceneStorage.SceneLength() + 1);
+
+                           // Debug.Log("Random Number " +i+" = " + loadedLevel);
+                        }
+
+                        //Debug.Log("Loading scene level " + loadedLevel + " Scenelist length : " + sceneStorage.SceneLength());
                         sceneStorage.LoadLevel(loadedLevel);
                     }
                     
@@ -257,7 +266,15 @@ public class LevelManagerSystem : SystemBase
                 if (levelDataComponent.LevelCleared && !levelDataComponent.CompletionUI)
                 {
                     CanvasUpgrades cu = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasUpgrades>();
-                    cu.LevelCompleted();
+                    if(!levelDataComponent.isEndLevel)
+                    {
+                        cu.LevelCompleted();
+                    }
+                    else
+                    {
+                        cu.RunCompleted();
+                        levelDataComponent.ReadyForReset = true;
+                    }
                     levelDataComponent.CompletionUI = true;
                 }
             }).Run();
@@ -280,7 +297,7 @@ public class LevelManagerSystem : SystemBase
             .WithoutBurst()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
             {
-                if (!levelDataComponent.UpgradesReceived && levelDataComponent.UpgradesToGet > 0 && !levelDataComponent.Upgrading && levelDataComponent.LevelCleared)
+                if (!levelDataComponent.UpgradesReceived && levelDataComponent.UpgradesToGet > 0 && !levelDataComponent.Upgrading && levelDataComponent.LevelCleared && !levelDataComponent.isEndLevel)
                 {
                     if (levelDataComponent.UpgradesTimer >= 0)
                     {
@@ -308,6 +325,12 @@ public class LevelManagerSystem : SystemBase
             {
             if (levelDataComponent.ReadyForReset && etc.Exit)
                 {
+                    if (levelDataComponent.isEndLevel)
+                    {
+                        CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
+                        cpm.LoadMainMenu();
+                    }
+
                     if(!levelDataComponent.TransitionPanel)
                     {
                         CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();

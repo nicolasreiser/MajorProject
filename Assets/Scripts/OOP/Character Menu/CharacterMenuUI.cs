@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class CharacterMenuUI : MonoBehaviour
 {
     public int BaseSceneIndex;
+    public int MainMenuIndex;
+    public GameObject DarkPanel;
 
     public TMPro.TextMeshProUGUI CurrencyText;
 
@@ -15,10 +17,30 @@ public class CharacterMenuUI : MonoBehaviour
 
     public void StartRun()
     {
-
-        //todo fade in
-
-        SceneManager.LoadScene(BaseSceneIndex, LoadSceneMode.Single);
+         StartCoroutine(PanelStatLoadSceneCoroutine(BaseSceneIndex));
     }
 
+    public void GoToMainMenu()
+    {
+        StartCoroutine(PanelStatLoadSceneCoroutine(MainMenuIndex));
+    }
+
+    private IEnumerator PanelStatLoadSceneCoroutine(int SceneIndex)
+    {
+        var image = DarkPanel.GetComponent<Image>();
+
+        DarkPanel.SetActive(true);
+
+        while (image.color.a < 1)
+        {
+            var color = image.color;
+            color.a += Time.deltaTime*2;
+            if (color.a > 1)
+                color.a = 1;
+            image.color = color;
+            yield return new WaitForFixedUpdate();
+        }
+
+        SceneManager.LoadScene(SceneIndex, LoadSceneMode.Single);
+    }
 }
