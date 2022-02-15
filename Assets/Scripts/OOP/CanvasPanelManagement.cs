@@ -11,6 +11,8 @@ public class CanvasPanelManagement : MonoBehaviour
 
     public GameObject DeathPanel;
 
+    public GameObject CreditsPanel;
+
     public int MainMenuIndex;
     public int CharacterSelectionIndex;
 
@@ -31,6 +33,11 @@ public class CanvasPanelManagement : MonoBehaviour
     {
         StartCoroutine(MainMenuCoroutine());
 
+    }
+
+    public void LoadCredits(bool State)
+    {
+        CreditsPanel.SetActive(State);
     }
 
     public void LoadCharacterSelection()
