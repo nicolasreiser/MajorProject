@@ -2157,12 +2157,12 @@ GameObject:
   - component: {fileID: 436289171}
   - component: {fileID: 436289170}
   m_Layer: 5
-  m_Name: DarkPPanel
+  m_Name: DarkPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &436289169
 RectTransform:
   m_ObjectHideFlags: 0

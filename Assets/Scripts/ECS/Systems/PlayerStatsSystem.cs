@@ -38,54 +38,55 @@ public class PlayerStatsSystem : SystemBase
         
         EntityQuery playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
 
-        var buffs = EntityManager.GetComponentData<PlayerBuffComponent>(playerBuffQuery.GetSingletonEntity());
+        if (playerBuffQuery.CalculateEntityCount() == 1)
+        {
+            var buffs = EntityManager.GetComponentData<PlayerBuffComponent>(playerBuffQuery.GetSingletonEntity());
 
-        // wait till buff entity exists
-
-        Entities.
-            WithoutBurst().
-            WithAll<PlayerTag>().
-            WithNone<PausedTag>().
-            ForEach((Entity entity, ref PlayerData playerData) =>
-            {
-                if (playerData.Experience >= playerData.MaxExperience || !playerData.Initialised)
+            Entities.
+                WithoutBurst().
+                WithAll<PlayerTag>().
+                WithNone<PausedTag>().
+                ForEach((Entity entity, ref PlayerData playerData) =>
                 {
-                    playerData.Experience = playerData.OverflowExperience;
-                    playerData.OverflowExperience = 0;
-                    playerData.Level++;
-                    playerData.BaseHealth = Stats[playerData.Level - 1].Health + 10* buffs.HealthBuff;
-                    playerData.AttackSpeed = 1 + buffs.AttackspeedBuff* 0.25f;
-                    playerData.WeaponBaseDamage = 10 + buffs.DamageBuff * 3;
-
-                    var healthToAdd = 0;
-                    if(playerData.Initialised)
+                    if (playerData.Experience >= playerData.MaxExperience || !playerData.Initialised)
                     {
-                        healthToAdd = playerData.BaseHealth - Stats[playerData.Level - 2].Health;
-                    }
-                    playerData.CurrentHealth += healthToAdd;
-                    if (playerData.CurrentHealth > playerData.BaseHealth)
-                    {
-                        playerData.CurrentHealth = playerData.BaseHealth;
-                    }
-                    playerData.MaxExperience = Stats[playerData.Level - 1].Experience;
-                    playerData.OnExperienceChange = true;
-                    playerData.OnHealthChange = true;
-                    if(!playerData.Initialised)
-                    {
-                        playerData.CurrentHealth = playerData.BaseHealth;
-                        Debug.Log("Player Initialised");
+                        playerData.Experience = playerData.OverflowExperience;
+                        playerData.OverflowExperience = 0;
+                        playerData.Level++;
+                        playerData.BaseHealth = Stats[playerData.Level - 1].Health + 10 * buffs.HealthBuff;
+                        playerData.AttackSpeed = 1 + buffs.AttackspeedBuff * 0.25f;
+                        playerData.WeaponBaseDamage = 10 + buffs.DamageBuff * 3;
+
+                        var healthToAdd = 0;
+                        if (playerData.Initialised)
+                        {
+                            healthToAdd = playerData.BaseHealth - Stats[playerData.Level - 2].Health;
+                        }
+                        playerData.CurrentHealth += healthToAdd;
+                        if (playerData.CurrentHealth > playerData.BaseHealth)
+                        {
+                            playerData.CurrentHealth = playerData.BaseHealth;
+                        }
+                        playerData.MaxExperience = Stats[playerData.Level - 1].Experience;
+                        playerData.OnExperienceChange = true;
+                        playerData.OnHealthChange = true;
+                        if (!playerData.Initialised)
+                        {
+                            playerData.CurrentHealth = playerData.BaseHealth;
+                            Debug.Log("Player Initialised");
+
+                        }
+
+                        if (playerData.Initialised)
+                        {
+                            AddLevel();
+                        }
+                        playerData.Initialised = true;
 
                     }
 
-                    if (playerData.Initialised)
-                    {
-                        AddLevel();
-                    }
-                    playerData.Initialised = true;
-                
-                }
-
-            }).Run();
+                }).Run();
+        }
     }
 
     private void AddLevel()

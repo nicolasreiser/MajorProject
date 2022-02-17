@@ -36,7 +36,7 @@ public static class SaveManager
         }
         else
         {
-            Debug.LogError("Save file not found, creating base file");
+            Debug.LogWarning("Save file not found, creating base file");
 
             PlayerStats playerStats = GenerateDefaultSave();
 
