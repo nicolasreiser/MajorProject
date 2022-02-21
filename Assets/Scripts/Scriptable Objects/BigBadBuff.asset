@@ -16,7 +16,7 @@ MonoBehaviour:
   Cooldown: 30
   Description: Gain a 200% Damage buff and 100% Attack Speed buff for 5 Seconds
   Picture: {fileID: 21300000, guid: 7ff78b329f164464ea5df9a3227b3f0d, type: 3}
-  InventoryIcon: {fileID: 21300000, guid: 6e66bb159c14d844580544244bf0d9d5, type: 3}
+  InventoryIcon: {fileID: 21300000, guid: e81ee753c8189c84ebc8ee1344704f62, type: 3}
   Unlocked: 0
   Selected: 0
   Price: 100

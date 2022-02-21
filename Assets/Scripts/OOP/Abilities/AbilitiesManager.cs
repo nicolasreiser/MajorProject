@@ -147,23 +147,24 @@ public class AbilitiesManager : MonoBehaviour
         EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
         AbilityData data = entityManager.GetComponentData<AbilityData>(query.GetSingletonEntity());
 
+
         switch (abilityType)
         {
             case AbilityType.BigBadBuff:
                 data.AbilityType = 1;
-                data.BaseCooldown = AbilitySO[1].Cooldown;
-                AbilityImage.sprite = AbilitySO[1].Picture;
+                data.BaseCooldown = AbilitySO[0].Cooldown;
+                AbilityImage.sprite = AbilitySO[0].Picture;
                 break;
             case AbilityType.Dash:
                 data.AbilityType = 2;
-                data.BaseCooldown = AbilitySO[2].Cooldown;
-                AbilityImage.sprite = AbilitySO[2].Picture;
+                data.BaseCooldown = AbilitySO[1].Cooldown;
+                AbilityImage.sprite = AbilitySO[1].Picture;
 
                 break;
             case AbilityType.Nova:
                 data.AbilityType = 3;
-                data.BaseCooldown = AbilitySO[3].Cooldown;
-                AbilityImage.sprite = AbilitySO[3].Picture;
+                data.BaseCooldown = AbilitySO[2].Cooldown;
+                AbilityImage.sprite = AbilitySO[2].Picture;
 
                 break;
             default:

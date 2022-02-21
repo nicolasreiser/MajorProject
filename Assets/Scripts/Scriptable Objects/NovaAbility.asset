@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: NovaAbility
   m_EditorClassIdentifier: 
   Ability: 3
-  Cooldown: 5
+  Cooldown: 10
   Description: Shoot lots Bullets around yourself for a short duratiom
-  Picture: {fileID: 21300000, guid: ed3b4c75a68320349a9f4481bab4876c, type: 3}
-  InventoryIcon: {fileID: 21300000, guid: 9c0068a62e7a92d40824e0b03460035a, type: 3}
+  Picture: {fileID: 21300000, guid: 7c29e58d3cc96af4c8655cf33f9ef54c, type: 3}
+  InventoryIcon: {fileID: 21300000, guid: ec02d81bd81bcab479e56f2c46c31626, type: 3}
   Unlocked: 0
   Selected: 0
   Price: 100
