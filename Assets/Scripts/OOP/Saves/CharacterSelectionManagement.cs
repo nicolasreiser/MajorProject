@@ -2,30 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// contains the save files and managed the currency in the character menu
 public class CharacterSelectionManagement : MonoBehaviour
 {
 
     public SaveData data;
-    // Start is called before the first frame update
+
     void Start()
     {
        data = SaveManager.LoadStats();
 
-        //if(data == null)
-        //{
-        //    Debug.Log("Created new save");
-        //    PlayerStats stats = new PlayerStats();
-            
-        //    data = new SaveData(stats);
-        //}
         SetCurrency(data);
         SetAbility(data);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     private void SetCurrency(SaveData saveData)

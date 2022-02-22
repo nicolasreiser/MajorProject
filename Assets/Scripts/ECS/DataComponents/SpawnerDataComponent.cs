@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// storage containing the sparner data for each level
 public struct SpawnerDataComponent : IBufferElementData
 {
     public int EnemiesAmmount;

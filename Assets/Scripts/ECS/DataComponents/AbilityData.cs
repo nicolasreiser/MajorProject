@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+
+// Entity storing the Ability Information
 public struct AbilityData : IComponentData
 {
     public int AbilityType;

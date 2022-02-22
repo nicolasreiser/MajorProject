@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
+// camera controller
 public class CameraMovement : MonoBehaviour
 {
     private new Camera camera;

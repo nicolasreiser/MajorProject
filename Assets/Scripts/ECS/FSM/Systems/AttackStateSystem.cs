@@ -7,6 +7,7 @@ using Unity.Transforms;
 using Unity.Jobs;
 using Unity.Collections;
 
+// controlls the attack pattern of the enemies
 public class AttackStateSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;

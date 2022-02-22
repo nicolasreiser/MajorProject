@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// deprecated
 public class PlayerSpawner : MonoBehaviour
 {
     private EntityManager entityManager;
@@ -33,7 +34,6 @@ public class PlayerSpawner : MonoBehaviour
 
         var playerEntity = entityManager.Instantiate(pes.Player);
 
-        // todo set spawn position
         Translation t = entityManager.GetComponentData<Translation>(playerEntity);
 
         t.Value = new Vector3(2, 4, -7);

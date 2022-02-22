@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// manages player  currency
 public class CurrencyManager : MonoBehaviour
 {
     public TMPro.TextMeshProUGUI CurrencyText;
@@ -27,17 +28,12 @@ public class CurrencyManager : MonoBehaviour
 
     void Start()
     {
-        // TODO initialize gold, either gold earned or current gold
-
+        
         Gold = 0;
         CurrencyText.text = Gold.ToString();
 
     }
 
-    void Update()
-    {
-        
-    }
 
     public void AddGold( int ammount)
     {
@@ -45,7 +41,4 @@ public class CurrencyManager : MonoBehaviour
         CurrencyText.text = Gold.ToString();
 
     }
-
-
-    // save gold function
 }

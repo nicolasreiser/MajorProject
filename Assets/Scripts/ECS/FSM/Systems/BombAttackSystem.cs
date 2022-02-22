@@ -6,10 +6,10 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 
+// sub attack system specific for the bomb enemies
 public class BombAttackSystem : SystemBase
 {
     private EntityQuery playerQuery;
-    private EntityQuery enemyQuery;
 
     protected override void OnCreate()
     {
@@ -32,6 +32,7 @@ public class BombAttackSystem : SystemBase
         bool isPlayerHit = false;
         int damageToDeal = 0;
         float deltaTime = Time.DeltaTime;
+
         // get player position
 
         float3 playerposition = float3.zero;
@@ -103,14 +104,6 @@ public class BombAttackSystem : SystemBase
                     }
 
                 }).Run();
-
-
         }
-
-
-
-        // change to death state
-
-
     }
 }

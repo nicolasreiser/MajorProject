@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// Entity defining an enemy's type
 [GenerateAuthoringComponent]
 struct EnemyTypeData : IComponentData
 {

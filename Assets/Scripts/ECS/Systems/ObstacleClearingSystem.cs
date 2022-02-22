@@ -4,7 +4,9 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
-//[UpdateBefore(typeof (LevelManagerSystem))]
+
+// system removing decorative entities upon level change
+
 public class ObstacleClearingSystem : SystemBase
 {
     protected override void OnUpdate()
@@ -30,7 +32,7 @@ public class ObstacleClearingSystem : SystemBase
                         foreach (var item in entities)
                         {
                             EntityManager.DestroyEntity(item);
-                            Debug.Log("Deleted entity");
+                            //Debug.Log("Deleted entity");
                         }
                     }
                 }).Run();
@@ -40,7 +42,7 @@ public class ObstacleClearingSystem : SystemBase
           
 
             EntityManager.SetComponentData(query.GetSingletonEntity(),levelDataComponent);
-            Debug.Log("Set Cleanup to true");
+            //Debug.Log("Set Cleanup to true");
           
 
         }

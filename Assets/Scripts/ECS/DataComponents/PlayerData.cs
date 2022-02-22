@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// entity attached to the player storing all the player values
+
 [GenerateAuthoringComponent]
 public struct PlayerData : IComponentData
 {

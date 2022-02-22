@@ -4,6 +4,8 @@ using Unity.DataFlowGraph;
 using Unity.Entities;
 using Unity.Mathematics;
 
+//simplyfied animation system by Phillipe St-Amand
+
 public struct SimpleAnimation : IComponentData
 {
     public StringHash RootMotionBone;

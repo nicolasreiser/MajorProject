@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Entities;
 using UnityEngine.UI;
 using TMPro;
+
+// controlls the danvas upgrades UI and randomisation
 public class CanvasUpgrades : MonoBehaviour
 {
     [SerializeField] private GameObject panel;
@@ -56,8 +58,7 @@ public class CanvasUpgrades : MonoBehaviour
         button2.onClick.RemoveAllListeners();
         button3.onClick.RemoveAllListeners();
 
-        // Temporary
-
+        
         button1.GetComponentInChildren<TextMeshProUGUI>().SetText(upgrade1.Name);
         button2.GetComponentInChildren<TextMeshProUGUI>().SetText(upgrade2.Name);
         button3.GetComponentInChildren<TextMeshProUGUI>().SetText(upgrade3.Name);
@@ -126,6 +127,7 @@ public class CanvasUpgrades : MonoBehaviour
         button3.onClick.AddListener(SetLevelData);
     }
 
+    // updates the LevelData Component
     private void SetLevelData()
     {
         LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
@@ -159,6 +161,8 @@ public class CanvasUpgrades : MonoBehaviour
         StartCoroutine(RunCompletion());
 
     }
+
+    // tells the LevelDataComponent that the scene can be unloaded
     private void SetReset()
     {
         LevelDataComponent ldc = entityManager.GetComponentData<LevelDataComponent>(levelData.GetSingletonEntity());
@@ -187,6 +191,7 @@ public class CanvasUpgrades : MonoBehaviour
         SetReset();
     }
 
+    // Different types of upgrades
     public void Heal()
     {
         var player = entity.GetSingletonEntity();

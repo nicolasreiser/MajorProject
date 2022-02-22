@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Jobs;
 using Unity.Transforms;
 
+// creates the dynamic buffer containing the enemy data
 public class EnemyStatsManager : MonoBehaviour
 {
     public EnemyStatsScriptableObject MeleeEnemy;

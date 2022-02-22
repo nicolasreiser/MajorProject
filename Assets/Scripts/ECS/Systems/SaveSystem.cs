@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// system managing the save files
 public class SaveSystem : SystemBase
 {
     PlayerStats stats;
@@ -21,6 +22,7 @@ public class SaveSystem : SystemBase
         {
             LevelDataComponent ldc = EntityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
 
+            // load save when entering lext level
             if (ldc.ReadyForNextLevel && !ldc.hasLoadedSave)
             {
                 Load();
@@ -30,9 +32,9 @@ public class SaveSystem : SystemBase
 
             ldc = EntityManager.GetComponentData<LevelDataComponent>(query.GetSingletonEntity());
 
+            // save when finishing a level
             if (ldc.ReadyForNextLevel && !ldc.hasSaved)
             {
-                //Todo save mechanic
                 Save(ldc);
                 ldc.hasSaved = true;
                 EntityManager.SetComponentData<LevelDataComponent>(query.GetSingletonEntity(), ldc);
@@ -46,7 +48,7 @@ public class SaveSystem : SystemBase
 
     }
 
-
+    // save logic
     private void Save(LevelDataComponent ldc)
     {
         Debug.Log("Saving...");
@@ -68,6 +70,7 @@ public class SaveSystem : SystemBase
 
     }
 
+    // load logic
     private void Load()
     {
         SaveData saveData = SaveManager.LoadStats();
@@ -115,9 +118,6 @@ public class SaveSystem : SystemBase
                 HealthBuff = 0
 
             });
-
-        
-        //playerBuffQuery = EntityManager.CreateEntityQuery(ComponentType.ReadWrite<PlayerBuffComponent>());
 
 
         PlayerBuffComponent playerData = EntityManager.GetComponentData<PlayerBuffComponent>(e);

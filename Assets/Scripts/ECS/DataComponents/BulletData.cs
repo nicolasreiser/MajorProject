@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// Entity containing the data of bullets and their origin
+
 [GenerateAuthoringComponent]
 public struct BulletData : IComponentData
 {

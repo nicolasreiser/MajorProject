@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using Unity.Physics;
+
+// grid script for the pathfinding algorithm
 public class Grid<TGridObject> 
 {
     private int width;

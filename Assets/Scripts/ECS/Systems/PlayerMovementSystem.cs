@@ -4,6 +4,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Physics;
 
+// system controlling the player's movement 
 public class PlayerMovementSystem : SystemBase
 {
     
@@ -27,8 +28,11 @@ public class PlayerMovementSystem : SystemBase
                 if(playerData.IsDead)
                     return;
 
+                // perfom shoot action of the player  stand still
                 if (moveData.direction.x == 0 && moveData.direction.z == 0)
                 {
+                    // set shoot animation
+
                     var animation = anim.entity;
 
                     AnimationStateComponent animState = new AnimationStateComponent();
@@ -44,6 +48,8 @@ public class PlayerMovementSystem : SystemBase
                 }
                 else
                 {
+                    // set movement animation
+
                     var animation = anim.entity;
 
                     AnimationStateComponent animState = new AnimationStateComponent();

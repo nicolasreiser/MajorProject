@@ -8,6 +8,7 @@ using Unity.Physics.Systems;
 using Unity.Burst;
 using Unity.Transforms;
 
+// System testing if the player passed through the exit
 public class ExitTriggerSystem : JobComponentSystem
 {
     BuildPhysicsWorld m_BuildPhysicsWorldSystem;

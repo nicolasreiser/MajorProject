@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// creates the dynakic buffer for the spawner data
 public class SpawnerDataContainer : MonoBehaviour
 {
     [SerializeField]
@@ -15,10 +16,6 @@ public class SpawnerDataContainer : MonoBehaviour
     {
         StartCoroutine(EntityGenerationCoroutine());
     }
-
-    
-
-
     private bool GenerateEntity()
     {
         entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;

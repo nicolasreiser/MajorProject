@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// entity containing the enemy stats
 [GenerateAuthoringComponent]
 public struct EnemyData : IComponentData
 {

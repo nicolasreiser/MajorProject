@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// system pausing the game when opening menus
 public class PauseSystem : SystemBase
 {
     protected override void OnUpdate()

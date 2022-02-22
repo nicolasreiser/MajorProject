@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Collections;
 
+// Container storing the data of every ability usable 
 public struct AbilityStorageData : IBufferElementData
 {
     public int Ability;

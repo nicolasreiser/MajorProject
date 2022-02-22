@@ -6,6 +6,7 @@ using Unity.Transforms;
 using Unity.Collections;
 using Unity.Mathematics;
 
+// system trigering the scatter shot effect on enemies
 public class ScatterShotSystem : SystemBase
 {
         EntityQuery query;
@@ -67,7 +68,7 @@ public class ScatterShotSystem : SystemBase
                             EntityManager.SetComponentData(e, eD);
                         }
                     }
-                    // Particles
+                    // add Particles
 
                     var instance = EntityManager.Instantiate(explosion);
 

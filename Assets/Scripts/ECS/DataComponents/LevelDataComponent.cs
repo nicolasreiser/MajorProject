@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// Entity responsible for the level loop
+
 [GenerateAuthoringComponent]
 public struct LevelDataComponent : IComponentData
 {

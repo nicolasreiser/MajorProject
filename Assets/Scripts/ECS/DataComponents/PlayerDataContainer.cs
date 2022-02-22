@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// storage entity containing a list with the levels and health of the player
 public struct PlayerDataContainer : IBufferElementData
 {
     public int Health;

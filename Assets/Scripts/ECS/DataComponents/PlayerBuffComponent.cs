@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// entity storing buff stats from the permanent upgrades
+
 [GenerateAuthoringComponent]
 public struct PlayerBuffComponent : IComponentData
 {

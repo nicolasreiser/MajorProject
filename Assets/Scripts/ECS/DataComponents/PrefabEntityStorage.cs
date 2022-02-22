@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// entity containing prefabs of projectiles, enemies and vfx
+
 [GenerateAuthoringComponent]
 public struct PrefabEntityStorage : IComponentData
 {

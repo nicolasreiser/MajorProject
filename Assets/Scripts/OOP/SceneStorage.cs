@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Scenes;
 using UnityEngine.SceneManagement;
 
+// stores the different levels / loads and uloads scenes
 public class SceneStorage : MonoBehaviour
 {
 

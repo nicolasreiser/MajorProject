@@ -4,6 +4,8 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// system creating particle systems when the bullet hits an obstacle
+
 [UpdateBefore(typeof (TimedDestroySystem))]
 [UpdateAfter(typeof (BulletCollisionEventSystem))]
 
@@ -21,8 +23,8 @@ public class BulletParticleSystem : SystemBase
     {
         playerBulletExplosion = Entity.Null;
         enemyBulletExplosion = Entity.Null;
-        //Get explosion effect
 
+        //Get explosion effect
         if (playerBulletExplosion == Entity.Null)
         {
             Entities.
@@ -35,16 +37,16 @@ public class BulletParticleSystem : SystemBase
                 }).Run();
         }
 
-
+        // iterate over the entities
         Entities.
             WithStructuralChanges().
             WithNone<PausedTag>().
             ForEach((Entity entity, ref BulletData bulletData, ref Translation translation, ref LifetimeData lifetimeData) =>
         {
-
+            // check if a particle effect should be instantiated
             if (bulletData.ParticleEffect)
             {
-
+                // check origin of the bullet
                 if(bulletData.Origin == BulletOrigin.Player)
                 {
                     var instance = EntityManager.Instantiate(playerBulletExplosion);

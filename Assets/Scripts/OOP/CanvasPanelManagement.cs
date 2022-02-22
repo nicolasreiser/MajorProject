@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using Unity.Entities;
-
+// handles transition and credits panels
 public class CanvasPanelManagement : MonoBehaviour
 {
     public GameObject DarkPanel;

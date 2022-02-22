@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// instantiate the pathfinding grid
 public class PathfindingGrid 
 {
     private int width;

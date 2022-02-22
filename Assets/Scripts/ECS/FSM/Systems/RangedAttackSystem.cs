@@ -6,7 +6,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 
-
+// sub attack system for ranged enemies
 public class RangedAttackSystem : SystemBase
 {
     //Entity projectile;

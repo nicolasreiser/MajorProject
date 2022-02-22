@@ -6,9 +6,9 @@ using Unity.Transforms;
 using Unity.Jobs;
 using Unity.Collections;
 
+// system destroying entities
+
 [UpdateAfter(typeof(EndFixedStepSimulationEntityCommandBufferSystem))]
-
-
 public class TimedDestroySystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
@@ -41,6 +41,7 @@ public class TimedDestroySystem : SystemBase
             {
                 if (lifetimeData.ShouldDie)
                 {
+                    //destroy entities with ShouldDie enables
                     if(!childrenFromEntity.IsEmpty)
                     {
                         List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
@@ -55,6 +56,7 @@ public class TimedDestroySystem : SystemBase
                 lifetimeData.Lifetime -= deltaTime;
                 if (lifetimeData.Lifetime <= 0)
                 {
+                    // destroy entities with a Lifetime <= 0
                         if (!childrenFromEntity.IsEmpty)
                         {
                             List<Entity> entities = GetListOfEntities(entity, childrenFromEntity);
@@ -67,6 +69,8 @@ public class TimedDestroySystem : SystemBase
             }).Run();
 
     }
+
+    // get a recursive list of child entities
     List<Entity> GetListOfEntities(Entity entity,  DynamicBuffer<Child> childrenFromEntity)
     {
         // Create an empty list of Entities

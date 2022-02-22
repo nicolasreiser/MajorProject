@@ -8,6 +8,8 @@ using Unity.Jobs;
 using Unity.Mathematics;
 using Unity.Transforms;
 
+//simplyfied animation system by Phillipe St-Amand
+
 [UpdateBefore(typeof(DefaultAnimationSystemGroup))]
 public class SimpleAnimationSystem : SystemBase
 {

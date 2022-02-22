@@ -2,6 +2,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using UnityEngine;
 
+// entity storinng movement data
 [GenerateAuthoringComponent]
 public struct MoveData : IComponentData
 {

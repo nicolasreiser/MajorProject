@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//Object pooler for the UI health bars for the enemies
 public class ObjectPooler : MonoBehaviour
 {
     public GameObject ObjectToPool;

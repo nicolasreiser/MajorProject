@@ -5,6 +5,8 @@ using Unity.Entities;
 using UnityEngine.UI;
 using Unity.Mathematics;
 
+// entity storing references to monobehaviours needed in systems
+
 [GenerateAuthoringComponent]
 public class HealthBarData : ISystemStateComponentData
 {

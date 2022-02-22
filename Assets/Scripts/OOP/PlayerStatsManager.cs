@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// creates the player state entity
 public class PlayerStatsManager : MonoBehaviour
 {
 

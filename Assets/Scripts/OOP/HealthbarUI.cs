@@ -5,6 +5,7 @@ using Unity.Entities;
 using UnityEngine.UI;
 using TMPro;
 
+// managed the player healthbar ui and experience bar
 public class HealthbarUI : MonoBehaviour
 {
     [SerializeField] private Transform _primaryHealthBar = null;
@@ -43,6 +44,7 @@ public class HealthbarUI : MonoBehaviour
         if (_delayedCurrentHealth <= 0) _secondaryHealthBar.localScale = new Vector3(0, 1);
     }
 
+    
     private void CheckforDamage()
     {
         if(!entity.IsEmpty)

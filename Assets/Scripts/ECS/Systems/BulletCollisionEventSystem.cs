@@ -9,6 +9,8 @@ using Unity.Burst;
 using Unity.Transforms;
 using Unity.Collections;
 
+// collision mechanism for bullets 
+
 [UpdateAfter(typeof(EndFramePhysicsSystem))]
 public class BulletCollisionEventSystem : JobComponentSystem
 {
@@ -24,6 +26,8 @@ public class BulletCollisionEventSystem : JobComponentSystem
     [BurstCompile]
     struct CollisionEventJob : ICollisionEventsJob
     {
+        // information needed to calculate what the bullet hit
+
         public ComponentDataFromEntity<BulletData> BulletGroup;
         public ComponentDataFromEntity<Translation> ColliderGroup;
         public ComponentDataFromEntity<PlayerData> PlayerGroup;
@@ -105,7 +109,6 @@ public class BulletCollisionEventSystem : JobComponentSystem
                 
                 var Bullet = BulletGroup[entityA];
                 Bullet.ParticleEffect = true;
-                //Bullet.ShouldDestroy = true;
                 BulletGroup[entityA] = Bullet;
             }
             if (isBulletB && isColliderA)
@@ -161,7 +164,6 @@ public class BulletCollisionEventSystem : JobComponentSystem
                 }
                 var Bullet = BulletGroup[entityB];
                 Bullet.ParticleEffect = true;
-               // Bullet.ShouldDestroy = true;
                 BulletGroup[entityB] = Bullet;
             }
         }
@@ -169,6 +171,7 @@ public class BulletCollisionEventSystem : JobComponentSystem
 
     protected override JobHandle OnUpdate( JobHandle inputDeps)
     {
+        // collision job
         JobHandle jobHandle = new CollisionEventJob
         {
             BulletGroup = GetComponentDataFromEntity<BulletData>(),

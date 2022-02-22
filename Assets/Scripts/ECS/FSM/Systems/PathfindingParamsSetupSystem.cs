@@ -5,13 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
-
-
-//steps
-// get player position - 
-// get entities in pathfinding mode - 
-// add and set the pathfindingparams - 
-//
+// system setting up the grid system on level initialisation
 public class PathfindingParamsSetupSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
@@ -44,7 +38,7 @@ public class PathfindingParamsSetupSystem : SystemBase
 
         if(grid == null)
         {
-            Debug.LogWarning("The Grid has not been setup in the PathfindingParamSetup");
+           // Debug.LogWarning("The Grid has not been setup in the PathfindingParamSetup");
 
             return;
         }

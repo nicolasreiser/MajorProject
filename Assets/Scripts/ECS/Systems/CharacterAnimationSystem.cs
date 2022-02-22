@@ -5,7 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
-
+// system controlling the character's animations
 public class CharacterAnimationSystem : SystemBase
 {
     protected override void OnUpdate()

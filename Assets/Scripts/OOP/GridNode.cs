@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// nodes covering the grid and defining if an area is walkable or not
 public class GridNode
 {
     private Grid<GridNode> grid;

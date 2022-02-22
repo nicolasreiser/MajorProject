@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// system deleting bullets
 public class DestructorSystem : SystemBase
 {
     protected override void OnUpdate()

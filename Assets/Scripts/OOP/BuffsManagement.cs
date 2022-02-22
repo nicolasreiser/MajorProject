@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
+// script managing the permanent upgrades
 
 public class BuffsManagement : MonoBehaviour
 {
@@ -23,22 +24,11 @@ public class BuffsManagement : MonoBehaviour
         Initialisation();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 
     private void Initialisation()
     {
-        // get save data
-
-
+        
         UIUpdate();
-
-        //load save data
-
-        //update UI
     }
 
     public void UpgradeBuff( int BuffIndex)

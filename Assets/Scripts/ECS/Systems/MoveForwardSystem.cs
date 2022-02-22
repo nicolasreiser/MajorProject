@@ -6,6 +6,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 
+// system moving entities with MoveForwardData Components
 public class MoveForwardSystem : SystemBase
 {
     protected override void OnUpdate()
@@ -18,9 +19,7 @@ public class MoveForwardSystem : SystemBase
             {
                 trans.Value += moveForward.velocity * deltaTime * math.forward(rot.Value);
 
-                //physics.Angular = float3.zero;
-                //physics.Linear += deltaTime * moveForward.velocity * math.forward(rot.Value);
-
+                
             }).ScheduleParallel();
     }
 }

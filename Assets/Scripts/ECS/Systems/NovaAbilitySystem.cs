@@ -6,6 +6,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using Unity.Physics;
 
+// system enabled when theplayer has the nova ability equipped
 public class NovaAbilitySystem : SystemBase
 {
     SceneStorage sceneStorage;

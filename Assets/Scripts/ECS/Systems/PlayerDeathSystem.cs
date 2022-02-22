@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
+// system triggering if the player dies
 public class PlayerDeathSystem : SystemBase
 {
 

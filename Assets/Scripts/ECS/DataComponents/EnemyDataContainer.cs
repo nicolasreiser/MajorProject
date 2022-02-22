@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// Storage containing a list of the diferent enemy types in the game with their stats
 
 public struct EnemyDataContainer : IBufferElementData
 {

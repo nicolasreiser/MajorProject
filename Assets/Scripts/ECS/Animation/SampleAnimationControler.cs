@@ -7,6 +7,8 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using UnityEngine;
 
+//simplyfied animation controller system by Phillipe St-Amand
+
 [Serializable]
 [GenerateAuthoringComponent]
 public struct SampleAnimationController : IComponentData

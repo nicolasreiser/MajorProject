@@ -6,6 +6,8 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Physics;
 
+// system enabled if the character has teh dash ability equipped
+
 [UpdateAfter(typeof(PlayerMovementSystem))]
 public class DashAbilitySystem : SystemBase
 {
@@ -128,7 +130,7 @@ public class DashAbilitySystem : SystemBase
 
     private void DashStart()
     {
-        Debug.Log("Started Dashing");
+        //Debug.Log("Started Dashing");
 
         float deltaTime = Time.DeltaTime;
         Entities.
@@ -147,7 +149,7 @@ public class DashAbilitySystem : SystemBase
 
     private void DashFinish()
     {
-        Debug.Log("Finished Dashing");
+       // Debug.Log("Finished Dashing");
 
     }
 }

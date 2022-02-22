@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-
+// system controlling theplayer's stats andupdating its values
 
 public class PlayerStatsSystem : SystemBase
 {
@@ -42,6 +42,7 @@ public class PlayerStatsSystem : SystemBase
         {
             var buffs = EntityManager.GetComponentData<PlayerBuffComponent>(playerBuffQuery.GetSingletonEntity());
 
+            // update player stats depending on the player's level + buffs
             Entities.
                 WithoutBurst().
                 WithAll<PlayerTag>().
@@ -98,6 +99,7 @@ public class PlayerStatsSystem : SystemBase
             }).Run();
     }
 
+    // make the player invulnerable
     private void PlayerInvulnerability()
     {
         EntityQuery playerQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<LevelDataComponent>());
@@ -114,6 +116,7 @@ public class PlayerStatsSystem : SystemBase
             }).Run();
     }
 
+    // check if the player should be enabled or not
     private void ActivePlayer()
     {
         Entity player = Entity.Null;
@@ -152,6 +155,7 @@ public class PlayerStatsSystem : SystemBase
            }).Run();
     }
 
+    // check if theplayer is alive
     private void PlayerAlive()
     {
         Entities.ForEach((Entity entity, ref PlayerData playerData) =>

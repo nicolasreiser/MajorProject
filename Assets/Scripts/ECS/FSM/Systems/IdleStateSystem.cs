@@ -6,6 +6,7 @@ using Unity.Mathematics;
 using Unity.Transforms;
 using Unity.Physics;
 
+// system iterating over enemies in  idle state
 public class IdleStateSystem : SystemBase
 {
 

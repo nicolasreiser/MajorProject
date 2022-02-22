@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Transforms;
 using Unity.Mathematics;
 
+// system iterating over entities pathfinding to controll their movement
 public class PathFollowSystem : ComponentSystem
 {
     protected override void OnUpdate()

@@ -8,6 +8,7 @@ using Unity.Physics;
 using Unity.Collections;
 using Unity.Jobs;
 
+// system controlling the player's attack logic
 public class PlayerAttackSystem : SystemBase
 {
         EntityQuery playerQuery;
@@ -95,7 +96,7 @@ public class PlayerAttackSystem : SystemBase
                 Vector3 origin = translation.Value + new float3(0,1,0);
                 Vector3 direction = closestTargetPosition - translation.Value;
 
-                raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction/*, layerMask*/);
+                raycastCommand[entityInQueryIndex] = new RaycastCommand(origin, direction, layerMask);
 
 
             }).ScheduleParallel(Dependency);

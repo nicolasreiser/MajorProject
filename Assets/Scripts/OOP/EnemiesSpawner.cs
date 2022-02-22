@@ -4,6 +4,7 @@ using UnityEngine;
 using Unity.Entities;
 using Unity.Transforms;
 
+// manages enemy spawning 
 public class EnemiesSpawner : MonoBehaviour
 {
 
@@ -15,16 +16,14 @@ public class EnemiesSpawner : MonoBehaviour
     private float currentDelayBetweenSpawns;
 
     private EntityManager entityManager;
-    private DynamicBuffer<EnemyDataContainer> enemyDataContainer;
     private SpawnerTriggerComponent spawnerTrigger;
-    private Camera uiCamera;
-    private Canvas uiCanvas;
 
     private bool IsActive = false;
 
     private Entity entityStorage;
 
     private PauseManagement pm;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -65,17 +64,15 @@ public class EnemiesSpawner : MonoBehaviour
         }
     }
 
-
+    // gets the component containing the entity prefabs
     private void GetPrefabs()
     {
         EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
         entityStorage = entityQuery.GetSingletonEntity();
 
-        entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
-
-        enemyDataContainer = entityManager.GetBuffer<EnemyDataContainer>(entityQuery.GetSingletonEntity());
 
     }
+    // return the trigget that activates the spawner
     private void GetTrigger()
     {
         EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<SpawnerTriggerComponent>());
@@ -86,6 +83,8 @@ public class EnemiesSpawner : MonoBehaviour
         }
 
     }
+
+    // get the list of enemies and their stats
     private DynamicBuffer<EnemyDataContainer> GetEnemyDataComponent()
     {
         EntityQuery entityQuery = entityManager.CreateEntityQuery(ComponentType.ReadOnly<EnemyDataContainer>());
@@ -93,6 +92,8 @@ public class EnemiesSpawner : MonoBehaviour
         var dataContainer = entityManager.GetBuffer<EnemyDataContainer>(entityQuery.GetSingletonEntity());
         return dataContainer;
     }
+
+    // spawns and initialises an enemy
     private void SpawnEntity(EnemyType enemyType)
     {
         PrefabEntityStorage pes = entityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
@@ -112,6 +113,7 @@ public class EnemiesSpawner : MonoBehaviour
                 break;
         }
 
+        // set random position
         Translation t = entityManager.GetComponentData<Translation>(e);
 
         t.Value = GetRandomPosition();
@@ -132,8 +134,6 @@ public class EnemiesSpawner : MonoBehaviour
         enemyData.Experience = GetEnemyDataComponent()[((int)enemyType)].Experience;
         enemyData.Gold = GetEnemyDataComponent()[((int)enemyType)].Gold;
             
-        
-
         entityManager.SetComponentData(e, enemyData);
     }
 
@@ -156,7 +156,7 @@ public class EnemiesSpawner : MonoBehaviour
             return false;
         }
     }
-
+    // returns a random position in the spawning area
     private Vector3 GetRandomPosition()
     {
         Vector3 pos = new Vector3(Random.Range(this.transform.position.x - SpawnerSize.x/2, this.transform.position.x + SpawnerSize.x / 2),

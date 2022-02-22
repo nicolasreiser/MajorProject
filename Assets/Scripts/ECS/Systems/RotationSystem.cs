@@ -5,6 +5,7 @@ using Unity.Entities;
 using Unity.Mathematics;
 using Unity.Transforms;
 
+// system rotating entities (players and enemies)
 public class RotationSystem : SystemBase
 {
     protected override void OnUpdate()
@@ -42,8 +43,6 @@ public class RotationSystem : SystemBase
                 {
                     quaternion targetRotation = quaternion.LookRotationSafe(moveData.direction, math.up());
 
-                    //targetRotation.value.z = 0;
-                    //targetRotation.value.x = 0;
                     
                     rotation.Value = math.slerp(rotation.Value, targetRotation, moveData.turnSpeed * deltaTime);
                 

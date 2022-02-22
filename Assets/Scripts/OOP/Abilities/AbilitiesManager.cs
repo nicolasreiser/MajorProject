@@ -5,6 +5,7 @@ using UnityEngine.UI;
 using Unity.Entities;
 using Unity.Transforms;
 
+// script managing abilities
 public class AbilitiesManager : MonoBehaviour
 {
     public Button AbilityButton;
@@ -19,7 +20,6 @@ public class AbilitiesManager : MonoBehaviour
 
     EntityManager entityManager;
 
-    // Start is called before the first frame update
     void Awake()
     {
          entityManager = World.DefaultGameObjectInjectionWorld.EntityManager;
@@ -28,7 +28,6 @@ public class AbilitiesManager : MonoBehaviour
         InitialiseAbility();
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(IsOnCooldown())
@@ -54,6 +53,7 @@ public class AbilitiesManager : MonoBehaviour
 
     }
 
+    // sets up the selected ability
     public void SelectAbility(AbilityType abilityType)
     {
         Sprite abilityImage = null; ;
@@ -67,12 +67,11 @@ public class AbilitiesManager : MonoBehaviour
                 currentAbility = ability;
             }
         }
-        // update UI TEMPORARY
         AbilityImage.sprite = abilityImage;
 
     }
 
-    
+    //creates a dynamic buffer with the ability data
     public void CreateAbilityStorageEntity()
     {
         var entity = entityManager.CreateEntity(
@@ -113,10 +112,10 @@ public class AbilitiesManager : MonoBehaviour
                 default:
                     break;
             }
-            //abilityStorage.Add(new AbilityStorageData(item.Ability,item.Cooldown, item.Unlocked, item.Selected));
         }
     }
 
+    // creates an entity to store the currently selected ability's data
     public void CreateAbilityDataEntity()
     {
         var entity = entityManager.CreateEntity(
@@ -141,7 +140,7 @@ public class AbilitiesManager : MonoBehaviour
             IsCast = false
         });
     }
-
+    // initialises the AbilitiStorageData entity's values
     public void SetAbility( AbilityType abilityType)
     {
         EntityQuery query = entityManager.CreateEntityQuery(ComponentType.ReadWrite<AbilityData>());
@@ -174,6 +173,8 @@ public class AbilitiesManager : MonoBehaviour
 
         entityManager.SetComponentData(query.GetSingletonEntity(),data);
     }
+
+    // for debugging
     public void SetAbility1()
     {
         SetAbility(AbilityType.BigBadBuff);
@@ -190,11 +191,9 @@ public class AbilitiesManager : MonoBehaviour
         InitialiseAbility();
     }
 
+    // initialisation of abilities
     private void InitialiseAbility()
     {
-
-        //todo, wait for save to be loaded and it has to be start level
-
         StartCoroutine(InitialisationCoroutine());
     }
     private IEnumerator InitialisationCoroutine()

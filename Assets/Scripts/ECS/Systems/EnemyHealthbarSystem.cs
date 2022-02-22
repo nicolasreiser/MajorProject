@@ -6,6 +6,7 @@ using Unity.Transforms;
 using Unity.Mathematics;
 using UnityEngine.UI;
 
+// system displaying a health ui above damaged enemies
 public class EnemyHealthbarSystem : SystemBase
 {
     private ObjectPooler objectPooler;
@@ -33,6 +34,8 @@ public class EnemyHealthbarSystem : SystemBase
             }
         }
 
+        // get object pooler if empty
+
         if(objectPooler == null)
         {
             objectPooler = GameObject.FindObjectOfType<ObjectPooler>();
@@ -44,6 +47,7 @@ public class EnemyHealthbarSystem : SystemBase
             GetData();
         }
 
+        // add healthbar component and dependencies to enemies
 
         Entities.WithoutBurst()
             .WithAll<EnemyData>()
@@ -60,6 +64,7 @@ public class EnemyHealthbarSystem : SystemBase
             }).Run();
 
 
+        // link the dependencies
         Entities.WithoutBurst()
             .WithAll<HealthBarData>()
             .ForEach((Entity entity , HealthBarData healthBarData, in EnemyData enemyData) =>
@@ -73,7 +78,7 @@ public class EnemyHealthbarSystem : SystemBase
                 }
             }).Run();
 
-
+        // enable UI if the enemy is damaged
         Entities.
             WithoutBurst().
             WithAll<EnemyTag, HealthBarData>().

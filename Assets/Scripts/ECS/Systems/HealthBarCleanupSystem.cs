@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// system removing heallthbars from dead enemies
 public class HealthBarCleanupSystem : SystemBase
 {
     private ObjectPooler objectPooler;
@@ -23,6 +24,7 @@ public class HealthBarCleanupSystem : SystemBase
         }
         var commandBuffer = ecb.CreateCommandBuffer();
 
+        // return healthbar to pbject pooler
         Entities.WithoutBurst().
             WithNone<PausedTag>().
             ForEach((Entity entity, HealthBarData healthBarData, in LifetimeData lifetimeData) =>
@@ -34,6 +36,7 @@ public class HealthBarCleanupSystem : SystemBase
 
             }).Run();
 
+        // remove components
         Entities.
             WithoutBurst().
             WithNone<EnemyData>().

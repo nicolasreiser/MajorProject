@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System;
 using Unity.Animation;
 
+//simplyfied animation controller system by Phillipe St-Amand
+
 #if UNITY_EDITOR
 [Serializable]
 public class SimpleAnimationClipAuthoring

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+// scrupt managing the ability selection in the character menu
 public class AbilitySelection : MonoBehaviour
 {
     private CharacterSelectionManagement csm;
@@ -17,19 +18,13 @@ public class AbilitySelection : MonoBehaviour
 
     public GameObject NoMoneyPanel;
 
-    // Start is called before the first frame update
     void Awake()
     {
         csm = GetComponent<CharacterSelectionManagement>();
         InitializeAbilitiesUI();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    // used by pressing the UI button
     public void SelectAbility(int abilityID)
     {
         
@@ -74,6 +69,7 @@ public class AbilitySelection : MonoBehaviour
 
     }
    
+    // updates UI
     private void ResetText(int AbilityToIgnore)
     {
         if(AbilityToIgnore != 0)

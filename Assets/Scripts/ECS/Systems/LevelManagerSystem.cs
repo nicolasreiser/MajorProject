@@ -6,6 +6,7 @@ using Unity.Scenes;
 using UnityEngine.SceneManagement;
 using Unity.Transforms;
 
+// system controlling the loop of a level and corrept initialisation and execution
 public class LevelManagerSystem : SystemBase
 {
     private SceneStorage sceneStorage;
@@ -41,8 +42,8 @@ public class LevelManagerSystem : SystemBase
         {
             sceneStorage = SceneStorage.Instance;
         }
-        // check for scene
 
+        // check and load/ unload scene
 
         Entities
             .WithoutBurst()
@@ -68,7 +69,7 @@ public class LevelManagerSystem : SystemBase
                     }
                     else if(levelDataComponent.isMenu)
                     {
-                        // TODO
+                       
                     }
                     else
                     {
@@ -113,6 +114,7 @@ public class LevelManagerSystem : SystemBase
 
         Translation playerSpawnPosition = new Translation();
 
+        // gerplayer spawn position
         
         if (!playerSpawnPositionQuery.IsEmpty)
         {
@@ -120,76 +122,65 @@ public class LevelManagerSystem : SystemBase
 
         }
 
-        // Spawn player
+       // spawn player
 
-        //if (monobehaviourStorageComponent == null)
-        //{
-        //    Entities.WithoutBurst().
-        //   ForEach((Entity entity, MonobehaviourStorageComponent storage) =>
-        //   {
-        //       monobehaviourStorageComponent = storage;
-        //   }).Run();
-        //}
-
-        //if (monobehaviourStorageComponent != null)
+         Entities.WithoutBurst().
+        ForEach((Entity entity, MonobehaviourStorageComponent storage) =>
         {
-            Entities.WithoutBurst().
-           ForEach((Entity entity, MonobehaviourStorageComponent storage) =>
-           {
-               monobehaviourStorageComponent = storage;
-           }).Run();
-
-            if (monobehaviourStorageComponent.MainCanvas != null)
-
-            {
-                Entities
-                    .WithoutBurst()
-                    .WithStructuralChanges()
-                    .WithNone<PausedTag>()
-                    .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
-                    {
-                        
-                        if (!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty && levelDataComponent.PlayerSpawnTimer <= 0)
-                        {
-                            EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
-                            entityStorage = entityQuery.GetSingletonEntity();
-
-                            PrefabEntityStorage pes = EntityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
-
-                            var playerEntity = EntityManager.Instantiate(pes.Player);
-
-                            levelDataComponent.ActivePlayer = true;
-                            levelDataComponent.PlayerSpawned = true;
-
-                            //Debug.Log("Player Spawned 1");
-                        }
-                        if (!levelDataComponent.PlayerSetPosition && levelDataComponent.PlayerSpawnTimer <= 0)
-                        {
-                            //Debug.Log("1");
-                            levelDataComponent.ActivePlayer = true;
-
-                            EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
-                            if (entityQuery.IsEmpty)
-                                return;
-
-                            //Debug.Log("2");
-
-                            Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
-                            Vector3 pos = playerSpawnPosition.Value;
-                            t.Value = pos;
-                            EntityManager.SetComponentData(entityQuery.GetSingletonEntity(), t);
-                            levelDataComponent.PlayerSetPosition = true;
-
-                            CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
-                            cpm.PanelState(false,0);
-
-                            Debug.Log("Player Spawned 2");
-
-                        }
-                        levelDataComponent.PlayerSpawnTimer -= deltatime;
-                    }).Run();
-            }
-        }
+            monobehaviourStorageComponent = storage;
+        }).Run();
+       
+         if (monobehaviourStorageComponent.MainCanvas != null)
+       
+         {
+             Entities
+                 .WithoutBurst()
+                 .WithStructuralChanges()
+                 .WithNone<PausedTag>()
+                 .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+                 {
+                     
+                     if (!levelDataComponent.PlayerSpawned && !playerSpawnPositionQuery.IsEmpty && levelDataComponent.PlayerSpawnTimer <= 0)
+                     {
+                         EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PrefabEntityStorage>());
+                         entityStorage = entityQuery.GetSingletonEntity();
+       
+                         PrefabEntityStorage pes = EntityManager.GetComponentData<PrefabEntityStorage>(entityStorage);
+       
+                         var playerEntity = EntityManager.Instantiate(pes.Player);
+       
+                         levelDataComponent.ActivePlayer = true;
+                         levelDataComponent.PlayerSpawned = true;
+       
+                         //Debug.Log("Player Spawned 1");
+                     }
+                     if (!levelDataComponent.PlayerSetPosition && levelDataComponent.PlayerSpawnTimer <= 0)
+                     {
+                         //Debug.Log("1");
+                         levelDataComponent.ActivePlayer = true;
+       
+                         EntityQuery entityQuery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<PlayerData>(), ComponentType.ReadWrite<Translation>());
+                         if (entityQuery.IsEmpty)
+                             return;
+       
+                         //Debug.Log("2");
+       
+                         Translation t = EntityManager.GetComponentData<Translation>(entityQuery.GetSingletonEntity());
+                         Vector3 pos = playerSpawnPosition.Value;
+                         t.Value = pos;
+                         EntityManager.SetComponentData(entityQuery.GetSingletonEntity(), t);
+                         levelDataComponent.PlayerSetPosition = true;
+       
+                         CanvasPanelManagement cpm = monobehaviourStorageComponent.MainCanvas.GetComponent<CanvasPanelManagement>();
+                         cpm.PanelState(false,0);
+       
+                         Debug.Log("Player Spawned 2");
+       
+                     }
+                     levelDataComponent.PlayerSpawnTimer -= deltatime;
+                 }).Run();
+         }
+        
 
         // inject in spawner
 
@@ -208,8 +199,6 @@ public class LevelManagerSystem : SystemBase
                 if (levelDataComponent.Inject)
                     return;
 
-                //Debug.Log("Injected spawner with Enemies Level : " + levelDataComponent.currentLevel + ", Enemies Ammount : " +
-                 //   spawnerDataComponents[levelDataComponent.currentLevel - 1].EnemiesAmmount + "");
                 enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
                 enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
                 enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;

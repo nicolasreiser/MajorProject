@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
+// managed various buttons to start the run
 public class CharacterMenuUI : MonoBehaviour
 {
     public int BaseSceneIndex;
@@ -12,8 +13,7 @@ public class CharacterMenuUI : MonoBehaviour
 
     public TMPro.TextMeshProUGUI CurrencyText;
 
-    // abilities here
-
+    
 
     public void StartRun()
     {

@@ -2,6 +2,7 @@ using Unity.Entities;
 using System;
 using UnityEngine;
 
+// system managing player inputs
 public class PlayseInputSystem : SystemBase
 {
     FloatingJoystick joystick;
@@ -14,13 +15,17 @@ public class PlayseInputSystem : SystemBase
     }
     protected override void OnUpdate()
     {
+        // get joystick reference
         if( joystick == null)
         {
             joystick = UnityEngine.Object.FindObjectOfType<FloatingJoystick>();
 
         }
+
         var jw = joystick.Vertical;
         var jh = joystick.Horizontal;
+
+        // loop over entities to be moved
         Entities.
             WithNone<PausedTag>().
             ForEach((ref MoveData moveData, in InputData inputData) =>

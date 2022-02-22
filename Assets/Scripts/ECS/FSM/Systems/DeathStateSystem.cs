@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-
+//  system iterating over enemies in  idle death state
 public class DeathStateSystem : SystemBase
 {
     private EndSimulationEntityCommandBufferSystem ecb;
@@ -38,6 +38,7 @@ public class DeathStateSystem : SystemBase
         var player = playerQuery.GetSingletonEntity();
         var commandBudder = ecb.CreateCommandBuffer();
 
+
         Entities.WithoutBurst().
             ForEach((Entity entity,
             int entityInQueryIndex,
@@ -46,11 +47,7 @@ public class DeathStateSystem : SystemBase
             ref EnemyData enemyData,
             ref LifetimeData lifetimeData) =>
             {
-
-                // death animation maybe ?
-
                 // add currency to player
-
                 if(!enemyData.hasGivenGold)
                 {
                     CurrencyManager currencyManager = CurrencyManager.Instance;
@@ -61,9 +58,7 @@ public class DeathStateSystem : SystemBase
                     currencyManager.AddGold((int)(enemyData.Gold * (1f + buffs.EarningsBuff/10f)));
                     enemyData.hasGivenGold = true;
 
-                    //Debug.Log("Base Gold : "+ enemyData.Gold + " multiplyer : " + (1f + buffs.EarningsBuff / 10f));
                 }
-
 
                 // add experience
                 if(!enemyData.hasGivenExperience)
@@ -81,9 +76,6 @@ public class DeathStateSystem : SystemBase
                     EntityManager.SetComponentData(player, playerData);
                 }
 
-
-                //Debug.Log("Enemy died");
-                //lifetimeData.ShouldDie = true;
             }).Run();
     }
 }

@@ -9,6 +9,7 @@ using Unity.Physics.Systems;
 using Unity.Collections;
 using Unity.Jobs;
 
+// state iterating over enemies in the pathfinding state
 public class PathFindingSystem : SystemBase
 {
 

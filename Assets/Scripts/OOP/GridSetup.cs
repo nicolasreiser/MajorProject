@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Mathematics;
 
+// sets up the grid on the level and checks for obstacles
 public class GridSetup : MonoBehaviour
 {
     public static GridSetup Instance;

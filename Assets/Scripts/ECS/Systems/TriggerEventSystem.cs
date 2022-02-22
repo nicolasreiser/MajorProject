@@ -8,6 +8,7 @@ using Unity.Physics.Systems;
 using Unity.Burst;
 using Unity.Transforms;
 
+// trigger to activate spawners
 [UpdateAfter(typeof(EndFramePhysicsSystem))]
 
 public class TriggerEventSystem : JobComponentSystem

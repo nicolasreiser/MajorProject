@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
+// system triggering if the player has the BigBadBuff ability equipped
 public class BigBadBuffAbilitySystem : SystemBase
 {
     SceneStorage sceneStorage;
@@ -38,8 +39,6 @@ public class BigBadBuffAbilitySystem : SystemBase
         }).Run();
 
         // check if this ability is in use
-
-        //EntityQuery ldcquery = EntityManager.CreateEntityQuery(ComponentType.ReadOnly<AbilityData>());
 
         Entities.ForEach((Entity entity, ref AbilityData abilityData) =>
         {
@@ -132,7 +131,7 @@ public class BigBadBuffAbilitySystem : SystemBase
 
     private void ApplyModifiers( ref PlayerData playerData, AbilityStorageData abilityStorageData)
     {
-        Debug.Log("Set the modifiers");
+        //Debug.Log("Set the modifiers");
 
         playerData.AttackSpeedModifier = abilityStorageData.AttackspeedModifier;
         playerData.AttackDamageModifier = abilityStorageData.DamageModifier;
@@ -140,7 +139,7 @@ public class BigBadBuffAbilitySystem : SystemBase
     }
     private void RemoveModifiers(ref PlayerData playerData)
     {
-        Debug.Log("Removed the modifiers");
+       // Debug.Log("Removed the modifiers");
         playerData.AttackSpeedModifier = 1;
         playerData.AttackDamageModifier = 1;
 
