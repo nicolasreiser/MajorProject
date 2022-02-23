@@ -52,9 +52,9 @@ public class SceneStorage : MonoBehaviour
 
     public void UnloadLevel(int level)
     {
-       //Debug.Log("Scene to unload : " + level);
         if (LevelDictionary.ContainsKey(level))
         {
+            Debug.Log("Scene to unload : " + level + "Do i contain the key : " +LevelDictionary.ContainsKey(level) + "The key is : " +LevelDictionary[level]);
             SceneManager.UnloadSceneAsync(LevelDictionary[level]);
         }
         else
@@ -96,6 +96,13 @@ public class SceneStorage : MonoBehaviour
         foreach (var item in LevelParameters)
         {
             LevelDictionary.Add(((int)item.Level), item.BuildLevel);
+        }
+
+        //Debug
+
+        foreach(var key in LevelDictionary)
+        {
+            Debug.Log("Key " + key.Key + " value : " + key.Value);
         }
     }
 
