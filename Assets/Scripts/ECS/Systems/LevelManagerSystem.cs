@@ -19,7 +19,7 @@ public class LevelManagerSystem : SystemBase
 
     protected override void OnCreate()
     {
-        loadedLevel = 0;
+        //loadedLevel = 0;
         base.OnCreate();
     }
     protected override void OnUpdate()
@@ -42,6 +42,21 @@ public class LevelManagerSystem : SystemBase
         {
             sceneStorage = SceneStorage.Instance;
         }
+
+        // initialisation
+        Entities
+         .WithoutBurst()
+         .WithNone<PausedTag>()
+         .ForEach((Entity entity, ref LevelDataComponent levelDataComponent) =>
+         {
+             if (!levelDataComponent.Initialisation)
+             {
+                 Debug.Log("Initialising LDC System");
+                 loadedLevel = 0;
+                 levelDataComponent.Initialisation = true;
+
+             }
+         }).Run();
 
         // check and load/ unload scene
 

@@ -39,4 +39,6 @@ public struct LevelDataComponent : IComponentData
     public bool hasSaved;
     public bool hasLoadedSave;
 
+    public bool Initialisation;
+
 }
