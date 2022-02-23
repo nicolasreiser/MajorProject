@@ -102,7 +102,7 @@ public class SceneStorage : MonoBehaviour
 
         foreach(var key in LevelDictionary)
         {
-            Debug.Log("Key " + key.Key + " value : " + key.Value);
+          //  Debug.Log("Key " + key.Key + " value : " + key.Value);
         }
     }
 

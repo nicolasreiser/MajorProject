@@ -215,8 +215,8 @@ public class PlayerAttackSystem : SystemBase
                 }
 
             }
-            playerData.WeaponCooldown -= deltaTime * playerData.AttackSpeedModifier;
-            playerData.DoubleShotCooldown -= deltaTime * playerData.AttackSpeedModifier;
+            playerData.WeaponCooldown -= deltaTime * playerData.AttackSpeedModifier * playerData.AttackSpeed;
+            playerData.DoubleShotCooldown -= deltaTime * playerData.AttackSpeedModifier * playerData.AttackSpeed;
 
         }).Run();
 

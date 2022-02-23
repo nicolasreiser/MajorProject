@@ -3970,7 +3970,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Pew Pew 2049
+  m_text: CyberShoot 2049
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ed0d25e726727a94a95788aeaef09755, type: 2}
   m_sharedMaterial: {fileID: -2556122607634262758, guid: ed0d25e726727a94a95788aeaef09755, type: 2}

@@ -199,21 +199,29 @@ public class LevelManagerSystem : SystemBase
 
         // inject in spawner
 
-        if (enemiesSpawner == null)
-        {
-            enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
-        }
-
-        if (enemiesSpawner != null)
+        //if (enemiesSpawner == null)
+        //{
+        //    enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
+        //}
+        //if (enemiesSpawner != null)
         {
         Entities
             .WithoutBurst()
             .WithNone<PausedTag>()
             .ForEach((Entity entity, ref LevelDataComponent levelDataComponent, in DynamicBuffer <SpawnerDataComponent> spawnerDataComponents) =>
             {
-                if (levelDataComponent.Inject)
+                if (levelDataComponent.Inject )
                     return;
+                
+                if(levelDataComponent.SpawnerTimer > 0)
+                {
+                    levelDataComponent.SpawnerTimer-= deltatime;
+                    return;
+                }
+                
+                enemiesSpawner = Object.FindObjectOfType<EnemiesSpawner>();
 
+                Debug.Log("Spawner Injected with ID " + enemiesSpawner.GetInstanceID());
                 enemiesSpawner.EnemiesAmmount = spawnerDataComponents[levelDataComponent.currentLevel-1].EnemiesAmmount;
                 enemiesSpawner.InitialDelay = spawnerDataComponents[levelDataComponent.currentLevel - 1].InitialDelay;
                 enemiesSpawner.DelayBetweenSpawns = spawnerDataComponents[levelDataComponent.currentLevel - 1].DelayBetweenSpawns;
@@ -378,6 +386,7 @@ public class LevelManagerSystem : SystemBase
         ldc.PlayerSpawnTimer = 2;
         ldc.UpgradesTimer = 2;
         ldc.ExitTimer = 2;
+        ldc.SpawnerTimer = 2;
 
         Debug.Log("Data Reset");
     }

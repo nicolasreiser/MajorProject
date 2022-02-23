@@ -15,6 +15,6 @@ public struct SpawnerData
 {
     public int EnemiesAmmount;
     public int InitialDelay;
-    public int DelayBetweenSpawns;
+    public float DelayBetweenSpawns;
     public EnemyType[] enemytypes;
 }

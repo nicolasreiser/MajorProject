@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: SpawnerData
   m_EditorClassIdentifier: 
   spawnerData:
-  - EnemiesAmmount: 2
+  - EnemiesAmmount: 3
     InitialDelay: 2
     DelayBetweenSpawns: 3
     enemytypes: 01000000
-  - EnemiesAmmount: 3
+  - EnemiesAmmount: 20
     InitialDelay: 2
-    DelayBetweenSpawns: 2
-    enemytypes: 00000000
+    DelayBetweenSpawns: 0.2
+    enemytypes: 0000000001000000
   - EnemiesAmmount: 6
     InitialDelay: 2
     DelayBetweenSpawns: 1

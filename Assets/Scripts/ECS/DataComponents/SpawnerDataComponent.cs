@@ -8,12 +8,12 @@ public struct SpawnerDataComponent : IBufferElementData
 {
     public int EnemiesAmmount;
     public int InitialDelay;
-    public int DelayBetweenSpawns;
+    public float DelayBetweenSpawns;
     public bool MeleeEnemy;
     public bool RangedEnemy;
     public bool BombEnemy;
 
-    public SpawnerDataComponent(int EnemiesAmmount, int InitialDelay, int DelayBetweenSpawns, EnemyType[] enemyTypes)
+    public SpawnerDataComponent(int EnemiesAmmount, int InitialDelay, float DelayBetweenSpawns, EnemyType[] enemyTypes)
     {
         this.EnemiesAmmount = EnemiesAmmount;
         this.InitialDelay = InitialDelay;

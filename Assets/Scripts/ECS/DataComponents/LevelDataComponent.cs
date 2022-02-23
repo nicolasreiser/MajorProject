@@ -30,6 +30,7 @@ public struct LevelDataComponent : IComponentData
 
     public float PlayerSpawnTimer;
     public float UpgradesTimer;
+    public float SpawnerTimer;
     public float ExitTimer;
 
     public bool isMenu;
