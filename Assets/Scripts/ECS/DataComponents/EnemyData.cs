@@ -13,6 +13,7 @@ public struct EnemyData : IComponentData
     public int Gold;
     public bool hasGivenGold;
     public bool hasGivenExperience;
+    public bool hasCastEffects;
     public bool ScatterShot;
     public int ScatterShotDamage;
     public float ScatterShotCooldown;

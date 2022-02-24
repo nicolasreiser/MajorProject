@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
+using Unity.Transforms;
+using Unity.Mathematics;
 
 //  system iterating over enemies in  idle death state
 public class DeathStateSystem : SystemBase
@@ -38,14 +40,24 @@ public class DeathStateSystem : SystemBase
         var player = playerQuery.GetSingletonEntity();
         var commandBudder = ecb.CreateCommandBuffer();
 
+        // get explosion prefab
+        Entity explosion = Entity.Null;
+        Entities.
+            WithNone<PausedTag>().
+            ForEach((in PrefabEntityStorage prefabs) =>
+            {
+                explosion = prefabs.DeathExplosion;
+            }).Run();
 
         Entities.WithoutBurst().
+            WithStructuralChanges().
             ForEach((Entity entity,
             int entityInQueryIndex,
             ref EnemyTag enemy,
             ref DeathState deathState,
             ref EnemyData enemyData,
-            ref LifetimeData lifetimeData) =>
+            ref LifetimeData lifetimeData,
+            in Translation translation) =>
             {
                 // add currency to player
                 if(!enemyData.hasGivenGold)
@@ -76,6 +88,17 @@ public class DeathStateSystem : SystemBase
                     EntityManager.SetComponentData(player, playerData);
                 }
 
+                if(!enemyData.hasCastEffects)
+                {
+
+                var instance = EntityManager.Instantiate(explosion);
+
+                EntityManager.SetComponentData(instance, new Translation
+                {
+                   Value = new float3(translation.Value)
+                });
+                    enemyData.hasCastEffects = true;
+                }
             }).Run();
     }
 }

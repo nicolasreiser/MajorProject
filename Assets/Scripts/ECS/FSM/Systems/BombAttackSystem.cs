@@ -37,18 +37,18 @@ public class BombAttackSystem : SystemBase
 
         float3 playerposition = float3.zero;
 
-        playerQuery = GetEntityQuery(new EntityQueryDesc
-        {
-            All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
-        });
+        //playerQuery = GetEntityQuery(new EntityQueryDesc
+        //{
+        //    All = new ComponentType[] { ComponentType.ReadOnly<PlayerTag>() }
+        //});
 
-        int player = playerQuery.CalculateEntityCount();
+        //int player = playerQuery.CalculateEntityCount();
 
-        if (player > 0)
+        //if (player > 0)
         {
             Entities
-                .WithStoreEntityQueryInField(ref playerQuery)
                 .WithNone<EnemyTag>()
+                .WithAll<PlayerData>()
                 .ForEach((Entity entity,
                 ref Translation transform) =>
                 {
@@ -59,16 +59,20 @@ public class BombAttackSystem : SystemBase
                 }).Run();
 
 
+            
+
 
             // check explosion radius
 
             Entities
+                .WithStructuralChanges()
                 .WithAll<EnemyTag, AttackState,BombUnitTag>()
                 .ForEach((Entity entity,
                 ref Translation transform,
                 ref AttackState attackState,
                 ref PhysicsVelocity physics,
-                ref EnemyData enemyData) =>
+                ref EnemyData enemyData,
+                ref Translation translation) =>
                 {
                     physics.Linear = float3.zero;
 
@@ -80,13 +84,18 @@ public class BombAttackSystem : SystemBase
                     {
                         if(distance <= attackState.EnemyMaxAttackRange)
                         {
+
                             isPlayerHit = true;
                             damageToDeal = attackState.DamageToDeal;
                             enemyData.CurrentHealth = 0;
+
+                            
                         }
                     }
                 }).Run();
 
+
+            
             //checked if in explosion radius
 
             Entities.WithStoreEntityQueryInField(ref playerQuery)
@@ -94,7 +103,8 @@ public class BombAttackSystem : SystemBase
                 ForEach((Entity entity,
                 ref PlayerData playerData) =>
                 {
-                    if(isPlayerHit && !playerData.IsInvulnerable)
+
+                    if (isPlayerHit && !playerData.IsInvulnerable)
                     {
                         playerData.CurrentHealth -= damageToDeal;
                         playerData.OnHealthChange = true;
@@ -104,6 +114,10 @@ public class BombAttackSystem : SystemBase
                     }
 
                 }).Run();
+
+            
+
+            
         }
     }
 }

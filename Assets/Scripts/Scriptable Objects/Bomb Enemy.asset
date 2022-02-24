@@ -16,7 +16,7 @@ MonoBehaviour:
   Range: 2
   MaxRange: 2
   DetectionRange: 15
-  dammage: 10
-  WeaponCooldown: 1
+  dammage: 20
+  WeaponCooldown: 0.1
   Experience: 10
   Gold: 35
